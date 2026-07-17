@@ -409,10 +409,10 @@ scene.background = new THREE.Color(0x080300);
 scene.fog = new THREE.FogExp2(0x080300, 0.018);
 
 const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.01, 200);
-camera.position.set(7.5, 1.8, 10);
+camera.position.set(6.5, 5.0, 8.5);
 
 const controls = new THREE.OrbitControls(camera, canvas);
-controls.target.set(0, 0.4, 0);
+controls.target.set(0, 0.2, 0);
 controls.enableDamping = true;
 controls.dampingFactor = 0.055;
 controls.autoRotate = true;
@@ -448,8 +448,8 @@ const HONEY_BOT = -JAR_H/2 + 0.06;
 // ═══════════════════════════════════════════════════════════
 //  CAMERA ANIMATION SYSTEM
 // ═══════════════════════════════════════════════════════════
-const CAM_DEFAULT_POS  = new THREE.Vector3(7.5, 1.8, 10);
-const CAM_DEFAULT_LOOK = new THREE.Vector3(0, 0.4, 0);
+const CAM_DEFAULT_POS  = new THREE.Vector3(6.5, 5.0, 8.5);
+const CAM_DEFAULT_LOOK = new THREE.Vector3(0, 0.2, 0);
 
 // Zoom targets per hotspot ①②③
 const ZOOM_POS = [
@@ -738,7 +738,9 @@ const rl = new THREE.PointLight(0xF5A623, 3.2, 15);
 rl.position.set(-2, ground.position.y+1, 4); scene.add(rl);
 const tl = new THREE.PointLight(0xFFD060, 4.0, 12);
 tl.position.set(0, ytop+3.5, 0); scene.add(tl);
-scene.add(new THREE.DirectionalLight(0xc86800, 0.55)).position.set(-4,5,-8);
+const warmFill = new THREE.DirectionalLight(0xc86800, 0.55);
+warmFill.position.set(-4, 5, -8);
+scene.add(warmFill);
 const eg = new THREE.PointLight(0xF5A623, 1.2, 3);
 eg.position.set(0, entrY, -D/2-0.5); scene.add(eg);
 // Sim spotlight for phases
