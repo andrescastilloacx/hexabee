@@ -486,7 +486,7 @@ const camAnim = {
   speed: 0.04
 };
 
-const _dummy = new THREE.Object3D();
+const _dummy = new THREE.PerspectiveCamera(); // cámara dummy: lookAt orienta -Z como la cámara real
 
 function setCamTarget(pos, look, speed) {
   camAnim.active = true;
