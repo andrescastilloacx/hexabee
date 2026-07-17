@@ -2,1183 +2,1142 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>HEXABEE · Colmena 360°</title>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEXABEE — Polinización, Miel en Panal y Derivados Apícolas | IV Región, Chile</title>
+<meta name="description" content="Colmenas modulares impresas en 3D que polinizan tu campo y producen miel en panal dentro de frascos hexagonales de vidrio. Polinización, miel cruda, propóleo y núcleos de abeja italiana desde la IV Región de Coquimbo, Chile.">
+<meta name="keywords" content="miel en panal, polinización Chile, colmena 3D, apicultura Coquimbo, miel cruda, frascos hexagonales, abeja italiana, HEXABEE">
+<meta name="author" content="HEXABEE SpA">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://andrescastilloacx.github.io/hexabee/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HEXABEE — Polinización y Miel en Panal · IV Región, Chile">
+<meta property="og:description" content="Colmenas modulares 3D. Las abejas construyen el panal dentro de frascos hexagonales de vidrio. Sin extracción, sin filtrado, sin calor.">
+<meta property="og:url" content="https://andrescastilloacx.github.io/hexabee/">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { background:#080300; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,sans-serif; }
-#c { display:block; width:100vw; height:100vh; }
+  :root {
+    --amber:   #F5A623;
+    --gold:    #FFD060;
+    --dark:    #0C0600;
+    --dark2:   #150A00;
+    --dark3:   #1E1000;
+    --text:    #F0E6D3;
+    --muted:   #9A8060;
+    --white:   #FFFFFF;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+  }
 
-/* ── TOP BAR ─────────────────────────────── */
-#topbar {
-  position:fixed; top:0; left:0; right:0;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 22px; z-index:10;
-  background:linear-gradient(to bottom,rgba(8,3,0,.9) 0%,transparent 100%);
-  pointer-events:none; transition:opacity .4s;
-}
-.brand { display:flex; align-items:center; gap:10px; }
-.brand-name { font-size:1.18rem; font-weight:900; color:#F5A623; letter-spacing:.12em; }
-.brand-sub { font-size:.62rem; color:#6a4a1a; letter-spacing:.07em; text-transform:uppercase; margin-top:2px; }
-.badge-360 {
-  background:rgba(245,166,35,.12); border:1px solid rgba(245,166,35,.3);
-  color:#F5A623; font-size:.7rem; font-weight:800; padding:5px 14px;
-  border-radius:20px; letter-spacing:.06em;
-}
-.hint { font-size:.62rem; color:#5a3a18; text-align:right; line-height:1.7; }
-.hint strong { color:#8a5a28; }
+  /* ── HEX PATTERN SVG BACKGROUND ── */
+  .hex-bg {
+    position: fixed; inset: 0; z-index: 0; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16Z' fill='none' stroke='%23F5A623' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+    pointer-events: none;
+  }
 
-/* ── SPEC PANEL ───────────────────────────── */
-#specs {
-  position:fixed; left:18px; top:50%; transform:translateY(-50%);
-  z-index:15; display:flex; flex-direction:column; gap:10px;
-  pointer-events:none; transition:opacity .4s;
-}
-.spec-row { display:flex; flex-direction:column; }
-.spec-val { font-size:.95rem; font-weight:900; color:#F5A623; line-height:1; }
-.spec-lbl { font-size:.56rem; color:#4a3010; letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+  section { position: relative; z-index: 1; }
 
-/* ── BOTTOM BAR ───────────────────────────── */
-#bottombar {
-  position:fixed; bottom:0; left:0; right:0;
-  display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap;
-  padding:14px 20px 18px;
-  background:linear-gradient(to top,rgba(8,3,0,.9) 0%,transparent 100%);
-  z-index:10; pointer-events:none; transition:opacity .4s;
-}
-.lvl-pill { display:flex; align-items:center; gap:7px; font-size:.64rem; color:#6a4a1a; letter-spacing:.05em; text-transform:uppercase; }
-.lvl-dot { width:8px; height:8px; border-radius:2px; }
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(12,6,0,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 1.4rem; font-weight: bold; color: var(--amber);
+    letter-spacing: 0.1em; text-decoration: none;
+  }
+  .nav-logo svg { width: 32px; height: 32px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem;
+    letter-spacing: 0.05em; transition: color 0.2s;
+    font-family: 'Arial', sans-serif;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    background: var(--amber); color: var(--dark);
+    padding: 0.55rem 1.4rem; border-radius: 3px;
+    font-weight: bold; font-size: 0.85rem;
+    text-decoration: none; letter-spacing: 0.05em;
+    transition: background 0.2s;
+    font-family: 'Arial', sans-serif;
+  }
+  .nav-cta:hover { background: var(--gold); }
 
-/* ── HOTSPOTS ─────────────────────────────── */
-.hotspot {
-  position:fixed; width:34px; height:34px;
-  transform:translate(-50%,-50%); cursor:pointer; z-index:20;
-  pointer-events:all; display:none; transition:opacity .3s;
-}
-.hr { position:absolute; inset:0; border:1.5px solid #F5A623; border-radius:50%; animation:pulse 2s ease-in-out infinite; }
-.hr2 { animation-delay:.65s; }
-@keyframes pulse { 0%{transform:scale(1);opacity:.7} 60%{transform:scale(1.75);opacity:.05} 100%{transform:scale(1);opacity:.7} }
-.hcore {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  width:20px; height:20px; border-radius:50%; background:#F5A623;
-  display:flex; align-items:center; justify-content:center;
-  font-size:.62rem; font-weight:900; color:#0C0600;
-  box-shadow:0 0 16px rgba(245,166,35,.7);
-  transition:transform .2s, box-shadow .2s;
-}
-.hotspot:hover .hcore { transform:translate(-50%,-50%) scale(1.2); box-shadow:0 0 24px rgba(245,166,35,.9); }
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 2rem 4rem;
+    background: radial-gradient(ellipse at 50% 40%, rgba(245,166,35,0.08) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3);
+    color: var(--amber); padding: 0.35rem 1rem; border-radius: 20px;
+    font-size: 0.8rem; letter-spacing: 0.15em; margin-bottom: 2rem;
+    font-family: 'Arial', sans-serif;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-hex {
+    display: inline-block; margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1.05;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 60%, #C07820 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--muted); max-width: 560px; line-height: 1.7;
+    margin: 0 auto 3rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+    font-family: 'Arial', sans-serif;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s ease 0.4s both;
+  }
+  .btn-primary {
+    background: var(--amber); color: var(--dark);
+    padding: 1rem 2.2rem; border-radius: 4px;
+    font-weight: bold; font-size: 1rem;
+    text-decoration: none; letter-spacing: 0.05em;
+    transition: all 0.2s; font-family: 'Arial', sans-serif;
+    box-shadow: 0 0 30px rgba(245,166,35,0.3);
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+  .btn-secondary {
+    border: 1px solid rgba(245,166,35,0.4); color: var(--amber);
+    padding: 1rem 2.2rem; border-radius: 4px;
+    font-size: 1rem; text-decoration: none;
+    transition: all 0.2s; font-family: 'Arial', sans-serif;
+  }
+  .btn-secondary:hover { background: rgba(245,166,35,0.08); transform: translateY(-2px); }
+  .hero-scroll {
+    margin-top: 4rem; color: var(--muted); font-size: 0.8rem;
+    letter-spacing: 0.15em; font-family: 'Arial', sans-serif;
+    animation: bounce 2s infinite 1s;
+  }
 
-/* ── INFO / ZOOM CARDS ────────────────────── */
-.icard {
-  position:fixed; z-index:30; width:240px;
-  background:rgba(10,4,0,.97); border:1px solid rgba(245,166,35,.22);
-  border-radius:16px; padding:18px 20px;
-  box-shadow:0 12px 48px rgba(0,0,0,.8);
-  transform:translate(-50%,-115%);
-  display:none; pointer-events:all;
-  animation:cardIn .25s ease-out;
-}
-@keyframes cardIn { from{opacity:0;transform:translate(-50%,-125%)} to{opacity:1;transform:translate(-50%,-115%)} }
-.icard.on { display:block; }
-.icard-icon { font-size:1.5rem; margin-bottom:8px; }
-.icard-title { font-size:.85rem; font-weight:800; color:#FFD060; margin-bottom:6px; }
-.icard-body { font-size:.69rem; color:#7a5a2a; line-height:1.7; }
-.icard-tag {
-  display:inline-block; margin-top:10px; font-size:.6rem; font-weight:700;
-  background:rgba(245,166,35,.12); border:1px solid rgba(245,166,35,.22);
-  color:#F5A623; padding:3px 10px; border-radius:20px; letter-spacing:.05em;
-}
-.icard-zoom-btn {
-  display:block; width:100%; margin-top:12px;
-  background:rgba(245,166,35,.15); border:1px solid rgba(245,166,35,.3);
-  color:#F5A623; font-size:.7rem; font-weight:800; padding:9px;
-  border-radius:10px; cursor:pointer; letter-spacing:.05em; text-align:center;
-  transition:background .2s;
-}
-.icard-zoom-btn:hover { background:rgba(245,166,35,.28); }
-.ix { position:absolute; top:9px; right:12px; background:none; border:none; color:#4a3010; font-size:.85rem; cursor:pointer; }
+  /* ── STATS BAR ── */
+  #stats {
+    padding: 2.5rem 2rem;
+    background: linear-gradient(90deg, rgba(245,166,35,0.06), rgba(245,166,35,0.12), rgba(245,166,35,0.06));
+    border-top: 1px solid rgba(245,166,35,0.15);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+  }
+  .stats-grid {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem; text-align: center;
+  }
+  .stat-num {
+    font-size: 2rem; color: var(--amber); font-weight: bold;
+    display: block; margin-bottom: 0.3rem;
+  }
+  .stat-label {
+    font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em;
+    font-family: 'Arial', sans-serif; text-transform: uppercase;
+  }
 
-/* ── CONTROLS ─────────────────────────────── */
-#ctrl {
-  position:fixed; bottom:58px; right:18px; z-index:20;
-  display:flex; flex-direction:column; gap:8px; align-items:flex-end;
-}
-.cbtn {
-  background:rgba(245,166,35,.1); border:1px solid rgba(245,166,35,.22);
-  color:#F5A623; font-size:.7rem; font-weight:700; padding:9px 18px;
-  border-radius:20px; cursor:pointer; letter-spacing:.04em;
-  pointer-events:all; transition:background .2s, border-color .2s;
-  white-space:nowrap;
-}
-.cbtn:hover { background:rgba(245,166,35,.22); }
-.cbtn.active { background:rgba(245,166,35,.28); color:#FFD060; border-color:rgba(245,166,35,.5); }
-.cbtn.sim-btn {
-  background:linear-gradient(135deg,rgba(245,166,35,.2),rgba(255,100,0,.15));
-  border-color:rgba(245,166,35,.4); font-size:.72rem;
-  box-shadow:0 0 14px rgba(245,166,35,.15);
-}
-.cbtn.sim-btn:hover { background:linear-gradient(135deg,rgba(245,166,35,.35),rgba(255,100,0,.25)); }
+  /* ── SECTIONS SHARED ── */
+  .section-inner {
+    max-width: 1100px; margin: 0 auto; padding: 6rem 2rem;
+  }
+  .section-tag {
+    display: inline-block; color: var(--amber);
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 1rem;
+    font-family: 'Arial', sans-serif;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--white); margin-bottom: 1.2rem; line-height: 1.2;
+  }
+  .section-body {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.8;
+    max-width: 640px; font-family: 'Arial', sans-serif;
+  }
 
-/* ── BACK BUTTON (zoom mode) ──────────────── */
-#back-btn {
-  position:fixed; top:70px; left:50%; transform:translateX(-50%);
-  z-index:25; display:none; pointer-events:all;
-  background:rgba(8,3,0,.92); border:1px solid rgba(245,166,35,.35);
-  color:#F5A623; font-size:.72rem; font-weight:700; padding:10px 24px;
-  border-radius:24px; cursor:pointer; letter-spacing:.06em;
-  animation:fadeIn .3s ease-out;
-  box-shadow:0 4px 20px rgba(0,0,0,.5);
-}
-#back-btn:hover { background:rgba(245,166,35,.15); }
-@keyframes fadeIn { from{opacity:0;transform:translateX(-50%) translateY(-6px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+  /* ── PRODUCTO ── */
+  #producto { background: var(--dark2); }
+  .product-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .product-visual {
+    display: flex; justify-content: center; align-items: center;
+  }
+  .hex-jar {
+    position: relative; width: 260px; height: 300px;
+  }
+  .hex-shape {
+    width: 220px; height: 254px;
+    background: linear-gradient(160deg, rgba(255,208,96,0.15) 0%, rgba(245,166,35,0.25) 50%, rgba(180,100,0,0.2) 100%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(245,166,35,0.4);
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 60px rgba(245,166,35,0.15), inset 0 0 40px rgba(245,166,35,0.05);
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+  .hex-inner {
+    font-size: 5rem; user-select: none;
+    filter: drop-shadow(0 0 20px rgba(245,166,35,0.5));
+  }
+  .hex-label {
+    text-align: center; margin-top: 1.5rem;
+    color: var(--amber); font-size: 0.85rem; letter-spacing: 0.15em;
+    font-family: 'Arial', sans-serif;
+  }
+  .product-features { display: flex; flex-direction: column; gap: 1.5rem; }
+  .feature-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.2rem; border-radius: 8px;
+    background: rgba(245,166,35,0.04);
+    border: 1px solid rgba(245,166,35,0.1);
+    transition: all 0.3s;
+  }
+  .feature-item:hover {
+    background: rgba(245,166,35,0.08);
+    border-color: rgba(245,166,35,0.25);
+    transform: translateX(4px);
+  }
+  .feature-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .feature-title { color: var(--white); font-size: 1rem; margin-bottom: 0.3rem; }
+  .feature-desc { color: var(--muted); font-size: 0.9rem; font-family: 'Arial', sans-serif; line-height: 1.5; }
 
-/* ══════════════════════════════════════════════
-   SIMULATION UI
-══════════════════════════════════════════════ */
-#sim-ui {
-  position:fixed; inset:0; z-index:50;
-  display:none; pointer-events:none;
-}
-#sim-ui.on { display:block; }
+  /* ── CÓMO FUNCIONA ── */
+  #como { background: var(--dark3); }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem; margin-top: 3.5rem;
+  }
+  .step {
+    text-align: center; padding: 2rem 1.5rem;
+    border-top: 2px solid rgba(245,166,35,0.3);
+    position: relative;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(245,166,35,0.15); border: 1px solid var(--amber);
+    color: var(--amber); font-size: 1.2rem; font-weight: bold;
+    margin-bottom: 1.2rem;
+  }
+  .step-title { color: var(--white); font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .step-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
 
-/* Cinematic black bars */
-.sim-bar {
-  position:absolute; left:0; right:0; background:#000;
-  transition:height .6s cubic-bezier(.4,0,.2,1);
-}
-#sim-bar-top { top:0; height:0; }
-#sim-bar-bot { bottom:0; height:0; }
-#sim-ui.on #sim-bar-top,
-#sim-ui.on #sim-bar-bot { height:72px; }
+  /* ── POR QUÉ HEXABEE ── */
+  #porque { background: var(--dark2); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .why-card {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(245,166,35,0.05), rgba(245,166,35,0.02));
+    border: 1px solid rgba(245,166,35,0.12); border-radius: 8px;
+    transition: all 0.3s;
+  }
+  .why-card:hover {
+    border-color: rgba(245,166,35,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(245,166,35,0.1);
+  }
+  .why-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .why-title { color: var(--white); font-size: 1.1rem; margin-bottom: 0.6rem; }
+  .why-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
 
-/* Phase card */
-#sim-card {
-  position:absolute; bottom:90px; left:50%; transform:translateX(-50%);
-  background:rgba(4,2,0,.96); border:1px solid rgba(245,166,35,.25);
-  border-radius:18px; padding:22px 32px; min-width:320px; max-width:480px;
-  text-align:center; opacity:0;
-  transition:opacity .5s ease, transform .5s ease;
-  transform:translateX(-50%) translateY(10px);
-  box-shadow:0 16px 60px rgba(0,0,0,.8);
-}
-#sim-card.vis { opacity:1; transform:translateX(-50%) translateY(0); }
-#sim-phase-label { font-size:.6rem; color:#6a4010; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
-#sim-phase-icon { font-size:2rem; margin-bottom:8px; display:block; }
-#sim-phase-title { font-size:1.1rem; font-weight:900; color:#FFD060; margin-bottom:8px; }
-#sim-phase-desc { font-size:.72rem; color:#8a6030; line-height:1.75; }
-#sim-stat {
-  margin-top:14px; font-size:1.5rem; font-weight:900; color:#F5A623;
-  text-shadow:0 0 20px rgba(245,166,35,.5);
-  display:none;
-}
+  /* ── PLANES ── */
+  #planes { background: var(--dark2); }
+  .plans-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1.5rem; margin-top: 3rem; align-items: stretch;
+  }
+  .plan-card {
+    display: flex; flex-direction: column;
+    padding: 2.5rem 2rem 2rem;
+    background: linear-gradient(160deg, rgba(245,166,35,0.06), rgba(245,166,35,0.02));
+    border: 1px solid rgba(245,166,35,0.18); border-radius: 14px;
+    position: relative; transition: all 0.3s;
+  }
+  .plan-card:hover { transform: translateY(-6px); border-color: rgba(245,166,35,0.45); box-shadow: 0 16px 50px rgba(245,166,35,0.12); }
+  .plan-card.featured {
+    border: 2px solid var(--amber);
+    background: linear-gradient(160deg, rgba(245,166,35,0.12), rgba(245,166,35,0.03));
+    box-shadow: 0 0 60px rgba(245,166,35,0.15);
+  }
+  .plan-flag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--amber); color: var(--dark);
+    font-size: 0.7rem; font-weight: bold; letter-spacing: 0.12em;
+    padding: 0.35rem 1.1rem; border-radius: 20px; white-space: nowrap;
+    font-family: 'Arial', sans-serif;
+  }
+  .plan-name { color: var(--white); font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .plan-tagline { color: var(--muted); font-size: 0.82rem; font-family: 'Arial', sans-serif; margin-bottom: 1.4rem; min-height: 2.4em; }
+  .plan-price { font-size: 2.6rem; color: var(--amber); font-weight: bold; line-height: 1; }
+  .plan-price small { font-size: 1rem; color: var(--muted); font-weight: normal; }
+  .plan-period { color: var(--muted); font-size: 0.78rem; font-family: 'Arial', sans-serif; margin: 0.4rem 0 1.6rem; letter-spacing: 0.05em; }
+  .plan-list { list-style: none; margin-bottom: 1.6rem; flex-grow: 1; }
+  .plan-list li {
+    color: var(--text); font-size: 0.87rem; font-family: 'Arial', sans-serif;
+    padding: 0.45rem 0 0.45rem 1.6rem; position: relative; line-height: 1.5;
+    border-bottom: 1px dashed rgba(245,166,35,0.1);
+  }
+  .plan-list li::before { content: '⬡'; position: absolute; left: 0; color: var(--amber); font-size: 0.8rem; }
+  .plan-hook {
+    background: rgba(245,166,35,0.08); border-left: 3px solid var(--amber);
+    padding: 0.9rem 1rem; border-radius: 0 8px 8px 0;
+    font-size: 0.85rem; color: var(--gold); font-style: italic;
+    line-height: 1.55; margin-bottom: 1.6rem;
+  }
+  .plan-cta {
+    display: block; text-align: center;
+    background: var(--amber); color: var(--dark);
+    padding: 0.95rem; border-radius: 8px;
+    font-weight: bold; font-size: 0.95rem; text-decoration: none;
+    letter-spacing: 0.04em; font-family: 'Arial', sans-serif; transition: all 0.2s;
+  }
+  .plan-cta:hover { background: var(--gold); transform: translateY(-2px); }
+  .plan-cta.ghost { background: transparent; border: 1px solid rgba(245,166,35,0.5); color: var(--amber); }
+  .plan-cta.ghost:hover { background: rgba(245,166,35,0.1); }
+  .roi-strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-top: 3rem; text-align: center;
+  }
+  .roi-item { padding: 1.4rem; border: 1px solid rgba(245,166,35,0.12); border-radius: 10px; }
+  .roi-num { font-size: 1.7rem; color: var(--amber); font-weight: bold; display: block; margin-bottom: 0.3rem; }
+  .roi-label { font-size: 0.78rem; color: var(--muted); font-family: 'Arial', sans-serif; letter-spacing: 0.06em; line-height: 1.5; }
 
-/* Phase dots */
-#sim-dots {
-  position:absolute; bottom:78px; left:50%; transform:translateX(-50%);
-  display:flex; gap:7px; align-items:center;
-  margin-bottom:130px;
-}
-.sdot {
-  width:6px; height:6px; border-radius:3px;
-  background:rgba(245,166,35,.2); border:1px solid rgba(245,166,35,.3);
-  transition:all .4s; flex-shrink:0;
-}
-.sdot.active { background:#F5A623; width:20px; box-shadow:0 0 8px rgba(245,166,35,.5); }
+  /* ── AÑO EN LA COLMENA ── */
+  #anual { background: var(--dark); }
+  .year-track {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0; margin-top: 3.5rem; position: relative;
+  }
+  .year-phase {
+    padding: 2rem 1.5rem 1.5rem; text-align: center; position: relative;
+    border-top: 2px solid rgba(245,166,35,0.25);
+  }
+  .year-phase::before {
+    content: ''; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--amber); box-shadow: 0 0 16px rgba(245,166,35,0.8);
+  }
+  .yp-weeks { color: var(--amber); font-size: 0.7rem; letter-spacing: 0.2em; font-family: 'Arial', sans-serif; margin-bottom: 0.8rem; }
+  .yp-icon { font-size: 2.2rem; margin-bottom: 0.7rem; animation: float 4s ease-in-out infinite; }
+  .yp-title { color: var(--white); font-size: 1rem; margin-bottom: 0.5rem; }
+  .yp-desc { color: var(--muted); font-size: 0.83rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
+  .yp-stat { display: inline-block; margin-top: 0.8rem; color: var(--gold); font-size: 0.8rem; font-weight: bold; font-family: 'Arial', sans-serif; background: rgba(245,166,35,0.1); padding: 0.25rem 0.8rem; border-radius: 14px; }
 
-/* Progress bar */
-#sim-prog {
-  position:absolute; bottom:72px; left:5%; right:5%;
-  height:2px; background:rgba(245,166,35,.1); border-radius:1px;
-}
-#sim-prog-fill {
-  height:100%; background:linear-gradient(to right,#c47800,#FFD060);
-  border-radius:1px; transition:width .15s linear;
-  width:0%; box-shadow:0 0 6px rgba(245,166,35,.4);
-}
+  /* ── PRE-VENTA ── */
+  #preventa {
+    background: linear-gradient(135deg, var(--dark) 0%, rgba(245,166,35,0.06) 50%, var(--dark) 100%);
+  }
+  .preventa-box {
+    max-width: 720px; margin: 0 auto; text-align: center;
+    padding: 4rem 3rem;
+    border: 1px solid rgba(245,166,35,0.3); border-radius: 12px;
+    background: rgba(245,166,35,0.04);
+    box-shadow: 0 0 80px rgba(245,166,35,0.08);
+  }
+  .price-tag {
+    font-size: 4rem; color: var(--amber); font-weight: bold;
+    line-height: 1; margin: 1.5rem 0 0.5rem;
+  }
+  .price-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; font-family: 'Arial', sans-serif; }
+  .preventa-features {
+    display: flex; gap: 1.5rem; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 2.5rem;
+  }
+  .pf-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    color: var(--text); font-size: 0.9rem; font-family: 'Arial', sans-serif;
+  }
+  .pf-check { color: var(--amber); font-size: 1rem; }
+  .preventa-cta-area { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .limited-badge {
+    display: inline-block; background: rgba(245,166,35,0.15);
+    border: 1px solid rgba(245,166,35,0.4); color: var(--amber);
+    padding: 0.3rem 0.8rem; border-radius: 20px;
+    font-size: 0.75rem; letter-spacing: 0.12em;
+    margin-bottom: 0.8rem; font-family: 'Arial', sans-serif;
+  }
 
-/* Sim buttons */
-#sim-skip {
-  position:absolute; top:82px; right:22px; z-index:60;
-  pointer-events:all; background:rgba(8,3,0,.8);
-  border:1px solid rgba(245,166,35,.2); color:#6a4010;
-  font-size:.65rem; font-weight:700; padding:8px 14px;
-  border-radius:16px; cursor:pointer; letter-spacing:.06em;
-  transition:color .2s, border-color .2s;
-}
-#sim-skip:hover { color:#F5A623; border-color:rgba(245,166,35,.4); }
+  /* ── EQUIPO ── */
+  #equipo { background: var(--dark3); }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .team-card {
+    text-align: center; padding: 2rem 1.5rem;
+    border: 1px solid rgba(245,166,35,0.1); border-radius: 8px;
+    transition: all 0.3s;
+  }
+  .team-card:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-3px); }
+  .team-avatar {
+    width: 72px; height: 83px; margin: 0 auto 1.2rem;
+    background: rgba(245,166,35,0.12);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; border: 1px solid rgba(245,166,35,0.25);
+  }
+  .team-name { color: var(--white); font-size: 1rem; margin-bottom: 0.3rem; }
+  .team-role { color: var(--amber); font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 0.6rem; font-family: 'Arial', sans-serif; }
+  .team-bio { color: var(--muted); font-size: 0.85rem; line-height: 1.5; font-family: 'Arial', sans-serif; }
 
-/* Title phase (intro/outro) */
-#sim-title-big {
-  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  text-align:center; opacity:0; transition:opacity .8s;
-}
-#sim-title-big.vis { opacity:1; }
-#sim-title-big .hb-logo { font-size:3rem; font-weight:900; color:#F5A623; letter-spacing:.18em; }
-#sim-title-big .hb-sub { font-size:.8rem; color:#7a5020; letter-spacing:.12em; margin-top:8px; text-transform:uppercase; }
-#sim-title-big .hb-line {
-  width:60px; height:2px; background:rgba(245,166,35,.4);
-  margin:16px auto 0; border-radius:1px;
-}
+  /* ── ORIGIN ── */
+  #origen { background: var(--dark2); }
+  .origin-inner {
+    max-width: 700px; text-align: center; margin: 0 auto;
+  }
+  .origin-quote {
+    font-size: 1.5rem; color: var(--text); line-height: 1.7;
+    font-style: italic; margin: 2rem 0;
+    padding: 0 2rem;
+    border-left: 3px solid var(--amber);
+    text-align: left;
+  }
 
-/* Particle counter overlay */
-#sim-counter {
-  position:absolute; top:90px; left:50%; transform:translateX(-50%);
-  font-size:2.5rem; font-weight:900; color:#F5A623;
-  text-shadow:0 0 30px rgba(245,166,35,.6);
-  opacity:0; transition:opacity .4s; letter-spacing:.05em;
-  display:none;
-}
-#sim-counter.vis { opacity:1; }
+  /* ── CONTACTO ── */
+  #contacto { background: var(--dark); }
+  .contact-box {
+    max-width: 580px; margin: 0 auto; text-align: center;
+  }
+  .contact-form { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(245,166,35,0.2);
+    color: var(--text); padding: 0.9rem 1.2rem; border-radius: 6px;
+    font-size: 0.95rem; font-family: 'Arial', sans-serif;
+    outline: none; transition: border-color 0.2s; resize: none;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--amber); }
+  .contact-form textarea { height: 120px; }
+  .contact-form button {
+    background: var(--amber); color: var(--dark);
+    border: none; padding: 1rem; border-radius: 6px;
+    font-size: 1rem; font-weight: bold; cursor: pointer;
+    letter-spacing: 0.05em; font-family: 'Arial', sans-serif;
+    transition: all 0.2s;
+  }
+  .contact-form button:hover { background: var(--gold); transform: translateY(-2px); }
 
-/* ── LOADING ──────────────────────────────── */
-#loading {
-  position:fixed; inset:0; background:#080300; z-index:100;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  transition:opacity .5s;
-}
-.lhex { width:64px; height:64px; animation:lspin 1.8s linear infinite; }
-@keyframes lspin { to{transform:rotate(360deg)} }
-.ltxt { color:#F5A623; font-size:.78rem; margin-top:18px; letter-spacing:.12em; text-transform:uppercase; }
-.lsub { color:#4a3010; font-size:.65rem; margin-top:6px; letter-spacing:.06em; }
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(245,166,35,0.1);
+    text-align: center; color: var(--muted);
+    font-size: 0.85rem; font-family: 'Arial', sans-serif;
+  }
+  footer strong { color: var(--amber); }
+
+  /* ── EXPANDIBLES (equipo y oferta) ── */
+  .expand-toggle {
+    display: inline-block; margin-top: 1rem; cursor: pointer;
+    color: var(--amber); font-size: 0.8rem; letter-spacing: 0.08em;
+    font-family: 'Arial', sans-serif; border: 1px solid rgba(245,166,35,0.35);
+    padding: 0.4rem 1rem; border-radius: 16px; transition: all 0.2s;
+    background: transparent; user-select: none;
+  }
+  .expand-toggle:hover { background: rgba(245,166,35,0.1); }
+  .expand-panel {
+    max-height: 0; overflow: hidden; transition: max-height 0.45s ease;
+    text-align: left;
+  }
+  .expand-panel.open { max-height: 600px; }
+  .task-list { list-style: none; margin-top: 1rem; }
+  .task-list li {
+    color: var(--muted); font-size: 0.82rem; font-family: 'Arial', sans-serif;
+    padding: 0.45rem 0 0.45rem 1.4rem; position: relative; line-height: 1.5;
+    border-bottom: 1px dashed rgba(245,166,35,0.12);
+  }
+  .task-list li::before { content: '→'; position: absolute; left: 0; color: var(--amber); }
+  .role-desc {
+    margin-top: 0.9rem; color: var(--text); font-size: 0.83rem;
+    font-family: 'Arial', sans-serif; line-height: 1.6;
+    background: rgba(245,166,35,0.06); border-left: 3px solid var(--amber);
+    padding: 0.8rem; border-radius: 0 6px 6px 0;
+  }
+  .form-select {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(245,166,35,0.2);
+    color: var(--text); padding: 0.9rem 1.2rem; border-radius: 6px;
+    font-size: 0.95rem; font-family: 'Arial', sans-serif; outline: none;
+  }
+  .form-select:focus { border-color: var(--amber); }
+  .form-select option { background: var(--dark2); color: var(--text); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(8px); }
+  }
+  @keyframes glow {
+    from { box-shadow: 0 0 30px rgba(245,166,35,0.1), inset 0 0 20px rgba(245,166,35,0.03); }
+    to   { box-shadow: 0 0 70px rgba(245,166,35,0.25), inset 0 0 40px rgba(245,166,35,0.08); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  /* ── REVEAL ON SCROLL ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
-<div id="loading">
-  <svg class="lhex" viewBox="0 0 64 64">
-    <path d="M32 4L60 19V45L32 60L4 45V19Z" fill="#F5A623" stroke="#FFD060" stroke-width="1.5"/>
-    <text x="32" y="38" text-anchor="middle" font-size="13" font-weight="900" fill="#0C0600" font-family="sans-serif">HB</text>
-  </svg>
-  <div class="ltxt">Renderizando modelo 3D…</div>
-  <div class="lsub">Colmena modular · Impresión PETG</div>
-</div>
+<div class="hex-bg"></div>
 
-<canvas id="c"></canvas>
-
-<!-- TOP BAR -->
-<div id="topbar">
-  <div class="brand">
-    <svg width="36" height="40" viewBox="0 0 48 54">
-      <path d="M24 3L45 14V36L24 47L3 36V14Z" fill="#F5A623" stroke="#FFD060" stroke-width="1.5"/>
-      <text x="24" y="33" text-anchor="middle" font-size="13" font-weight="900" fill="#0C0600" font-family="sans-serif">HB</text>
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#F5A623" stroke-width="1.5"/>
+      <polygon points="16,8 24,12.5 24,21.5 16,26 8,21.5 8,12.5" fill="rgba(245,166,35,0.2)" stroke="#F5A623" stroke-width="1"/>
+      <text x="16" y="22" text-anchor="middle" fill="#F5A623" font-size="10" font-weight="bold">H</text>
     </svg>
+    HEXABEE
+  </a>
+  <ul class="nav-links">
+    <li><a href="#oferta">Oferta</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#producto">Producto</a></li>
+    <li><a href="#como">Cómo funciona</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#unete">Únete</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#preventa" class="nav-cta">PRE-VENTA →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">🐝 IV Región, Chile · Temporada 2026</div>
+  <div class="hero-hex" style="animation:float 4s ease-in-out infinite">
+    <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,4 116,34 116,106 60,136 4,106 4,34" fill="rgba(245,166,35,0.08)" stroke="#F5A623" stroke-width="1.5"/>
+      <polygon points="60,20 96,40 96,100 60,120 24,100 24,40" fill="rgba(245,166,35,0.12)" stroke="#FFD060" stroke-width="1"/>
+      <text x="60" y="82" text-anchor="middle" fill="#F5A623" font-size="42">🍯</text>
+    </svg>
+  </div>
+  <h1 class="hero-title">HEXABEE</h1>
+  <p class="hero-sub">Colmenas modulares 3D que polinizan tu campo y producen miel en panal dentro de frascos hexagonales de vidrio.<br>Desde la IV Región de Coquimbo.</p>
+  <div class="hero-btns">
+    <a href="#oferta" class="btn-primary">Polinización para tu campo</a>
+    <a href="#preventa" class="btn-secondary">Reserva tu frasco de miel</a>
+    <a href="360.html" target="_blank" class="btn-secondary">⬡ Prototipo 3D en 360°</a>
+  </div>
+  <div class="hero-scroll">▼&nbsp;&nbsp;Descubre más</div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
     <div>
-      <div class="brand-name">HEXABEE</div>
-      <div class="brand-sub">Colmena Modular 3D · IV Región · Chile</div>
+      <span class="stat-num">5km²</span>
+      <span class="stat-label">Radio de polinización por colmena</span>
+    </div>
+    <div>
+      <span class="stat-num">200ml</span>
+      <span class="stat-label">Miel en panal por frasco</span>
+    </div>
+    <div>
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Artesanal · IV Región</span>
+    </div>
+    <div>
+      <span class="stat-num">0</span>
+      <span class="stat-label">Aditivos ni procesos industriales</span>
+    </div>
+    <div>
+      <span class="stat-num">Nov 26</span>
+      <span class="stat-label">Primera cosecha disponible</span>
     </div>
   </div>
-  <div class="badge-360">↻ VISTA 360°</div>
-  <div class="hint">
-    <strong>Arrastra</strong> para rotar<br>
-    <strong>Pellizca</strong> para zoom<br>
-    <strong>Toca ①②③</strong> para detalle
+</section>
+
+<!-- OFERTA -->
+<section id="oferta" style="background:var(--dark3)">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">Nuestra Oferta</span>
+      <h2 class="section-title">Un sistema apícola, cuatro líneas de negocio</h2>
+      <p class="section-body">HEXABEE no vende solo miel. Nuestra colmena modular es primero una herramienta de polinización para tu campo — la miel y sus derivados vienen después, como consecuencia natural.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🌸</div>
+        <div class="why-title">1 · Polinización para tu campo</div>
+        <div class="why-desc">Instalamos colmenas HEXABEE en tu terreno agrícola. Cada colmena poliniza un radio de hasta 5km², aumentando el rendimiento de frutales y cultivos. Nuestro primer servicio y el de mayor impacto.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🍯</div>
+        <div class="why-title">2 · Miel en panal</div>
+        <div class="why-desc">Frascos hexagonales de vidrio 200ml, sellados por las propias abejas. Sin extracción, sin filtrado, sin calor. El producto apícola de más alto valor del mercado.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🧪</div>
+        <div class="why-title">3 · Derivados apícolas</div>
+        <div class="why-desc">Propóleo, polen y jalea real — productos de alto valor que emergen de la misma producción. Disponibles a medida que las colmenas maduran.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🐝</div>
+        <div class="why-title">4 · Núcleos de abeja italiana</div>
+        <div class="why-desc">Venta de núcleos de Apis mellifera ligustica para apicultores que quieren partir o expandir su producción con una raza dócil y de alta producción.</div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- SPEC PANEL -->
-<div id="specs">
-  <div class="spec-row"><span class="spec-val">474<span style="font-size:.55rem;color:#6a4a1a">mm</span></span><span class="spec-lbl">Ancho ext.</span></div>
-  <div class="spec-row"><span class="spec-val">384<span style="font-size:.55rem;color:#6a4a1a">mm</span></span><span class="spec-lbl">Profundidad</span></div>
-  <div class="spec-row"><span class="spec-val">4.4<span style="font-size:.55rem;color:#6a4a1a">mm</span></span><span class="spec-lbl">Slot excluidor</span></div>
-  <div class="spec-row"><span class="spec-val">PETG</span><span class="spec-lbl">Filamento</span></div>
-  <div class="spec-row"><span class="spec-val">12</span><span class="spec-lbl">Piezas impr.</span></div>
-</div>
-
-<!-- BACK BUTTON (zoom mode) -->
-<button id="back-btn" onclick="zoomOut()">← Volver a vista completa</button>
-
-<!-- HOTSPOT 1: Frascos -->
-<div class="hotspot" id="hs0">
-  <div class="hr"></div><div class="hr hr2"></div>
-  <div class="hcore">①</div>
-</div>
-<div class="icard" id="card0">
-  <button class="ix" onclick="closeCard(0)">✕</button>
-  <div class="icard-icon">🍯</div>
-  <div class="icard-title">Frascos Hexagonales</div>
-  <div class="icard-body">5 frascos de vidrio 200ml, forma hexagonal. Las abejas construyen el panal dentro y lo llenan de miel cruda. Nunca toca el aire hasta que el cliente lo abre.</div>
-  <div class="icard-tag">N3 · CAJA FRASCOS</div>
-  <button class="icard-zoom-btn" onclick="zoomTo(0)">🔍 Acercar sección</button>
-</div>
-
-<!-- HOTSPOT 2: Entrada -->
-<div class="hotspot" id="hs1">
-  <div class="hr"></div><div class="hr hr2"></div>
-  <div class="hcore">②</div>
-</div>
-<div class="icard" id="card1">
-  <button class="ix" onclick="closeCard(1)">✕</button>
-  <div class="icard-icon">🐝</div>
-  <div class="icard-title">Entrada / Salida Abejas</div>
-  <div class="icard-body">Slot calibrado en la Caja de Tránsito. Las obreras forrajean en 5km². La reina queda contenida en N1 gracias al excluidor de 4,4mm.</div>
-  <div class="icard-tag">N2 · CAJA TRÁNSITO</div>
-  <button class="icard-zoom-btn" onclick="zoomTo(1)">🔍 Acercar sección</button>
-</div>
-
-<!-- HOTSPOT 3: Crías -->
-<div class="hotspot" id="hs2">
-  <div class="hr"></div><div class="hr hr2"></div>
-  <div class="hcore">③</div>
-</div>
-<div class="icard" id="card2">
-  <button class="ix" onclick="closeCard(2)">✕</button>
-  <div class="icard-icon">🏗️</div>
-  <div class="icard-title">Caja de Crías · 6 Marcos</div>
-  <div class="icard-body">6 marcos Langstroth estándar 464×374mm. El excluidor de reinas (ranuras 4,4mm) en la tapa retiene a la reina. Fondo 100% sellado en PETG.</div>
-  <div class="icard-tag">N1 · CAJA CRÍAS</div>
-  <button class="icard-zoom-btn" onclick="zoomTo(2)">🔍 Acercar sección</button>
-</div>
-
-<!-- BOTTOM BAR -->
-<div id="bottombar">
-  <div class="lvl-pill"><div class="lvl-dot" style="background:#F5A623"></div>N3 · Caja Frascos</div>
-  <div class="lvl-pill"><div class="lvl-dot" style="background:#c47800"></div>N2 · Caja Tránsito</div>
-  <div class="lvl-pill"><div class="lvl-dot" style="background:#7a4500"></div>N1 · Caja Crías</div>
-  <div class="lvl-pill"><div class="lvl-dot" style="background:#2a1200"></div>Fondo PETG Sellado</div>
-</div>
-
-<!-- CONTROLS -->
-<div id="ctrl">
-  <button class="cbtn sim-btn" onclick="startSim()">▶ Simulación Anual</button>
-  <button class="cbtn active" id="rotBtn" onclick="toggleRotate()">⏸ Pausar rotación</button>
-  <button class="cbtn" onclick="resetCamera()">⌖ Vista completa</button>
-  <button class="cbtn" onclick="toggleSection()">✂ Corte interior</button>
-</div>
-
-<!-- ══════════════════════════════
-     SIMULATION UI
-══════════════════════════════ -->
-<div id="sim-ui">
-  <div class="sim-bar" id="sim-bar-top"></div>
-  <div class="sim-bar" id="sim-bar-bot"></div>
-
-  <!-- Big intro/outro title -->
-  <div id="sim-title-big">
-    <div class="hb-logo">HEXABEE</div>
-    <div class="hb-line"></div>
-    <div class="hb-sub" id="sim-big-sub">Simulación Anual · 20 Semanas</div>
+<!-- PRODUCTO -->
+<section id="producto">
+  <div class="section-inner">
+    <div class="product-grid">
+      <div class="product-visual reveal">
+        <div class="hex-jar">
+          <div class="hex-shape">
+            <div class="hex-inner">🍯</div>
+          </div>
+          <div class="hex-label">FRASCO HEXAGONAL 200ml<br>Miel en Panal · Vidrio Premium</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="section-tag">El Producto</span>
+        <h2 class="section-title">Panal vivo dentro de un frasco de vidrio</h2>
+        <p class="section-body">Las abejas construyen el panal directamente dentro del frasco hexagonal. Tú recibes exactamente lo que la colmena produjo — miel sin filtrar, sin calentar, con el panal intacto.</p>
+        <div class="product-features" style="margin-top:2rem">
+          <div class="feature-item">
+            <div class="feature-icon">⬡</div>
+            <div>
+              <div class="feature-title">Frasco hexagonal de vidrio</div>
+              <div class="feature-desc">Diseño exclusivo que refleja la geometría perfecta de la naturaleza. Una pieza que inspira antes de abrirse.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🐝</div>
+            <div>
+              <div class="feature-title">Abeja italiana (Apis mellifera)</div>
+              <div class="feature-desc">Raza seleccionada por su temperamento dócil y alta producción de miel. Perfectamente adaptada al clima de Coquimbo.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌿</div>
+            <div>
+              <div class="feature-title">Terreno propio en Pan de Azúcar</div>
+              <div class="feature-desc">Barreras de viento, árboles frutales, sombra natural. Un ecosistema preparado para las abejas, no al revés.</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🖨️</div>
+            <div>
+              <div class="feature-title">Colmena modular 3D</div>
+              <div class="feature-desc">Sistema de colmena diseñado e impreso en 3D en PETG. Modular, escalable y replicable.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <!-- Phase card -->
-  <div id="sim-card">
-    <div id="sim-phase-label"></div>
-    <span id="sim-phase-icon"></span>
-    <div id="sim-phase-title"></div>
-    <div id="sim-phase-desc"></div>
-    <div id="sim-stat"></div>
+<!-- CÓMO FUNCIONA -->
+<section id="como">
+  <div class="section-inner">
+    <div class="reveal" style="max-width:560px">
+      <span class="section-tag">El Proceso</span>
+      <h2 class="section-title">Del diseño al frasco en 4 pasos</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <div class="step-title">Colmena modular impresa</div>
+        <div class="step-desc">Diseñamos e imprimimos cada componente de la colmena en PETG resistente. Sistema modular que permite escalar sin límites.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <div class="step-title">Las abejas hacen su trabajo</div>
+        <div class="step-desc">Los frascos van integrados en la colmena. Las abejas construyen el panal dentro del vidrio, lo llenan con miel y lo sellan.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <div class="step-title">Cosecha limpia y directa</div>
+        <div class="step-desc">Retiramos el frasco ya operculado. Sin extractor. Sin filtros. Sin calor. La miel nunca toca el aire hasta que tú la abres.</div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <div class="step-title">De Coquimbo a tu mesa</div>
+        <div class="step-desc">Tapamos el frasco y lo enviamos a tu domicilio. Lo que ves en el vidrio es exactamente lo que crearon las abejas.</div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <!-- Phase dots -->
-  <div id="sim-dots">
-    <div class="sdot" id="sd0"></div>
-    <div class="sdot" id="sd1"></div>
-    <div class="sdot" id="sd2"></div>
-    <div class="sdot" id="sd3"></div>
+<!-- POR QUÉ HEXABEE -->
+<section id="porque">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">La Diferencia</span>
+      <h2 class="section-title">Por qué HEXABEE</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🔬</div>
+        <div class="why-title">Sin proceso industrial</div>
+        <div class="why-desc">La miel industrial se centrifuga, filtra y calienta. La nuestra nunca pasa por ese proceso. La abeja la cierra, nosotros la empacamos.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">📍</div>
+        <div class="why-title">Trazabilidad total</div>
+        <div class="why-desc">Sabes exactamente en qué terreno, con qué flora y en qué colmena se produjo cada frasco. Hiperlocal y verificable.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">⬡</div>
+        <div class="why-title">Diseño que comunica</div>
+        <div class="why-desc">El frasco hexagonal no es solo embalaje — es parte del producto. La geometría del panal visible desde el exterior.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">♻️</div>
+        <div class="why-title">Sistema replicable</div>
+        <div class="why-desc">Cada colmena que diseñamos puede ser replicada por impresión 3D. Escalamos la producción sin construir infraestructura nueva.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🌱</div>
+        <div class="why-title">Ecosistema preparado</div>
+        <div class="why-desc">Árboles frutales, cortavientos, sombra y cercado en Pan de Azúcar. El terreno se preparó antes que las abejas llegaran.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🏆</div>
+        <div class="why-title">Producto premium real</div>
+        <div class="why-desc">No es marketing. La miel en panal en frasco hexagonal de vidrio es el producto de más alto valor en el mercado apícola mundial.</div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <!-- Progress bar -->
-  <div id="sim-prog"><div id="sim-prog-fill"></div></div>
+<!-- PLANES -->
+<section id="planes">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">Planes y Precios</span>
+      <h2 class="section-title">Tu colmena. Tu campo polinizado. Tu miel.</h2>
+      <p class="section-body">Tres formas de entrar. Todas incluyen abejas italianas trabajando para ti, y nosotros detrás de cada pieza.</p>
+    </div>
 
-  <!-- Counter overlay -->
-  <div id="sim-counter"></div>
+    <div class="plans-grid">
 
-  <!-- Skip -->
-  <button id="sim-skip" onclick="stopSim()">✕ Saltar</button>
-</div>
+      <!-- KIT -->
+      <div class="plan-card featured reveal">
+        <div class="plan-flag">⭐ EL MÁS ELEGIDO</div>
+        <div class="plan-name">Kit HEXABEE</div>
+        <div class="plan-tagline">Sé dueño de tu colmena desde el día uno</div>
+        <div class="plan-price">$390.000</div>
+        <div class="plan-period">CLP · PAGO ÚNICO</div>
+        <ul class="plan-list">
+          <li>Colmena modular completa impresa en 3D — PETG food-safe, <strong>25+ años de vida útil</strong></li>
+          <li>Núcleo de abeja italiana con reina joven fecundada</li>
+          <li>Set de frascos hexagonales de vidrio listos para la primera cosecha</li>
+          <li>Instalación en tu terreno + capacitación de cosecha</li>
+          <li>Poliniza hasta 5km² a tu alrededor desde la primera semana</li>
+        </ul>
+        <div class="plan-hook">Cada cosecha llena 5 frascos con valor de mercado de $75.000. En ~4 temporadas tu kit se pagó solo — y la colmena dura décadas. Después de eso, cada frasco es ganancia tuya.</div>
+        <a class="plan-cta" href="https://wa.me/56957032768?text=Hola%21+Quiero+el+Kit+HEXABEE+de+%24390.000" target="_blank">Quiero mi colmena →</a>
+      </div>
+
+      <!-- MANTENCIÓN -->
+      <div class="plan-card reveal">
+        <div class="plan-name">Plan Mantención Total</div>
+        <div class="plan-tagline">Nosotros cuidamos las abejas. Tú cosechas.</div>
+        <div class="plan-price">$180.000<small>/año</small></div>
+        <div class="plan-period">CLP · EQUIVALE A ~$15.000/MES</div>
+        <ul class="plan-list">
+          <li>Visitas técnicas periódicas: salud de la reina, control de plagas, estado del panal</li>
+          <li><strong>Reparación y reemplazo de piezas incluido</strong> — cualquier componente dañado se reimprime en 3D y se cambia</li>
+          <li>Acompañamiento en cada cosecha</li>
+          <li>Soporte directo por WhatsApp</li>
+        </ul>
+        <div class="plan-hook">Menos de $500 al día. Y como tu colmena es impresa en 3D, nunca más compras un cajón nuevo: la pieza dañada se reimprime y listo. Ese es el poder de una colmena modular.</div>
+        <a class="plan-cta ghost" href="https://wa.me/56957032768?text=Hola%21+Me+interesa+el+Plan+Mantenci%C3%B3n+Total+de+%24180.000%2Fa%C3%B1o" target="_blank">Agregar mantención →</a>
+      </div>
+
+      <!-- FULL -->
+      <div class="plan-card reveal">
+        <div class="plan-name">HEXABEE Full</div>
+        <div class="plan-tagline">Cero inversión. Solo beneficios.</div>
+        <div class="plan-price">$35.000<small>/mes</small></div>
+        <div class="plan-period">CLP · CONTRATO 12 MESES · SIN PAGO INICIAL</div>
+        <ul class="plan-list">
+          <li>Instalamos una colmena HEXABEE en tu campo — <strong>la colmena es nuestra, el beneficio es tuyo</strong></li>
+          <li>Polinización activa de tus cultivos y frutales en 5km²</li>
+          <li>Mantención, reparaciones y manejo apícola 100% a cargo de HEXABEE</li>
+          <li>Recibes frascos de miel en panal de cada cosecha</li>
+        </ul>
+        <div class="plan-hook">~$1.150 al día — menos que un café — por un campo polinizado, fruta de mejor calibre y miel premium en tu mesa. Sin comprar nada, sin saber de abejas, sin riesgo.</div>
+        <a class="plan-cta ghost" href="https://wa.me/56957032768?text=Hola%21+Quiero+HEXABEE+Full+por+%2435.000%2Fmes" target="_blank">Empezar sin invertir →</a>
+      </div>
+    </div>
+
+    <div class="roi-strip reveal">
+      <div class="roi-item">
+        <span class="roi-num">$75.000</span>
+        <span class="roi-label">valor de mercado de cada cosecha (5 frascos × $15.000)</span>
+      </div>
+      <div class="roi-item">
+        <span class="roi-num">~4</span>
+        <span class="roi-label">temporadas para que el kit se pague solo con su propia miel</span>
+      </div>
+      <div class="roi-item">
+        <span class="roi-num">25 años</span>
+        <span class="roi-label">de vida útil del sistema PETG — la madera se pudre, HEXABEE no</span>
+      </div>
+      <div class="roi-item">
+        <span class="roi-num">5 km²</span>
+        <span class="roi-label">de polinización activa alrededor de tu colmena, cada día</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UN AÑO EN LA COLMENA -->
+<section id="anual">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto">
+      <span class="section-tag">Simulación Anual</span>
+      <h2 class="section-title">Un año dentro de tu colmena</h2>
+      <p class="section-body" style="margin:0 auto">Esto es lo que pasa dentro de una HEXABEE en 20 semanas — y puedes verlo en 3D, girando la colmena con tus propios dedos.</p>
+    </div>
+
+    <div class="year-track">
+      <div class="year-phase reveal">
+        <div class="yp-weeks">SEMANAS 1–4</div>
+        <div class="yp-icon">👑</div>
+        <div class="yp-title">La reina funda el imperio</div>
+        <div class="yp-desc">La reina italiana pone hasta 1.500 huevos al día en la Caja de Crías. En 21 días, cada huevo es una obrera lista para trabajar.</div>
+        <div class="yp-stat">1.500 huevos/día</div>
+      </div>
+      <div class="year-phase reveal">
+        <div class="yp-weeks">SEMANAS 5–12</div>
+        <div class="yp-icon">🌸</div>
+        <div class="yp-title">Tu campo florece</div>
+        <div class="yp-desc">Miles de obreras salen a forrajear y polinizan cultivos, frutales y flora nativa en 5km². Más flores, más fruta, mejor calibre.</div>
+        <div class="yp-stat">5 km² polinizados</div>
+      </div>
+      <div class="year-phase reveal">
+        <div class="yp-weeks">SEMANAS 13–20</div>
+        <div class="yp-icon">🍯</div>
+        <div class="yp-title">La miel crece ante tus ojos</div>
+        <div class="yp-desc">Las obreras construyen panal hexagonal dentro de los frascos de vidrio, los llenan de miel cruda y los sellan con cera natural.</div>
+        <div class="yp-stat">~1 kg miel en panal</div>
+      </div>
+      <div class="year-phase reveal">
+        <div class="yp-weeks">COSECHA</div>
+        <div class="yp-icon">✨</div>
+        <div class="yp-title">Retiras el tesoro</div>
+        <div class="yp-desc">5 frascos sellados por las propias abejas. Sin extractor, sin filtros, sin calor. Y la colmena ya está trabajando en la próxima ronda.</div>
+        <div class="yp-stat">5 × 200ml · $75.000</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="text-align:center;margin-top:3rem">
+      <a href="360.html" target="_blank" class="btn-primary" style="display:inline-block">▶ Ver la simulación anual en 3D</a>
+      <p style="color:var(--muted);font-size:0.8rem;font-family:Arial,sans-serif;margin-top:1rem">Gira la colmena en 360°, acércate a cada caja y mira el año completo en 23 segundos. Funciona en tu celular, sin descargar nada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRE-VENTA -->
+<section id="preventa">
+  <div class="section-inner">
+    <div class="preventa-box reveal">
+      <span class="section-tag">Pre-venta Exclusiva</span>
+      <h2 class="section-title" style="color:var(--white)">Reserva tu frasco hoy</h2>
+      <p style="color:var(--muted);font-family:Arial,sans-serif;font-size:0.95rem;line-height:1.6;margin-top:0.8rem">
+        Primeros 20 frascos disponibles para reserva. Precio de lanzamiento exclusivo para los primeros clientes que confían en HEXABEE.
+      </p>
+      <div class="limited-badge" style="margin-top:1.5rem">⚡ CUPOS LIMITADOS — Primera cosecha</div>
+      <div class="price-tag">$15.000</div>
+      <div class="price-sub">CLP por frasco · 200ml miel en panal · Vidrio hexagonal premium</div>
+      <div class="preventa-features">
+        <div class="pf-item"><span class="pf-check">✓</span> Envío incluido</div>
+        <div class="pf-item"><span class="pf-check">✓</span> Entrega noviembre 2026</div>
+        <div class="pf-item"><span class="pf-check">✓</span> 100% artesanal IV Región</div>
+        <div class="pf-item"><span class="pf-check">✓</span> Garantía de calidad</div>
+      </div>
+      <div class="preventa-cta-area">
+        <a href="#contacto" class="btn-primary">Quiero reservar mi frasco →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag">El Equipo</span>
+      <h2 class="section-title">Las personas detrás de HEXABEE</h2>
+      <p class="section-body">Cuatro socios con visión compartida: combinar tecnología, diseño y apicultura para crear el producto apícola más diferenciado de Chile.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card reveal">
+        <div class="team-avatar">🧠</div>
+        <div class="team-name">Andrés Castillo</div>
+        <div class="team-role">COO & VISIONARY</div>
+        <div class="team-bio">Liderazgo estratégico + ejecución operativa. Arquitecto del modelo HEXABEE.</div>
+        <span class="expand-toggle" onclick="togglePanel('panel-andres', this)">Ver rol y tareas ▾</span>
+        <div class="expand-panel" id="panel-andres">
+          <div class="role-desc">Responsable de viabilidad del producto, control financiero del negocio, coordinación del equipo y roadmap hacia franquicia. Command center de HEXABEE.</div>
+          <ul class="task-list">
+            <li>Finalizar modelo 3D con estándares mínimos para bienestar de abejas</li>
+            <li>Asegurar transporte e instalación de panales en parcela</li>
+            <li>Implementar Linear como control central del equipo</li>
+            <li>Crear flujo de caja + estado de resultados</li>
+            <li>Definir presupuesto preliminar (B2C/B2B)</li>
+            <li>Definir roadmap: Fase 2 hacia franquicia</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar">🐝</div>
+        <div class="team-name">Olga Abarca</div>
+        <div class="team-role">CHIEF APICULTURE OFFICER</div>
+        <div class="team-bio">Experta en apicultura y comportamiento de abejas. Representante legal de la SpA.</div>
+        <span class="expand-toggle" onclick="togglePanel('panel-olga', this)">Ver rol y tareas ▾</span>
+        <div class="expand-panel" id="panel-olga">
+          <div class="role-desc">Lidera la validación en terreno del prototipo de panal hexagonal. Responsable de asegurar que el panal funciona óptimamente para las abejas.</div>
+          <ul class="task-list">
+            <li>Adaptar parcela en Pan de Azúcar para 10 panales</li>
+            <li>Identificar e implementar árboles/arbustos de apoyo</li>
+            <li>Desarrollar protocolo de observación semanal</li>
+            <li>Validar comportamiento de abejas en panal hexagonal</li>
+            <li>Contacto mensual con apicultores locales para feedback</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar">🖨️</div>
+        <div class="team-name">Yufeng Ley</div>
+        <div class="team-role">HARDWARE & MANUFACTURING</div>
+        <div class="team-bio">Responsable de calidad, materiales y escalabilidad productiva. Operador Creality K1 Max.</div>
+        <span class="expand-toggle" onclick="togglePanel('panel-yufeng', this)">Ver rol y tareas ▾</span>
+        <div class="expand-panel" id="panel-yufeng">
+          <div class="role-desc">Experto en optimización de proceso, selección de materiales y viabilidad de manufactura del sistema modular impreso en 3D.</div>
+          <ul class="task-list">
+            <li>Establecer estándares de calidad PETG (tolerancias, acabado)</li>
+            <li>Identificar y evaluar proveedores PETG de calidad</li>
+            <li>Optimizar el modelo 3D (menos desperdicio, mejores encajes)</li>
+            <li>Documentar proceso de impresión (settings, tiempos, costos)</li>
+            <li>Proyectar capacidad escalable (500 → 5000 panales/año)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar">⚖️</div>
+        <div class="team-name">Álvaro Román</div>
+        <div class="team-role">CFO & COMPLIANCE OFFICER</div>
+        <div class="team-bio">Estructura legal, contabilidad y elegibilidad para financiamiento estatal.</div>
+        <span class="expand-toggle" onclick="togglePanel('panel-alvaro', this)">Ver rol y tareas ▾</span>
+        <div class="expand-panel" id="panel-alvaro">
+          <div class="role-desc">Asegura que HEXABEE sea una empresa viable, ordenada y elegible para subsidios. Responsable de contabilidad y análisis financiero para decisiones.</div>
+          <ul class="task-list">
+            <li>Constituir SpA HEXABEE (estructura legal mínima)</li>
+            <li>Registrar apiario en SAG</li>
+            <li>Registrar marca HEXABEE en INAPI</li>
+            <li>Mapear subsidios/financiamiento estatal disponible</li>
+            <li>Contabilidad + proyecciones de ingresos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal" style="text-align:center;margin-top:2.5rem;color:var(--muted);font-size:0.8rem;font-family:Arial,sans-serif">
+      ¿Eres parte del equipo? El seguimiento de estados, comentarios y bloqueos se gestiona en el
+      <a href="https://lucky-gingersnap-f5db20.netlify.app" target="_blank" style="color:var(--amber)">portal interno</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ORIGEN -->
+<section id="origen">
+  <div class="section-inner">
+    <div class="origin-inner reveal">
+      <span class="section-tag">Nuestra Historia</span>
+      <h2 class="section-title">Nacidos en la IV Región</h2>
+      <blockquote class="origin-quote">
+        "La abeja no nos pertenece. Solo creamos el espacio perfecto para que haga lo que sabe hacer mejor. El producto lo diseña ella."
+      </blockquote>
+      <p class="section-body" style="margin:0 auto;text-align:center">
+        HEXABEE nació de una pregunta simple: ¿qué pasaría si diseñamos la colmena alrededor del producto final en lugar de al revés? La respuesta fue un sistema modular impreso en 3D donde el frasco de vidrio es parte de la colmena — las abejas lo llenan, lo sellan, y tú lo recibes intacto.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ÚNETE / COLABORADORES -->
+<section id="unete" style="background:var(--dark2)">
+  <div class="section-inner">
+    <div class="contact-box reveal">
+      <span class="section-tag">Únete a HEXABEE</span>
+      <h2 class="section-title">Trabaja o asóciate con nosotros</h2>
+      <p class="section-body" style="margin:0 auto;text-align:center">
+        Buscamos personas y socios para trabajos específicos: apicultura, impresión 3D, logística, ventas, terreno. Déjanos tus datos y te contactamos cuando surja algo en tu área.
+      </p>
+      <form class="contact-form" onsubmit="submitForm(event, 'colaborador')">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="email" name="email" placeholder="Tu correo" required>
+        <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)">
+        <select class="form-select" name="area" required>
+          <option value="" disabled selected>¿En qué área puedes aportar?</option>
+          <option>Apicultura / manejo de colmenas</option>
+          <option>Impresión 3D / fabricación</option>
+          <option>Ventas / comercial</option>
+          <option>Logística / transporte</option>
+          <option>Terreno / agrícola</option>
+          <option>Inversión / sociedad</option>
+          <option>Otra</option>
+        </select>
+        <textarea name="mensaje" placeholder="Cuéntanos tu experiencia o qué te gustaría hacer"></textarea>
+        <input type="hidden" name="tipo" value="colaborador">
+        <button type="submit">Postular →</button>
+      </form>
+      <p id="form-msg-colaborador" style="display:none;margin-top:1rem;color:var(--amber);font-family:Arial,sans-serif"></p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO / CAPTACIÓN CLIENTES -->
+<section id="contacto">
+  <div class="section-inner">
+    <div class="contact-box reveal">
+      <span class="section-tag">Contacto</span>
+      <h2 class="section-title">Hablemos</h2>
+      <p class="section-body" style="margin:0 auto;text-align:center">
+        Servicios de polinización, reservas de miel, derivados apícolas o núcleos de abeja italiana.
+      </p>
+      <p style="margin-top:1.5rem">
+        <a href="https://wa.me/56957032768?text=Hola%2C+me+interesa+HEXABEE" target="_blank" class="btn-primary" style="display:inline-block">💬 Escríbenos por WhatsApp</a>
+      </p>
+      <form class="contact-form" onsubmit="submitForm(event, 'cliente')">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="email" name="email" placeholder="Tu correo" required>
+        <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)">
+        <select class="form-select" name="interes" required>
+          <option value="" disabled selected>¿Qué te interesa?</option>
+          <option>Reservar frasco de miel en panal ($15.000)</option>
+          <option>Kit HEXABEE ($390.000)</option>
+          <option>Plan Mantención Total ($180.000/año)</option>
+          <option>HEXABEE Full ($35.000/mes)</option>
+          <option>Polinización para mi campo</option>
+          <option>Derivados apícolas / núcleos</option>
+          <option>Otro</option>
+        </select>
+        <textarea name="mensaje" placeholder="¿Qué te gustaría saber o reservar?"></textarea>
+        <input type="hidden" name="tipo" value="cliente">
+        <button type="submit">Enviar mensaje →</button>
+      </form>
+      <p id="form-msg-cliente" style="display:none;margin-top:1rem;color:var(--amber);font-family:Arial,sans-serif"></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>HEXABEE SpA</strong> · IV Región, Chile · 2026</p>
+  <p style="margin-top:0.5rem">Polinización · Miel en panal · Propóleo, polen y jalea real · Núcleos de abeja italiana</p>
+</footer>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-//  RENDERER
-// ═══════════════════════════════════════════════════════════
-const canvas = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.physicallyCorrectLights = true;
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.5;
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
 
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x080300);
-scene.fog = new THREE.FogExp2(0x080300, 0.018);
+  // Desplegables (equipo)
+  function togglePanel(id, toggle) {
+    const panel = document.getElementById(id);
+    const open = panel.classList.toggle('open');
+    toggle.textContent = open ? 'Ocultar ▴' : 'Ver rol y tareas ▾';
+  }
 
-const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.01, 200);
-camera.position.set(7.5, 1.8, 10);
-
-const controls = new THREE.OrbitControls(camera, canvas);
-controls.target.set(0, 0.4, 0);
-controls.enableDamping = true;
-controls.dampingFactor = 0.055;
-controls.autoRotate = true;
-controls.autoRotateSpeed = 0.85;
-controls.minDistance = 3.5;
-controls.maxDistance = 22;
-controls.maxPolarAngle = Math.PI * 0.82;
-controls.minPolarAngle = 0.08;
-controls.update();
-
-// ═══════════════════════════════════════════════════════════
-//  DIMENSIONS
-// ═══════════════════════════════════════════════════════════
-const W  = 3.0, D  = 2.44;
-const H1 = 1.94, H2 = 0.78, H3 = 1.55, JT = 0.04;
-const TOTAL = H1 + JT + H2 + JT + H3;
-const CY = TOTAL / 2;
-const y1   = H1/2 - CY;
-const yj12 = H1 + JT/2 - CY;
-const y2   = H1 + JT + H2/2 - CY;
-const yj23 = H1 + JT + H2 + JT/2 - CY;
-const y3   = H1 + JT + H2 + JT + H3/2 - CY;
-const ytop = TOTAL - CY;
-const ybot = -CY;
-const entrY = y2 - H2 * 0.22;
-
-const JAR_R = 0.235, JAR_H = 0.68, JAR_SEG = 6, JAR_EMBED = 0.18;
-const jarYBase = ytop - JAR_EMBED + JAR_H / 2;
-const jarXs = [-1.0, -0.5, 0.0, 0.5, 1.0];
-const HONEY_H = JAR_H * 0.6;
-const HONEY_BOT = -JAR_H/2 + 0.06;
-
-// ═══════════════════════════════════════════════════════════
-//  CAMERA ANIMATION SYSTEM
-// ═══════════════════════════════════════════════════════════
-const CAM_DEFAULT_POS  = new THREE.Vector3(7.5, 1.8, 10);
-const CAM_DEFAULT_LOOK = new THREE.Vector3(0, 0.4, 0);
-
-// Zoom targets per hotspot ①②③
-const ZOOM_POS = [
-  new THREE.Vector3(2.8, ytop + 1.3, 4.2),       // ① Frascos — slightly above, looking down
-  new THREE.Vector3(-3.8, y2 + 0.1, -5.0),        // ② Entrada — front of box2
-  new THREE.Vector3(4.2, y1 + 0.2, 5.5),          // ③ Crías — angled view
-];
-const ZOOM_LOOK = [
-  new THREE.Vector3(0.0, ytop + 0.2, 0.0),
-  new THREE.Vector3(0.0, y2,         -D/2 - 0.05),
-  new THREE.Vector3(0.0, y1,          0.0),
-];
-
-// Sim camera targets per phase (0=intro,1=cría,2=miel,3=frascos,4=cosecha)
-const SIM_POS = [
-  new THREE.Vector3(7.5, 2.0, 10),
-  new THREE.Vector3(5.5, y1 + 0.5, 7.5),
-  new THREE.Vector3(-4.5, y2 + 0.2, -6.0),
-  new THREE.Vector3(3.0, ytop + 1.1, 4.5),
-  new THREE.Vector3(7.5, 2.8, 10),
-];
-const SIM_LOOK = [
-  new THREE.Vector3(0, 0.4, 0),
-  new THREE.Vector3(0, y1, 0),
-  new THREE.Vector3(0, y2, -D/2 - 0.1),
-  new THREE.Vector3(0, ytop + 0.2, 0),
-  new THREE.Vector3(0, 0.8, 0),
-];
-
-const camAnim = {
-  active: false,
-  pos: CAM_DEFAULT_POS.clone(),
-  look: CAM_DEFAULT_LOOK.clone(),
-  speed: 0.04
-};
-
-const _dummy = new THREE.Object3D();
-
-function setCamTarget(pos, look, speed) {
-  camAnim.active = true;
-  camAnim.pos.copy(pos);
-  camAnim.look.copy(look);
-  camAnim.speed = speed || 0.04;
-  controls.enabled = false;
-}
-
-function releaseCam() {
-  camAnim.active = false;
-  controls.enabled = true;
-  controls.target.copy(CAM_DEFAULT_LOOK);
-  controls.autoRotate = isRotating;
-  controls.update();
-}
-
-// ═══════════════════════════════════════════════════════════
-//  MATERIALS
-// ═══════════════════════════════════════════════════════════
-function mat(color, roughness, metalness, opts) {
-  return new THREE.MeshStandardMaterial(Object.assign({ color, roughness, metalness }, opts || {}));
-}
-const M = {
-  crias:    mat(0x1a0a00, 0.78, 0.06),
-  transito: mat(0x110600, 0.82, 0.04),
-  frascos:  mat(0x1e0d00, 0.72, 0.08),
-  joint:    mat(0x3a1e00, 0.48, 0.28, { emissive:new THREE.Color(0xb86a00), emissiveIntensity:0.14 }),
-  bottom:   mat(0x0e0500, 0.88, 0.05, { emissive:new THREE.Color(0x3a1a00), emissiveIntensity:0.06 }),
-  qe:       mat(0x4a2c00, 0.45, 0.30, { emissive:new THREE.Color(0xF5A623), emissiveIntensity:0.07 }),
-  entrance: mat(0x030100, 0.95, 0),
-  eGlow:    mat(0xF5A623, 0.4, 0.2, { emissive:new THREE.Color(0xF5A623), emissiveIntensity:0.55, transparent:true, opacity:0.45 }),
-  frame:    mat(0x3a2000, 0.92, 0),
-  frameh:   mat(0xFFAA00, 0.28, 0.12, { emissive:new THREE.Color(0xc47800), emissiveIntensity:0.38 }),
-  jarCap:   mat(0xb86000, 0.38, 0.32, { emissive:new THREE.Color(0x7a4000), emissiveIntensity:0.18 }),
-  ground:   mat(0x080400, 0.62, 0.45),
-  edge:     new THREE.LineBasicMaterial({ color:0x4a2a00, transparent:true, opacity:0.55 }),
-  edgeAmb:  new THREE.LineBasicMaterial({ color:0xF5A623, transparent:true, opacity:0.45 }),
-  edgeJar:  new THREE.LineBasicMaterial({ color:0xFFD060, transparent:true, opacity:0.7 }),
-};
-
-// Jar glass (one per jar so we can animate individually)
-function makeJarMat() {
-  return new THREE.MeshStandardMaterial({ color:0xFFAA22, roughness:0.06, metalness:0.22, transparent:true, opacity:0.52, side:THREE.DoubleSide });
-}
-// Honey (cloned per jar for individual fill animation)
-function makeHoneyMat() {
-  return new THREE.MeshStandardMaterial({ color:0xFFB000, roughness:0.22, metalness:0.15, emissive:new THREE.Color(0xF58000), emissiveIntensity:0.52 });
-}
-
-function addEdges(mesh, lineMat) {
-  mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), lineMat));
-}
-function box(w, h, d, material, x, y, z, shadow) {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
-  m.position.set(x||0, y||0, z||0);
-  if (shadow) { m.castShadow = true; m.receiveShadow = true; }
-  return m;
-}
-
-// ═══════════════════════════════════════════════════════════
-//  HIVE GROUP
-// ═══════════════════════════════════════════════════════════
-const hive = new THREE.Group();
-scene.add(hive);
-hive.rotation.y = -Math.PI / 8;
-
-// ── BOX 1: CRÍAS ──
-const b1 = box(W, H1, D, M.crias, 0, y1, 0, true);
-b1.name = 'crias'; hive.add(b1); addEdges(b1, M.edge);
-
-// 6 Langstroth frames
-const frameMeshes = [];
-const fSpan = W - 0.4;
-for (let i = 0; i < 6; i++) {
-  const fMat = (i===1||i===4) ? M.frameh : M.frame;
-  const fr = box(0.035, H1*0.86, D*0.87, fMat, -W/2 + 0.2 + i*(fSpan/5) + fSpan/10, y1, 0, false);
-  hive.add(fr); frameMeshes.push(fr);
-}
-// Frame rests
-for (const sx of [-1,1]) {
-  hive.add(box(0.06, 0.04, D*0.86, M.joint, sx*(W/2-0.03), y1+H1/2-0.05, 0, false));
-}
-// Sealed bottom plate
-const btm = box(W+0.04, 0.06, D+0.04, M.bottom, 0, ybot-0.03, 0, true);
-hive.add(btm); addEdges(btm, M.edge);
-
-// Queen excluder
-const qe = box(W, 0.028, D, M.qe, 0, y1+H1/2+0.014, 0, false);
-hive.add(qe);
-for (let z = -D/2+0.08; z < D/2; z += 0.1) {
-  hive.add(box(W-0.06, 0.032, 0.012, M.joint, 0, y1+H1/2+0.016, z, false));
-}
-
-// ── JOINT 1→2 ──
-const j12 = box(W+0.06, JT, D+0.06, M.joint, 0, yj12, 0, false);
-hive.add(j12); addEdges(j12, M.edgeAmb);
-
-// ── BOX 2: TRÁNSITO ──
-const b2 = box(W, H2, D, M.transito, 0, y2, 0, true);
-b2.name = 'transito'; hive.add(b2); addEdges(b2, M.edge);
-
-// Bee entrance
-const ent = box(W*0.52, H2*0.22, 0.1, M.entrance, 0, entrY, -D/2+0.01, false);
-hive.add(ent);
-const entG = box(W*0.52+0.01, H2*0.22+0.01, 0.018, M.eGlow, 0, entrY, -D/2-0.012, false);
-hive.add(entG);
-
-// ── JOINT 2→3 ──
-const j23 = box(W+0.06, JT, D+0.06, M.joint, 0, yj23, 0, false);
-hive.add(j23); addEdges(j23, M.edgeAmb);
-
-// ── BOX 3: FRASCOS ──
-const b3 = box(W, H3, D, M.frascos, 0, y3, 0, true);
-b3.name = 'frascos'; hive.add(b3); addEdges(b3, M.edge);
-
-// ── HEX JARS ──
-const jarsGroup = new THREE.Group();
-hive.add(jarsGroup);
-const honeyRefs = []; // {mesh, mat}
-
-jarXs.forEach((jx, idx) => {
-  const jg = new THREE.Group();
-  jg.position.set(jx, jarYBase, 0);
-
-  const jarMat = makeJarMat();
-  const gBody = new THREE.CylinderGeometry(JAR_R, JAR_R, JAR_H, JAR_SEG, 1, false);
-  const jarMesh = new THREE.Mesh(gBody, jarMat);
-  jarMesh.castShadow = true;
-  jg.add(jarMesh);
-  jg.add(new THREE.LineSegments(new THREE.EdgesGeometry(gBody), M.edgeJar));
-
-  // Honey fill (cloned material per jar)
-  const honeyMat = makeHoneyMat();
-  const gHoney = new THREE.CylinderGeometry(JAR_R*0.7, JAR_R*0.7, HONEY_H, JAR_SEG, 1, false);
-  const honeyMesh = new THREE.Mesh(gHoney, honeyMat);
-  honeyMesh.position.y = HONEY_BOT + HONEY_H / 2; // normal full position
-  jg.add(honeyMesh);
-  honeyRefs.push({ mesh: honeyMesh, mat: honeyMat, baseY: HONEY_BOT + HONEY_H / 2 });
-
-  // Wax cap
-  const capMesh = new THREE.Mesh(new THREE.CylinderGeometry(JAR_R*0.68, JAR_R*0.68, 0.03, JAR_SEG), M.jarCap);
-  capMesh.position.y = JAR_H * 0.27;
-  jg.add(capMesh);
-
-  // Base ring
-  const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(JAR_R*0.78, JAR_R*0.78, 0.028, JAR_SEG), M.jarCap);
-  baseMesh.position.y = -JAR_H/2 + 0.014;
-  jg.add(baseMesh);
-
-  jg.userData = { idx, baseY: jarYBase };
-  jarsGroup.add(jg);
-
-  // Socket hole in top of box3
-  hive.add(box(JAR_R*2.1, 0.12, JAR_R*2.1, M.entrance, jx, ytop-0.06, 0, false));
-});
-
-// Honey drip (jar index 3)
-const gDrip = new THREE.SphereGeometry(0.055, 8, 8);
-const dripMat = makeHoneyMat();
-const drip = new THREE.Mesh(gDrip, dripMat);
-drip.scale.set(1, 1.7, 1);
-drip.position.set(0.5, jarYBase - JAR_H/2 - 0.08, D/2 - 0.15);
-hive.add(drip);
-
-// ═══════════════════════════════════════════════════════════
-//  EGG PARTICLES (Phase 1)
-// ═══════════════════════════════════════════════════════════
-const eggGroup = new THREE.Group();
-hive.add(eggGroup);
-const eggPool = [];
-const eggMat = new THREE.MeshStandardMaterial({ color:0xFFF8E0, emissive:new THREE.Color(0xF0D060), emissiveIntensity:0.7, transparent:true, opacity:0 });
-const eggGeo = new THREE.SphereGeometry(0.042, 6, 5);
-for (let i = 0; i < 18; i++) {
-  const e = new THREE.Mesh(eggGeo, eggMat.clone());
-  e.visible = false;
-  const frameIdx = i % 6;
-  e.userData = {
-    delay: i * 0.28,
-    frameX: -W/2 + 0.2 + frameIdx*(fSpan/5) + fSpan/10,
-    side: (i % 3 - 1) * 0.18,
-    cycle: 4.5 // seconds per egg cycle
-  };
-  eggGroup.add(e);
-  eggPool.push(e);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  GROUND + HEX GRID
-// ═══════════════════════════════════════════════════════════
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), M.ground);
-ground.rotation.x = -Math.PI / 2;
-ground.position.y = ybot - 0.065;
-ground.receiveShadow = true;
-scene.add(ground);
-
-(function buildHexGrid() {
-  const pts = [], R = 0.55, rows = 9, cols = 9;
-  const gMat = new THREE.LineBasicMaterial({ color:0x1e0c00, transparent:true, opacity:0.6 });
-  for (let row = -rows; row <= rows; row++) {
-    for (let col = -cols; col <= cols; col++) {
-      const cx = col*R*1.732 + (((row%2)+2)%2)*R*0.866;
-      const cy = row*R*1.5;
-      for (let v = 0; v < 6; v++) {
-        const a1 = v/6*Math.PI*2, a2 = (v+1)/6*Math.PI*2;
-        pts.push(cx+R*Math.cos(a1), ground.position.y+0.006, cy+R*Math.sin(a1));
-        pts.push(cx+R*Math.cos(a2), ground.position.y+0.006, cy+R*Math.sin(a2));
+  // Formularios reales → Formspree (llega por correo y queda registrado)
+  async function submitForm(e, tipo) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button');
+    const msg = document.getElementById('form-msg-' + tipo);
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    try {
+      const data = Object.fromEntries(new FormData(form).entries());
+      data._subject = 'HEXABEE · Nuevo ' + tipo + ': ' + (data.nombre || '');
+      const res = await fetch('https://formspree.io/f/mojonake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      msg.style.display = 'block';
+      if (res.ok) {
+        msg.textContent = '✓ Recibido. Te contactaremos pronto.';
+        form.reset();
+      } else {
+        msg.textContent = '✕ No se pudo enviar. Escríbenos por WhatsApp.';
       }
+    } catch (err) {
+      msg.style.display = 'block';
+      msg.textContent = '✕ Sin conexión. Escríbenos por WhatsApp.';
     }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  scene.add(new THREE.LineSegments(geo, gMat));
-})();
-
-// ═══════════════════════════════════════════════════════════
-//  FLOATING POLLEN PARTICLES
-// ═══════════════════════════════════════════════════════════
-const pollenGeo = new THREE.SphereGeometry(0.028, 6, 4);
-const pollenMat = new THREE.MeshStandardMaterial({ color:0xFFC040, emissive:new THREE.Color(0xF5A623), emissiveIntensity:0.6 });
-const pollenData = [];
-for (let i = 0; i < 16; i++) {
-  const p = new THREE.Mesh(pollenGeo, pollenMat.clone());
-  p.userData = {
-    angle: Math.random()*Math.PI*2, r: 2.2+Math.random()*2.4,
-    speed: 0.18+Math.random()*0.28, vertSpeed: 0.04+Math.random()*0.08,
-    vertOff: Math.random()*Math.PI*2,
-    baseY: ybot + Math.random()*(TOTAL+1.2)
-  };
-  scene.add(p);
-  pollenData.push(p);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  LIGHTING
-// ═══════════════════════════════════════════════════════════
-scene.add(new THREE.AmbientLight(0x401c08, 0.55));
-const kl = new THREE.DirectionalLight(0xfff5e0, 2.5);
-kl.position.set(7, 9, 7); kl.castShadow = true;
-kl.shadow.mapSize.set(2048,2048);
-kl.shadow.camera.near=0.5; kl.shadow.camera.far=40;
-kl.shadow.camera.left=-8; kl.shadow.camera.right=8;
-kl.shadow.camera.top=8; kl.shadow.camera.bottom=-8;
-kl.shadow.bias=-0.0005;
-scene.add(kl);
-const fl = new THREE.DirectionalLight(0x90a8ff, 0.22);
-fl.position.set(-6, 3, -4); scene.add(fl);
-const rl = new THREE.PointLight(0xF5A623, 3.2, 15);
-rl.position.set(-2, ground.position.y+1, 4); scene.add(rl);
-const tl = new THREE.PointLight(0xFFD060, 4.0, 12);
-tl.position.set(0, ytop+3.5, 0); scene.add(tl);
-scene.add(new THREE.DirectionalLight(0xc86800, 0.55)).position.set(-4,5,-8);
-const eg = new THREE.PointLight(0xF5A623, 1.2, 3);
-eg.position.set(0, entrY, -D/2-0.5); scene.add(eg);
-// Sim spotlight for phases
-const simSpot = new THREE.SpotLight(0xFFD060, 0, 20, Math.PI/5, 0.5, 1.5);
-simSpot.position.set(0, ytop+5, 5);
-simSpot.castShadow = false;
-scene.add(simSpot); scene.add(simSpot.target);
-
-// Luz que sigue a la cámara durante la simulación (evita close-ups negros)
-const camLight = new THREE.PointLight(0xFFE0A0, 0, 10);
-scene.add(camLight);
-
-// Paredes translúcidas durante la simulación (efecto rayos X para ver el interior)
-[M.crias, M.transito, M.frascos].forEach(m => { m.transparent = true; m.opacity = 1; });
-function fadeWalls() {
-  const o1 = (simActive && simPhase === 1) ? 0.15 : 1;
-  const o2 = (simActive && simPhase === 2) ? 0.20 : 1;
-  M.crias.opacity    += (o1 - M.crias.opacity)    * 0.07;
-  M.transito.opacity += (o2 - M.transito.opacity) * 0.07;
-}
-
-// ═══════════════════════════════════════════════════════════
-//  SECTION CLIP
-// ═══════════════════════════════════════════════════════════
-const clipPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0.02);
-let sectionOn = false;
-function toggleSection() {
-  sectionOn = !sectionOn;
-  renderer.clippingPlanes = sectionOn ? [clipPlane] : [];
-  renderer.localClippingEnabled = sectionOn;
-  const btn = document.querySelectorAll('.cbtn')[3];
-  btn.classList.toggle('active', sectionOn);
-  btn.textContent = sectionOn ? '✂ Ver completo' : '✂ Corte interior';
-}
-
-// ═══════════════════════════════════════════════════════════
-//  HOTSPOT PROJECTION
-// ═══════════════════════════════════════════════════════════
-const hotspotWorld = [
-  new THREE.Vector3(W/2+0.4, ytop+JAR_H*0.5, 0.5),
-  new THREE.Vector3(-W/2-0.4, entrY, -D/2),
-  new THREE.Vector3(W/2+0.4, y1-0.3, D/2+0.2),
-];
-const hsEls   = [0,1,2].map(i => document.getElementById('hs'+i));
-const cardEls = [0,1,2].map(i => document.getElementById('card'+i));
-const _pv = new THREE.Vector3();
-
-function updateHotspots() {
-  if (simActive) { hsEls.forEach(e => e.style.display='none'); return; }
-  hotspotWorld.forEach((wp, i) => {
-    _pv.copy(wp).applyMatrix4(hive.matrixWorld).project(camera);
-    const sx = (_pv.x*.5+.5)*window.innerWidth;
-    const sy = (-_pv.y*.5+.5)*window.innerHeight;
-    const el = hsEls[i], card = cardEls[i];
-    if (_pv.z < 1 && !zoomMode) {
-      el.style.cssText = `display:block;left:${sx}px;top:${sy}px`;
-      card.style.left = sx+'px'; card.style.top = sy+'px';
-    } else if (_pv.z < 1 && zoomMode && zoomIdx === i) {
-      el.style.cssText = `display:block;left:${sx}px;top:${sy}px`;
-      card.style.left = sx+'px'; card.style.top = sy+'px';
-    } else {
-      el.style.display = 'none';
-      if (zoomIdx !== i) card.classList.remove('on');
-    }
-  });
-}
-
-hsEls.forEach((el, i) => {
-  el.addEventListener('click', e => {
-    e.stopPropagation();
-    cardEls.forEach((c,ci) => { if (ci!==i) c.classList.remove('on'); });
-    cardEls[i].classList.toggle('on');
-  });
-});
-function closeCard(i) { cardEls[i].classList.remove('on'); }
-canvas.addEventListener('click', () => { if (!zoomMode) cardEls.forEach(c=>c.classList.remove('on')); });
-
-// ═══════════════════════════════════════════════════════════
-//  ZOOM SYSTEM
-// ═══════════════════════════════════════════════════════════
-let zoomMode = false, zoomIdx = -1;
-
-function zoomTo(idx) {
-  if (simActive) return;
-  zoomMode = true; zoomIdx = idx;
-  // Reset hive rotation so the target faces correctly
-  // (lerped in animate loop)
-  isRotating = false; controls.autoRotate = false;
-  document.getElementById('rotBtn').textContent = '▶ Reanudar';
-  document.getElementById('rotBtn').classList.remove('active');
-  document.getElementById('back-btn').style.display = 'block';
-  // Hide other cards, show this one
-  cardEls.forEach((c,ci) => { c.classList.toggle('on', ci===idx); });
-  // Move camera
-  setCamTarget(ZOOM_POS[idx], ZOOM_LOOK[idx], 0.038);
-}
-
-function zoomOut() {
-  zoomMode = false; zoomIdx = -1;
-  document.getElementById('back-btn').style.display = 'none';
-  cardEls.forEach(c => c.classList.remove('on'));
-  setCamTarget(CAM_DEFAULT_POS, CAM_DEFAULT_LOOK, 0.035);
-  // After lerp completes, release control
-  setTimeout(() => {
-    if (!zoomMode && !simActive) releaseCam();
-  }, 2200);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  SIMULATION SYSTEM
-// ═══════════════════════════════════════════════════════════
-// Phase data: [label, icon, title, desc, stat, camIdx]
-const SIM_DATA = [
-  // 0: Intro
-  { label:null, icon:null, title:'HEXABEE', desc:'Simulación Anual · 20 Semanas', stat:null, camIdx:0, dur:2.5 },
-  // 1: Cría
-  { label:'SEMANAS 1 – 4', icon:'👑', title:'La Reina pone los huevos',
-    desc:'La abeja reina deposita hasta 1,500 huevos por día en los marcos Langstroth de la Caja de Crías. Cada huevo se convierte en obrera adulta en 21 días.',
-    stat:'1,500 huevos/día', camIdx:1, dur:5.5 },
-  // 2: Miel
-  { label:'SEMANAS 5 – 12', icon:'🐝', title:'Las Obreras recolectan néctar',
-    desc:'Miles de abejas obreras forrajean en un radio de 5km², polinizando cultivos, frutales y flora nativa de la Región de Coquimbo — nuestro primer servicio para campos agrícolas. El néctar se convierte en miel dentro de la colmena.',
-    stat:'5 km² polinizados', camIdx:2, dur:5.5 },
-  // 3: Frascos
-  { label:'SEMANAS 13 – 20', icon:'🍯', title:'El Panal crece en los Frascos',
-    desc:'Las obreras construyen panal hexagonal dentro de los frascos de vidrio invertidos, los llenan de miel cruda y los sellan con cera natural. Sin contacto con el aire.',
-    stat:'~1 kg miel en panal', camIdx:3, dur:6.0 },
-  // 4: Cosecha
-  { label:'¡LISTO PARA COSECHAR!', icon:'✨', title:'Cosecha Lista',
-    desc:'5 frascos de miel cruda en panal. Sin procesar, sin filtros, sin pasteurización. El cliente retira el frasco sellado y listo para consumir.',
-    stat:'5 × 200ml · $15.000 CLP', camIdx:0, dur:3.5 },
-];
-const SIM_TOTAL = SIM_DATA.reduce((s,d)=>s+d.dur, 0);
-
-let simActive = false, simPhase = 0, simPhaseT = 0, simTotalT = 0;
-
-function startSim() {
-  if (simActive) { stopSim(); return; }
-  simActive = true; simPhase = 0; simPhaseT = 0; simTotalT = 0;
-
-  // Reset honey to empty for the fill animation in phase 3
-  honeyRefs.forEach(h => { h.mesh.scale.y = 0.01; h.mesh.position.y = HONEY_BOT; });
-
-  // Hide UI
-  document.getElementById('topbar').style.opacity = '0';
-  document.getElementById('specs').style.opacity = '0';
-  document.getElementById('bottombar').style.opacity = '0';
-  document.getElementById('ctrl').style.display = 'none';
-  document.getElementById('back-btn').style.display = 'none';
-  cardEls.forEach(c => c.classList.remove('on'));
-
-  // Show sim UI
-  document.getElementById('sim-ui').classList.add('on');
-
-  // Cam
-  setCamTarget(SIM_POS[0], SIM_LOOK[0], 0.03);
-  updateSimUI(0);
-}
-
-function stopSim() {
-  simActive = false;
-  document.getElementById('sim-ui').classList.remove('on');
-  document.getElementById('topbar').style.opacity = '1';
-  document.getElementById('specs').style.opacity = '1';
-  document.getElementById('bottombar').style.opacity = '1';
-  document.getElementById('ctrl').style.display = '';
-
-  // Restore honey to full
-  honeyRefs.forEach(h => { h.mesh.scale.y = 1; h.mesh.position.y = h.baseY; });
-
-  // Hide egg particles
-  eggPool.forEach(e => { e.visible = false; e.material.opacity = 0; });
-
-  // Reset spotlight
-  simSpot.intensity = 0;
-
-  zoomMode = false;
-  setCamTarget(CAM_DEFAULT_POS, CAM_DEFAULT_LOOK, 0.035);
-  setTimeout(() => { if (!zoomMode && !simActive) releaseCam(); }, 2500);
-}
-
-function updateSimUI(phase) {
-  const d = SIM_DATA[phase];
-  const titleBig = document.getElementById('sim-title-big');
-  const card = document.getElementById('sim-card');
-  const counter = document.getElementById('sim-counter');
-
-  if (phase === 0) {
-    // Intro: big title, no card
-    titleBig.classList.add('vis');
-    document.getElementById('sim-big-sub').textContent = 'Simulación Anual · 20 Semanas';
-    card.classList.remove('vis');
-    counter.style.display = 'none';
-    document.querySelector('.sdot.active')?.classList.remove('active');
-  } else if (phase === 4) {
-    // Outro
-    titleBig.classList.add('vis');
-    document.getElementById('sim-big-sub').textContent = '¡Proceso completado! 🍯';
-    card.classList.remove('vis');
-    counter.style.display = 'none';
-    document.querySelectorAll('.sdot').forEach(d => d.classList.remove('active'));
-  } else {
-    titleBig.classList.remove('vis');
-    card.classList.add('vis');
-    document.getElementById('sim-phase-label').textContent = d.label;
-    document.getElementById('sim-phase-icon').textContent = d.icon;
-    document.getElementById('sim-phase-title').textContent = d.title;
-    document.getElementById('sim-phase-desc').textContent = d.desc;
-    if (d.stat) {
-      const st = document.getElementById('sim-stat');
-      st.textContent = d.stat; st.style.display = 'block';
-    } else {
-      document.getElementById('sim-stat').style.display = 'none';
-    }
-    // Dots
-    document.querySelectorAll('.sdot').forEach((dot,i) => dot.classList.toggle('active', i===phase-1));
-    // Counter
-    if (phase === 1) {
-      counter.style.display = 'block';
-      counter.classList.add('vis');
-    } else {
-      counter.style.display = 'none';
-      counter.classList.remove('vis');
-    }
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-//  ORBIT TOGGLE
-// ═══════════════════════════════════════════════════════════
-let isRotating = true;
-let pauseTimer = null;
-
-function toggleRotate() {
-  isRotating = !isRotating;
-  controls.autoRotate = isRotating;
-  const btn = document.getElementById('rotBtn');
-  btn.textContent = isRotating ? '⏸ Pausar rotación' : '▶ Reanudar rotación';
-  btn.classList.toggle('active', isRotating);
-}
-
-function resetCamera() {
-  if (simActive) return;
-  zoomMode = false; zoomIdx = -1;
-  document.getElementById('back-btn').style.display = 'none';
-  cardEls.forEach(c => c.classList.remove('on'));
-  hive.rotation.y = -Math.PI/8;
-  releaseCam();
-  camera.position.copy(CAM_DEFAULT_POS);
-  controls.target.copy(CAM_DEFAULT_LOOK);
-  controls.update();
-}
-
-canvas.addEventListener('pointerdown', () => {
-  if (simActive) return;
-  if (!isRotating) return;
-  controls.autoRotate = false;
-  clearTimeout(pauseTimer);
-  pauseTimer = setTimeout(() => { if (isRotating && !zoomMode) controls.autoRotate = true; }, 4000);
-});
-
-// ═══════════════════════════════════════════════════════════
-//  RESIZE
-// ═══════════════════════════════════════════════════════════
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// ═══════════════════════════════════════════════════════════
-//  ANIMATE
-// ═══════════════════════════════════════════════════════════
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-  const dt = Math.min(clock.getDelta(), 0.05);
-  const t = clock.elapsedTime;
-
-  // ── Camera lerp ──
-  if (camAnim.active) {
-    camera.position.lerp(camAnim.pos, camAnim.speed);
-    // Look at target via dummy
-    _dummy.position.copy(camera.position);
-    _dummy.lookAt(camAnim.look);
-    camera.quaternion.slerp(_dummy.quaternion, camAnim.speed * 1.1);
-  } else {
-    controls.update();
+    btn.disabled = false;
+    btn.textContent = tipo === 'cliente' ? 'Enviar mensaje →' : 'Postular →';
   }
 
-  // ── Hive rotation lerp (toward 0 when zoomed, maintained otherwise) ──
-  if (zoomMode || simActive) {
-    hive.rotation.y *= 0.93; // ease to 0
-  }
-
-  // ── Jar gentle float ──
-  jarsGroup.children.forEach((jg, i) => {
-    jg.position.y = jg.userData.baseY + Math.sin(t*0.65 + i*0.7) * 0.022;
+  // Nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--amber)' : 'var(--muted)';
+    });
   });
-
-  // ── Honey drip ──
-  drip.position.y = (jarYBase - JAR_H/2 - 0.08) + Math.sin(t*0.9) * 0.012;
-
-  // ── Top light pulse ──
-  tl.intensity = 3.5 + Math.sin(t*1.1) * 0.7;
-
-  // ── Pollen particles ──
-  pollenData.forEach(p => {
-    const d = p.userData;
-    d.angle += d.speed * 0.012;
-    const vOff = Math.sin(t*d.vertSpeed + d.vertOff) * 0.25;
-    p.position.set(
-      Math.cos(d.angle)*d.r,
-      d.baseY + (t*d.vertSpeed*0.6) % (TOTAL+2) - 0.5 + vOff,
-      Math.sin(d.angle)*d.r
-    );
-    // Faster/brighter during phase 2
-    if (simActive && simPhase === 2) {
-      d.angle += d.speed * 0.03;
-      p.material.emissiveIntensity = 0.9 + Math.sin(t*3)*0.3;
-    } else {
-      p.material.emissiveIntensity = 0.6;
-    }
-  });
-
-  // ──────────────────────────────────────────
-  //  SIMULATION LOGIC
-  // ──────────────────────────────────────────
-  if (simActive) { try {
-    simPhaseT += dt;
-    simTotalT += dt;
-    const curDur = SIM_DATA[simPhase].dur;
-
-    // Progress bar (overall)
-    const totalProgress = Math.min(simTotalT / SIM_TOTAL, 1);
-    document.getElementById('sim-prog-fill').style.width = (totalProgress * 100) + '%';
-
-    // Advance phase
-    if (simPhaseT >= curDur) {
-      simPhase++;
-      simPhaseT = 0;
-      if (simPhase >= SIM_DATA.length) { stopSim(); return; }
-      updateSimUI(simPhase);
-      // Move camera for new phase
-      const d = SIM_DATA[simPhase];
-      setCamTarget(SIM_POS[d.camIdx], SIM_LOOK[d.camIdx], 0.032);
-      // Spotlight
-      if (simPhase === 1) { simSpot.target.position.set(0, y1, 0); simSpot.intensity = 7; }
-      else if (simPhase === 2) { simSpot.target.position.set(0, entrY, -D/2-1); simSpot.intensity = 8; }
-      else if (simPhase === 3) { simSpot.target.position.set(0, ytop+0.5, 0); simSpot.intensity = 10; }
-      else { simSpot.intensity = 0; }
-      simSpot.target.updateMatrixWorld();
-    }
-
-    const phaseProgress = Math.min(simPhaseT / curDur, 1);
-
-    // ── Phase 1: Egg animation ──
-    if (simPhase === 1) {
-      eggPool.forEach(egg => {
-        const eD = egg.userData;
-        const eT = (simPhaseT - eD.delay + curDur) % eD.cycle;
-        const p = Math.min(1, eT / (eD.cycle * 0.85));
-        egg.visible = true;
-        egg.material.opacity = p < 0.08 ? p/0.08 : (p > 0.92 ? (1-p)/0.08 : 1);
-        egg.position.set(
-          eD.frameX + eD.side * Math.sin(p * Math.PI * 1.5) * 0.3,
-          y1 + H1/2 - 0.12 - p * (H1 * 0.72),
-          eD.side
-        );
-      });
-      // Counter
-      const count = Math.floor(phaseProgress * 6000);
-      document.getElementById('sim-counter').textContent = count.toLocaleString() + ' huevos';
-      // Frame glow
-      frameMeshes.forEach((fr,i) => {
-        if (fr.material === M.frame) {
-          fr.material.emissive = new THREE.Color(0x3a2000);
-          fr.material.emissiveIntensity = phaseProgress * 0.2;
-        }
-      });
-    }
-
-    // ── Phase 2: Enhanced entrance glow ──
-    if (simPhase === 2) {
-      const pulse = 0.4 + Math.sin(t*6)*0.35;
-      entG.material.emissiveIntensity = 0.4 + pulse;
-      eg.intensity = 1.5 + pulse * 2.5;
-    } else {
-      entG.material.emissiveIntensity = 0.55;
-      eg.intensity = 1.2;
-    }
-
-    // ── Phase 3: Honey fill animation ──
-    if (simPhase === 3) {
-      const jarDelay = 0.15; // stagger between jars
-      honeyRefs.forEach((h, idx) => {
-        const start = idx * jarDelay;
-        const end = 1.0 - (4-idx) * 0.02;
-        const jProg = Math.max(0, Math.min(1, (phaseProgress - start) / (end - start)));
-        const ease = 1 - Math.pow(1 - jProg, 3); // ease-out cubic
-        h.mesh.scale.y = Math.max(0.01, ease);
-        h.mesh.position.y = HONEY_BOT + ease * HONEY_H / 2;
-        h.mat.emissiveIntensity = 0.3 + ease * 0.7;
-        // Cap jar material opacity to simulate glass filling
-        jarsGroup.children[idx].children[0].material.opacity = 0.45 + ease * 0.15;
-      });
-      // Top light intensifies with fill
-      tl.intensity = 3.5 + phaseProgress * 4.0 + Math.sin(t*1.1)*0.5;
-    }
-
-    // ── Phase 4: Victory pulse ──
-    if (simPhase === 4) {
-      const glow = 1 + Math.sin(t*2)*0.4;
-      honeyRefs.forEach(h => { h.mat.emissiveIntensity = 0.7 + glow*0.3; });
-      tl.intensity = 5.5 + glow*2;
-    }
-  } catch(simErr) { console.error('SIM error:', simErr); } }
-
-  // Luz de cámara y paredes translúcidas (siempre, con transición suave)
-  camLight.position.copy(camera.position);
-  camLight.intensity += ((simActive ? 3.2 : 0) - camLight.intensity) * 0.06;
-  fadeWalls();
-
-  updateHotspots();
-  renderer.render(scene, camera);
-}
-
-// ═══════════════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════════════
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const l = document.getElementById('loading');
-    l.style.opacity = '0';
-    setTimeout(() => l.style.display = 'none', 550);
-  }, 1300);
-});
-
-animate();
 </script>
 </body>
 </html>
