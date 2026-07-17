@@ -419,7 +419,7 @@ controls.autoRotate = true;
 controls.autoRotateSpeed = 0.85;
 controls.minDistance = 3.5;
 controls.maxDistance = 22;
-controls.maxPolarAngle = Math.PI * 0.82;
+controls.maxPolarAngle = Math.PI * 0.52;  // nunca bajo el nivel del suelo
 controls.minPolarAngle = 0.08;
 controls.update();
 
@@ -465,18 +465,18 @@ const ZOOM_LOOK = [
 
 // Sim camera targets per phase (0=intro,1=cría,2=miel,3=frascos,4=cosecha)
 const SIM_POS = [
-  new THREE.Vector3(7.5, 2.0, 10),
-  new THREE.Vector3(5.5, y1 + 0.5, 7.5),
-  new THREE.Vector3(-4.5, y2 + 0.2, -6.0),
-  new THREE.Vector3(3.0, ytop + 1.1, 4.5),
-  new THREE.Vector3(7.5, 2.8, 10),
+  new THREE.Vector3(8.5, 3.2, 11),                 // intro: plano general elevado
+  new THREE.Vector3(4.6, 1.0, 6.2),                // cría: picado suave a la caja inferior
+  new THREE.Vector3(-3.2, 1.6, -6.8),              // entrada: frente trasero, elevado
+  new THREE.Vector3(3.6, 4.2, 4.8),                // frascos: vista aérea a los frascos
+  new THREE.Vector3(8.5, 3.0, 11),                 // cosecha: plano general de cierre
 ];
 const SIM_LOOK = [
-  new THREE.Vector3(0, 0.4, 0),
-  new THREE.Vector3(0, y1, 0),
-  new THREE.Vector3(0, y2, -D/2 - 0.1),
-  new THREE.Vector3(0, ytop + 0.2, 0),
-  new THREE.Vector3(0, 0.8, 0),
+  new THREE.Vector3(0, 0.3, 0),
+  new THREE.Vector3(0, -1.0, 0),
+  new THREE.Vector3(0, 0.0, -D/2),
+  new THREE.Vector3(0, 2.2, 0),
+  new THREE.Vector3(0, 0.5, 0),
 ];
 
 const camAnim = {
@@ -754,8 +754,8 @@ scene.add(camLight);
 // Paredes translúcidas durante la simulación (efecto rayos X para ver el interior)
 [M.crias, M.transito, M.frascos].forEach(m => { m.transparent = true; m.opacity = 1; });
 function fadeWalls() {
-  const o1 = (simActive && simPhase === 1) ? 0.15 : 1;
-  const o2 = (simActive && simPhase === 2) ? 0.20 : 1;
+  const o1 = (simActive && simPhase === 1) ? 0.38 : 1;
+  const o2 = (simActive && simPhase === 2) ? 0.42 : 1;
   M.crias.opacity    += (o1 - M.crias.opacity)    * 0.07;
   M.transito.opacity += (o2 - M.transito.opacity) * 0.07;
 }
@@ -894,7 +894,7 @@ function startSim() {
   document.getElementById('sim-ui').classList.add('on');
 
   // Cam
-  setCamTarget(SIM_POS[0], SIM_LOOK[0], 0.03);
+  setCamTarget(SIM_POS[0], SIM_LOOK[0], 0.05);
   updateSimUI(0);
 }
 
@@ -1085,11 +1085,11 @@ function animate() {
       updateSimUI(simPhase);
       // Move camera for new phase
       const d = SIM_DATA[simPhase];
-      setCamTarget(SIM_POS[d.camIdx], SIM_LOOK[d.camIdx], 0.032);
+      setCamTarget(SIM_POS[d.camIdx], SIM_LOOK[d.camIdx], 0.05);
       // Spotlight
-      if (simPhase === 1) { simSpot.target.position.set(0, y1, 0); simSpot.intensity = 7; }
-      else if (simPhase === 2) { simSpot.target.position.set(0, entrY, -D/2-1); simSpot.intensity = 8; }
-      else if (simPhase === 3) { simSpot.target.position.set(0, ytop+0.5, 0); simSpot.intensity = 10; }
+      if (simPhase === 1) { simSpot.position.set(0, ytop+5, 5); simSpot.target.position.set(0, y1, 0); simSpot.intensity = 7; }
+      else if (simPhase === 2) { simSpot.position.set(0, ytop+5, -6); simSpot.target.position.set(0, entrY, -D/2-1); simSpot.intensity = 9; }
+      else if (simPhase === 3) { simSpot.position.set(0, ytop+5, 5); simSpot.target.position.set(0, ytop+0.5, 0); simSpot.intensity = 10; }
       else { simSpot.intensity = 0; }
       simSpot.target.updateMatrixWorld();
     }
@@ -1160,7 +1160,7 @@ function animate() {
 
   // Luz de cámara y paredes translúcidas (siempre, con transición suave)
   camLight.position.copy(camera.position);
-  camLight.intensity += ((simActive ? 3.2 : 0) - camLight.intensity) * 0.06;
+  camLight.intensity += ((simActive ? 4.5 : 0) - camLight.intensity) * 0.14;
   fadeWalls();
 
   updateHotspots();
