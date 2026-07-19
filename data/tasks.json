@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-19T06:14:42.386Z",
+  "updated_at": "2026-07-19T15:35:53.865Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -148,11 +148,11 @@
       "id": "YUF-2",
       "member": "yufeng",
       "title": "Identificar y evaluar proveedores PETG de calidad",
-      "status": "pendiente",
+      "status": "completada",
       "blocker": null,
       "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "updated_by": "yufeng",
+      "updated_at": "2026-07-19T15:35:53.865Z"
     },
     {
       "id": "YUF-3",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-07-19T15:35:53.865Z",
+      "member": "yufeng",
+      "taskId": "YUF-2",
+      "from": "pendiente",
+      "to": "completada",
+      "blocker": null,
+      "note": null
+    },
     {
       "ts": "2026-07-19T06:14:42.386Z",
       "member": "andres",
