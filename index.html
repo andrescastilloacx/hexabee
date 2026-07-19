@@ -410,6 +410,36 @@
   .team-role { color: var(--amber); font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 0.6rem; font-family: 'Arial', sans-serif; }
   .team-bio { color: var(--muted); font-size: 0.85rem; line-height: 1.5; font-family: 'Arial', sans-serif; }
 
+  /* ── TRACKER EQUIPO ── */
+  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+  .dash-card { border: 1px solid rgba(245,166,35,0.15); border-radius: 8px; padding: 1rem 1.2rem; text-align: left; font-family: Arial, sans-serif; background: rgba(245,166,35,0.03); }
+  .dash-name { color: var(--white); font-size: 0.85rem; margin-bottom: 0.2rem; }
+  .dash-pct { color: var(--amber); font-size: 1.4rem; font-weight: bold; }
+  .dash-bar { height: 6px; background: rgba(245,166,35,0.12); border-radius: 3px; margin-top: 0.6rem; overflow: hidden; }
+  .dash-bar-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--gold)); border-radius: 3px; width: 0; transition: width 0.8s ease; }
+  .dash-meta { color: var(--muted); font-size: 0.7rem; margin-top: 0.4rem; }
+  .task-chip { display: inline-block; font-size: 0.6rem; letter-spacing: 0.05em; padding: 0.1rem 0.45rem; border-radius: 10px; margin-right: 0.4rem; vertical-align: middle; white-space: nowrap; font-family: Arial, sans-serif; }
+  .chip-pendiente { background: rgba(154,128,96,0.15); color: var(--muted); border: 1px solid rgba(154,128,96,0.35); }
+  .chip-en_progreso { background: rgba(245,166,35,0.15); color: var(--amber); border: 1px solid rgba(245,166,35,0.4); }
+  .chip-bloqueada { background: rgba(220,60,60,0.15); color: #E06060; border: 1px solid rgba(220,60,60,0.4); }
+  .chip-completada { background: rgba(80,180,90,0.15); color: #6FCB7A; border: 1px solid rgba(80,180,90,0.4); }
+  .task-meta { display: block; color: var(--muted); font-size: 0.65rem; margin-top: 0.15rem; }
+  .task-done { text-decoration: line-through; opacity: 0.6; }
+  .hb-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.78); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 1rem; }
+  .hb-modal-overlay.open { display: flex; }
+  .hb-modal { background: var(--dark2); border: 1px solid rgba(245,166,35,0.3); border-radius: 10px; max-width: 480px; width: 100%; padding: 1.8rem; font-family: Arial, sans-serif; max-height: 90vh; overflow-y: auto; }
+  .hb-modal h3 { color: var(--white); margin-bottom: 0.3rem; }
+  .hb-modal .hb-sub { color: var(--muted); font-size: 0.75rem; margin-bottom: 0.8rem; }
+  .hb-modal label { display: block; color: var(--muted); font-size: 0.75rem; margin: 0.8rem 0 0.25rem; }
+  .hb-modal select, .hb-modal input, .hb-modal textarea { width: 100%; background: var(--dark3); color: var(--text); border: 1px solid rgba(245,166,35,0.25); border-radius: 6px; padding: 0.55rem 0.7rem; font-size: 0.85rem; font-family: Arial, sans-serif; }
+  .hb-modal textarea { resize: vertical; min-height: 60px; }
+  .hb-actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; }
+  .hb-btn { flex: 1; padding: 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.85rem; font-family: Arial, sans-serif; }
+  .hb-btn-primary { background: var(--amber); color: var(--dark); font-weight: bold; }
+  .hb-btn-primary:disabled { opacity: 0.5; cursor: wait; }
+  .hb-btn-ghost { background: none; border: 1px solid rgba(245,166,35,0.3); color: var(--muted); }
+  .hb-msg { margin-top: 0.9rem; font-size: 0.8rem; display: none; line-height: 1.5; }
+
   /* ── ORIGIN ── */
   #origen { background: var(--dark2); }
   .origin-inner {
@@ -908,6 +938,10 @@
       <h2 class="section-title">Las personas detrás de HEXABEE</h2>
       <p class="section-body">Cuatro socios con visión compartida: combinar tecnología, diseño y apicultura para crear el producto apícola más diferenciado de Chile.</p>
     </div>
+    <div class="reveal" id="hb-dashboard" style="display:none">
+      <div class="dash-grid" id="hb-dash-grid"></div>
+    </div>
+
     <div class="team-grid">
 
       <div class="team-card reveal">
@@ -918,7 +952,7 @@
         <span class="expand-toggle" onclick="togglePanel('panel-andres', this)">Ver rol y tareas ▾</span>
         <div class="expand-panel" id="panel-andres">
           <div class="role-desc">Responsable de viabilidad del producto, control financiero del negocio, coordinación del equipo y roadmap hacia franquicia. Command center de HEXABEE.</div>
-          <ul class="task-list">
+          <ul class="task-list" data-member="andres">
             <li>Finalizar modelo 3D con estándares mínimos para bienestar de abejas</li>
             <li>Asegurar transporte e instalación de panales en parcela</li>
             <li>Implementar Linear como control central del equipo</li>
@@ -937,7 +971,7 @@
         <span class="expand-toggle" onclick="togglePanel('panel-olga', this)">Ver rol y tareas ▾</span>
         <div class="expand-panel" id="panel-olga">
           <div class="role-desc">Lidera la validación en terreno del prototipo de panal hexagonal. Responsable de asegurar que el panal funciona óptimamente para las abejas.</div>
-          <ul class="task-list">
+          <ul class="task-list" data-member="olga">
             <li>Adaptar parcela en Pan de Azúcar para 10 panales</li>
             <li>Identificar e implementar árboles/arbustos de apoyo</li>
             <li>Desarrollar protocolo de observación semanal</li>
@@ -955,7 +989,7 @@
         <span class="expand-toggle" onclick="togglePanel('panel-yufeng', this)">Ver rol y tareas ▾</span>
         <div class="expand-panel" id="panel-yufeng">
           <div class="role-desc">Experto en optimización de proceso, selección de materiales y viabilidad de manufactura del sistema modular impreso en 3D.</div>
-          <ul class="task-list">
+          <ul class="task-list" data-member="yufeng">
             <li>Establecer estándares de calidad PETG (tolerancias, acabado)</li>
             <li>Identificar y evaluar proveedores PETG de calidad</li>
             <li>Optimizar el modelo 3D (menos desperdicio, mejores encajes)</li>
@@ -973,7 +1007,7 @@
         <span class="expand-toggle" onclick="togglePanel('panel-alvaro', this)">Ver rol y tareas ▾</span>
         <div class="expand-panel" id="panel-alvaro">
           <div class="role-desc">Asegura que HEXABEE sea una empresa viable, ordenada y elegible para subsidios. Responsable de contabilidad y análisis financiero para decisiones.</div>
-          <ul class="task-list">
+          <ul class="task-list" data-member="alvaro">
             <li>Constituir SpA HEXABEE (estructura legal mínima)</li>
             <li>Registrar apiario en SAG</li>
             <li>Registrar marca HEXABEE en INAPI</li>
@@ -984,10 +1018,12 @@
       </div>
     </div>
 
-    <p class="reveal" style="text-align:center;margin-top:2.5rem;color:var(--muted);font-size:0.8rem;font-family:Arial,sans-serif">
-      ¿Eres parte del equipo? El seguimiento de estados, comentarios y bloqueos se gestiona en el
-      <a href="https://lucky-gingersnap-f5db20.netlify.app" target="_blank" style="color:var(--amber)">portal interno</a>.
-    </p>
+    <div class="reveal" style="text-align:center;margin-top:2.5rem">
+      <button class="hb-btn hb-btn-primary" style="flex:none;padding:0.85rem 1.8rem" onclick="hbOpenModal()">📋 Reportar avance</button>
+      <p style="color:var(--muted);font-size:0.75rem;font-family:Arial,sans-serif;margin-top:0.7rem">
+        Solo socios · requiere PIN personal · cada reporte queda registrado con fecha, autor y trazabilidad completa.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1138,6 +1174,149 @@
         ? 'var(--amber)' : 'var(--muted)';
     });
   });
+</script>
+
+<!-- ── TRACKER EQUIPO: modal de reporte ── -->
+<div class="hb-modal-overlay" id="hb-overlay" onclick="if(event.target===this)hbCloseModal()">
+  <div class="hb-modal">
+    <h3>📋 Reportar avance</h3>
+    <div class="hb-sub">Tu reporte se guarda en el repositorio con trazabilidad completa.</div>
+    <form id="hb-form" onsubmit="hbSubmit(event)">
+      <label for="hb-member">Quién eres</label>
+      <select id="hb-member" required onchange="hbFillTasks()"><option value="">Selecciona…</option></select>
+      <label for="hb-task">Tu tarea</label>
+      <select id="hb-task" required><option value="">Selecciona tu nombre primero…</option></select>
+      <label for="hb-status">Nuevo estado</label>
+      <select id="hb-status" required>
+        <option value="pendiente">Pendiente</option>
+        <option value="en_progreso">En progreso</option>
+        <option value="completada">Completada</option>
+        <option value="bloqueada">Bloqueada</option>
+      </select>
+      <label for="hb-blocker">¿Hay blocker? (opcional)</label>
+      <input id="hb-blocker" placeholder="Qué te está bloqueando…">
+      <label for="hb-note">Comentario (opcional)</label>
+      <textarea id="hb-note" placeholder="Agrega detalles si es necesario…"></textarea>
+      <label for="hb-pin">Tu PIN</label>
+      <input id="hb-pin" type="password" inputmode="numeric" autocomplete="off" required placeholder="PIN personal">
+      <div class="hb-actions">
+        <button type="button" class="hb-btn hb-btn-ghost" onclick="hbCloseModal()">Cancelar</button>
+        <button type="submit" class="hb-btn hb-btn-primary" id="hb-submit">Guardar y sincronizar</button>
+      </div>
+      <div class="hb-msg" id="hb-msg"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ⚙️ CONFIG: si tu sitio de Netlify cambia de nombre, actualiza apiUrl.
+  const HB_CONFIG = {
+    dataUrl: 'data/tasks.json',
+    apiUrl: 'https://lucky-gingersnap-f5db20.netlify.app/.netlify/functions/update-task'
+  };
+  const WEIGHTS = { completada: 1, en_progreso: 0.5, bloqueada: 0, pendiente: 0 };
+  const LABELS = { pendiente: 'Pendiente', en_progreso: 'En progreso', bloqueada: 'Bloqueada', completada: 'Completada' };
+  let hbData = null;
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function pct(tasks) { if (!tasks.length) return 0; return Math.round(100 * tasks.reduce((a, t) => a + (WEIGHTS[t.status] || 0), 0) / tasks.length); }
+
+  async function hbLoad() {
+    try {
+      const r = await fetch(HB_CONFIG.dataUrl + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) return; // sin datos → la página muestra las listas estáticas
+      hbData = await r.json();
+      hbRender();
+    } catch (e) { /* fallback silencioso a contenido estático */ }
+  }
+
+  function dashCard(name, p, tasks) {
+    const done = tasks.filter(t => t.status === 'completada').length;
+    const blocked = tasks.filter(t => t.status === 'bloqueada').length;
+    return '<div class="dash-card"><div class="dash-name">' + name + '</div><div class="dash-pct">' + p +
+      '%</div><div class="dash-bar"><div class="dash-bar-fill" data-w="' + p + '"></div></div><div class="dash-meta">' +
+      done + '/' + tasks.length + ' completadas' + (blocked ? ' · ⛔ ' + blocked + ' con blocker' : '') + '</div></div>';
+  }
+
+  function hbRender() {
+    const members = hbData.members, tasks = hbData.tasks;
+    document.querySelectorAll('ul.task-list[data-member]').forEach(ul => {
+      const mine = tasks.filter(t => t.member === ul.dataset.member);
+      if (!mine.length) return;
+      ul.innerHTML = mine.map(t => {
+        let meta = '';
+        if (t.status === 'bloqueada' && t.blocker) meta += '<span class="task-meta">⛔ ' + esc(t.blocker) + '</span>';
+        if (t.note) meta += '<span class="task-meta">💬 ' + esc(t.note) + '</span>';
+        if (t.updated_at) {
+          const who = t.updated_by && members[t.updated_by] ? members[t.updated_by].name.split(' ')[0] : (t.updated_by || '');
+          meta += '<span class="task-meta">Últ. act: ' + t.updated_at.slice(0, 10) + (who ? ' · ' + who : '') + '</span>';
+        }
+        return '<li><span class="task-chip chip-' + t.status + '">' + LABELS[t.status] + '</span><span class="' +
+          (t.status === 'completada' ? 'task-done' : '') + '">' + esc(t.title) + '</span>' + meta + '</li>';
+      }).join('');
+    });
+    const grid = document.getElementById('hb-dash-grid');
+    let out = dashCard('🐝 Equipo HEXABEE', pct(tasks), tasks);
+    Object.keys(members).forEach(k => {
+      const mine = tasks.filter(t => t.member === k);
+      out += dashCard(members[k].emoji + ' ' + members[k].name.split(' ')[0], pct(mine), mine);
+    });
+    grid.innerHTML = out;
+    document.getElementById('hb-dashboard').style.display = 'block';
+    requestAnimationFrame(() => grid.querySelectorAll('.dash-bar-fill').forEach(f => { f.style.width = f.dataset.w + '%'; }));
+    const ms = document.getElementById('hb-member');
+    if (ms.options.length <= 1) Object.keys(members).forEach(k => {
+      const o = document.createElement('option'); o.value = k; o.textContent = members[k].name; ms.appendChild(o);
+    });
+  }
+
+  window.hbOpenModal = function () {
+    document.getElementById('hb-overlay').classList.add('open');
+    if (!hbData) hbLoad();
+  };
+  window.hbCloseModal = function () {
+    document.getElementById('hb-overlay').classList.remove('open');
+    document.getElementById('hb-msg').style.display = 'none';
+  };
+  window.hbFillTasks = function () {
+    const m = val('hb-member'), ts = document.getElementById('hb-task');
+    ts.innerHTML = '';
+    if (!hbData || !m) { ts.innerHTML = '<option value="">Selecciona tu nombre primero…</option>'; return; }
+    hbData.tasks.filter(t => t.member === m).forEach(t => {
+      const o = document.createElement('option'); o.value = t.id; o.textContent = t.title; ts.appendChild(o);
+    });
+  };
+  window.hbSubmit = async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('hb-submit'), msg = document.getElementById('hb-msg');
+    btn.disabled = true; btn.textContent = 'Sincronizando…'; msg.style.display = 'none';
+    try {
+      const payload = { member: val('hb-member'), taskId: val('hb-task'), status: val('hb-status'), blocker: val('hb-blocker'), note: val('hb-note'), pin: val('hb-pin') };
+      const r = await fetch(HB_CONFIG.apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const out = await r.json().catch(() => ({}));
+      msg.style.display = 'block';
+      if (r.ok) {
+        msg.style.color = '#6FCB7A';
+        msg.textContent = '✓ Guardado y registrado. El cambio será visible públicamente en 1–3 minutos (redeploy automático).';
+        const t = hbData && hbData.tasks.find(t => t.id === payload.taskId);
+        if (t) { t.status = payload.status; t.blocker = payload.blocker || null; t.note = payload.note || ''; t.updated_by = payload.member; t.updated_at = new Date().toISOString(); hbRender(); }
+        document.getElementById('hb-pin').value = '';
+      } else if (r.status === 401) {
+        msg.style.color = '#E06060'; msg.textContent = '✕ PIN incorrecto.';
+      } else {
+        msg.style.color = '#E06060'; msg.textContent = '✕ Error: ' + (out.error || r.status);
+      }
+    } catch (err) {
+      msg.style.display = 'block'; msg.style.color = '#E06060';
+      msg.textContent = '✕ Sin conexión con el servidor de reportes.';
+    }
+    btn.disabled = false; btn.textContent = 'Guardar y sincronizar';
+  };
+
+  hbLoad();
+})();
 </script>
 </body>
 </html>
