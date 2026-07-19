@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "updated_at": "2026-07-19T05:32:29.919664Z",
+  "members": {
+    "andres": {
+      "name": "Andrés Castillo",
+      "emoji": "🧠",
+      "role": "COO & Visionary"
+    },
+    "olga": {
+      "name": "Olga Abarca",
+      "emoji": "🐝",
+      "role": "Chief Apiculture Officer"
+    },
+    "yufeng": {
+      "name": "Yufeng Ley",
+      "emoji": "🖨️",
+      "role": "Hardware & Manufacturing"
+    },
+    "alvaro": {
+      "name": "Álvaro Román",
+      "emoji": "⚖️",
+      "role": "CFO & Compliance Officer"
+    }
+  },
+  "tasks": [
+    {
+      "id": "AND-1",
+      "member": "andres",
+      "title": "Finalizar modelo 3D con estándares mínimos para bienestar de abejas",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "AND-2",
+      "member": "andres",
+      "title": "Asegurar transporte e instalación de panales en parcela",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "AND-3",
+      "member": "andres",
+      "title": "Implementar Linear como control central del equipo",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "AND-4",
+      "member": "andres",
+      "title": "Crear flujo de caja + estado de resultados",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "AND-5",
+      "member": "andres",
+      "title": "Definir presupuesto preliminar (B2C/B2B)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "AND-6",
+      "member": "andres",
+      "title": "Definir roadmap: Fase 2 hacia franquicia",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "OLG-1",
+      "member": "olga",
+      "title": "Adaptar parcela en Pan de Azúcar para 10 panales",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "OLG-2",
+      "member": "olga",
+      "title": "Identificar e implementar árboles/arbustos de apoyo",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "OLG-3",
+      "member": "olga",
+      "title": "Desarrollar protocolo de observación semanal",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "OLG-4",
+      "member": "olga",
+      "title": "Validar comportamiento de abejas en panal hexagonal",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "OLG-5",
+      "member": "olga",
+      "title": "Contacto mensual con apicultores locales para feedback",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "YUF-1",
+      "member": "yufeng",
+      "title": "Establecer estándares de calidad PETG (tolerancias, acabado)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "YUF-2",
+      "member": "yufeng",
+      "title": "Identificar y evaluar proveedores PETG de calidad",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "YUF-3",
+      "member": "yufeng",
+      "title": "Optimizar el modelo 3D (menos desperdicio, mejores encajes)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "YUF-4",
+      "member": "yufeng",
+      "title": "Documentar proceso de impresión (settings, tiempos, costos)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "YUF-5",
+      "member": "yufeng",
+      "title": "Proyectar capacidad escalable (500 → 5000 panales/año)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "ALV-1",
+      "member": "alvaro",
+      "title": "Constituir SpA HEXABEE (estructura legal mínima)",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "ALV-2",
+      "member": "alvaro",
+      "title": "Registrar apiario en SAG",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "ALV-3",
+      "member": "alvaro",
+      "title": "Registrar marca HEXABEE en INAPI",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "ALV-4",
+      "member": "alvaro",
+      "title": "Mapear subsidios/financiamiento estatal disponible",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    },
+    {
+      "id": "ALV-5",
+      "member": "alvaro",
+      "title": "Contabilidad + proyecciones de ingresos",
+      "status": "pendiente",
+      "blocker": null,
+      "note": "",
+      "updated_by": null,
+      "updated_at": null
+    }
+  ],
+  "log": []
+}
