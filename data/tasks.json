@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-19T05:32:29.919664Z",
+  "updated_at": "2026-07-19T06:05:17.160Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -48,11 +48,11 @@
       "id": "AND-3",
       "member": "andres",
       "title": "Implementar Linear como control central del equipo",
-      "status": "pendiente",
+      "status": "en_progreso",
       "blocker": null,
       "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "updated_by": "andres",
+      "updated_at": "2026-07-19T06:05:17.160Z"
     },
     {
       "id": "AND-4",
@@ -235,5 +235,15 @@
       "updated_at": null
     }
   ],
-  "log": []
+  "log": [
+    {
+      "ts": "2026-07-19T06:05:17.160Z",
+      "member": "andres",
+      "taskId": "AND-3",
+      "from": "pendiente",
+      "to": "en_progreso",
+      "blocker": null,
+      "note": null
+    }
+  ]
 }
