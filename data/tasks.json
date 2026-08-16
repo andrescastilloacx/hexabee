@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-16T16:25:08.910Z",
+  "updated_at": "2026-08-16T16:25:27.130Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -152,7 +152,7 @@
       "blocker": null,
       "note": "",
       "updated_by": "yufeng",
-      "updated_at": "2026-07-19T15:35:53.865Z"
+      "updated_at": "2026-08-16T16:25:27.130Z"
     },
     {
       "id": "YUF-3",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-08-16T16:25:27.130Z",
+      "member": "yufeng",
+      "taskId": "YUF-2",
+      "from": "completada",
+      "to": "completada",
+      "blocker": null,
+      "note": null
+    },
     {
       "ts": "2026-08-16T16:25:08.910Z",
       "member": "yufeng",
