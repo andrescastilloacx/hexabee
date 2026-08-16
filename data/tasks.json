@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-16T16:21:51.007Z",
+  "updated_at": "2026-08-16T16:23:05.698Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -98,11 +98,11 @@
       "id": "OLG-2",
       "member": "olga",
       "title": "Identificar e implementar árboles/arbustos de apoyo",
-      "status": "pendiente",
+      "status": "completada",
       "blocker": null,
       "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "updated_by": "olga",
+      "updated_at": "2026-08-16T16:23:05.698Z"
     },
     {
       "id": "OLG-3",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-08-16T16:23:05.698Z",
+      "member": "olga",
+      "taskId": "OLG-2",
+      "from": "pendiente",
+      "to": "completada",
+      "blocker": null,
+      "note": null
+    },
     {
       "ts": "2026-08-16T16:21:51.007Z",
       "member": "olga",
