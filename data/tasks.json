@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-19T15:35:53.865Z",
+  "updated_at": "2026-08-16T11:45:14.992Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -28,11 +28,11 @@
       "id": "AND-1",
       "member": "andres",
       "title": "Finalizar modelo 3D con estándares mínimos para bienestar de abejas",
-      "status": "pendiente",
+      "status": "completada",
       "blocker": null,
       "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "updated_by": "andres",
+      "updated_at": "2026-08-16T11:45:14.992Z"
     },
     {
       "id": "AND-2",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-08-16T11:45:14.992Z",
+      "member": "andres",
+      "taskId": "AND-1",
+      "from": "pendiente",
+      "to": "completada",
+      "blocker": null,
+      "note": null
+    },
     {
       "ts": "2026-07-19T15:35:53.865Z",
       "member": "yufeng",
