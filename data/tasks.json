@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-16T16:40:55.981Z",
+  "updated_at": "2026-08-16T16:42:26.799Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -38,11 +38,11 @@
       "id": "AND-2",
       "member": "andres",
       "title": "Asegurar transporte e instalación de panales en parcela",
-      "status": "pendiente",
+      "status": "en_progreso",
       "blocker": null,
       "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "updated_by": "andres",
+      "updated_at": "2026-08-16T16:42:26.799Z"
     },
     {
       "id": "AND-3",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-08-16T16:42:26.799Z",
+      "member": "andres",
+      "taskId": "AND-2",
+      "from": "pendiente",
+      "to": "en_progreso",
+      "blocker": null,
+      "note": null
+    },
     {
       "ts": "2026-08-16T16:40:55.981Z",
       "member": "andres",
