@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-16T16:25:27.130Z",
+  "updated_at": "2026-08-16T16:26:43.114Z",
   "members": {
     "andres": {
       "name": "Andrés Castillo",
@@ -158,11 +158,11 @@
       "id": "YUF-3",
       "member": "yufeng",
       "title": "Optimizar el modelo 3D (menos desperdicio, mejores encajes)",
-      "status": "pendiente",
-      "blocker": null,
-      "note": "",
-      "updated_by": null,
-      "updated_at": null
+      "status": "en_progreso",
+      "blocker": "sin bloqueo",
+      "note": "en proceso de obtener info sobre inyección y termoformado plastico.",
+      "updated_by": "yufeng",
+      "updated_at": "2026-08-16T16:26:43.114Z"
     },
     {
       "id": "YUF-4",
@@ -236,6 +236,15 @@
     }
   ],
   "log": [
+    {
+      "ts": "2026-08-16T16:26:43.114Z",
+      "member": "yufeng",
+      "taskId": "YUF-3",
+      "from": "pendiente",
+      "to": "en_progreso",
+      "blocker": "sin bloqueo",
+      "note": "en proceso de obtener info sobre inyección y termoformado plastico."
+    },
     {
       "ts": "2026-08-16T16:25:27.130Z",
       "member": "yufeng",
