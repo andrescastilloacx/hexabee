@@ -125,7 +125,8 @@
     </div>
 
     <div data-panel="gantt" class="card">
-      <h2>Carta Gantt de propuestas</h2>
+      <h2>Carta Gantt · propuestas aprobadas (8/8 checks)</h2>
+      <p class="muted" id="evalNote" style="margin:-0.4rem 0 0.8rem"></p>
       <div class="gantt" id="gantt"></div>
       <div class="legend">
         <span><i></i>Con fecha de término</span>
@@ -160,7 +161,7 @@
     </div>
 
     <div data-panel="mine" class="card hidden">
-      <h2>Actualizar una propuesta</h2>
+      <h2>Actualizar una propuesta aprobada</h2>
       <p class="muted">Solo puedes editar las tuyas (Andrés puede editar todas).</p>
       <form id="updForm">
         <label for="up">Propuesta</label>
@@ -168,7 +169,6 @@
         <div class="row2">
           <div><label for="ue">Etapa</label>
             <select id="ue">
-              <option>Idea</option><option>Evaluando</option><option>Validando demanda</option>
               <option>Lista para vender</option><option>Vendiendo</option><option>Pausada</option>
             </select></div>
           <div><label for="ua">Avance %</label><input id="ua" type="number" min="0" max="100" step="5"></div>
@@ -178,18 +178,7 @@
         <div style="margin-top:1rem"><button class="btn" id="updBtn" type="submit">Guardar</button></div>
         <p class="msg" id="updMsg" role="status"></p>
       </form>
-      <h2 style="margin-top:1.6rem">Proponer algo nuevo</h2>
-      <form id="newForm">
-        <label for="nn">Nombre de la propuesta</label>
-        <input id="nn" maxlength="140" required placeholder="Ej.: Packs de regalo corporativo para diciembre">
-        <div class="row2">
-          <div><label for="nt">Tipo</label><select id="nt"><option>Venta</option><option>Producto</option><option>Proceso</option></select></div>
-          <div><label for="nf">Fin estimado</label><input id="nf" type="date"></div>
-        </div>
-        <div style="margin-top:1rem"><button class="btn" id="newBtn" type="submit">Agregar propuesta</button></div>
-        <p class="msg" id="newMsg" role="status"></p>
-      </form>
-      <p class="muted" style="margin-top:1rem">Antes de pedir recursos, pásala por el Evaluador de propuestas (Drive → Hexabee → 02_Propuestas).</p>
+      <p class="muted" style="margin-top:1rem"><b>¿Una idea nueva?</b> Agrégala como pestaña en el Evaluador de propuestas (Drive → Hexabee → 02_Propuestas). Cuando cumpla los 8 checks aparece aquí sola; si se borra la pestaña, desaparece.</p>
     </div>
   </section>
 </main>
@@ -213,7 +202,7 @@
     pin: 'PIN incorrecto.', no_conectado: 'El tablero aún no está conectado a la planilla (falta configurar Netlify).',
     token: 'La conexión con la planilla falló (token).', upstream: 'La planilla no respondió. Intenta de nuevo.',
     forbidden: 'Esa propuesta es de otro socio.', horas: 'Revisa las horas (entre 0,25 y 16).', texto: 'Cuenta en una línea qué hiciste.',
-    fecha: 'Revisa la fecha.', datos: 'Falta el nombre de la propuesta.'
+    fecha: 'Revisa la fecha.', no_visible: 'Esa propuesta aún no cumple 8/8 checks.'
   };
 
   async function call(action, extra) {
@@ -257,29 +246,32 @@
 
   // ---------- render ----------
   function render() {
-    const P = data.propuestas || [], R = data.registro || [], S = data.resumen || [];
+    const P = data.propuestas || [], E = data.enEvaluacion || [], R = data.registro || [], S = data.resumen || [];
     const tot = S.find(r => r['Socio'] === 'TOTAL') || {};
     const activas = P.filter(p => p['Etapa'] !== 'Pausada').length;
-    const listas = P.filter(p => /Lista|Vendiendo/.test(p['Etapa'])).length;
+    const listas = P.filter(p => p['Etapa'] === 'Vendiendo').length;
     $('#kpis').innerHTML = [
-      [activas, 'propuestas activas'], [listas, 'listas o vendiendo'],
+      [activas, 'aprobadas activas'], [listas, 'vendiendo'],
       [fmtH(num(tot['Horas últimos 7 días'])), 'horas en 7 días'], [fmtH(num(tot['Horas totales'])), 'horas registradas']
     ].map(k => '<div class="kpi"><b>' + esc(k[0]) + '</b><span>' + esc(k[1]) + '</span></div>').join('');
 
     renderGantt(P);
+    $('#evalNote').textContent = E.length
+      ? E.length + ' propuesta(s) en evaluación en el Evaluador; aparecerán aquí al cumplir 8/8: ' + E.map(e => e['ID'] + ' (' + (e['Checks OK (de 8)'] || 0) + '/8)').join(' · ')
+      : '';
     renderHours(S, R, P);
 
-    const opts = P.map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('');
+    const opts = P.concat(E).map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('');
     $('#lp').innerHTML = '<option value="">General / coordinación</option>' + opts;
     const mine = P.filter(p => session.member === 'andres' || p['Responsable'] === session.member);
-    $('#up').innerHTML = mine.length ? mine.map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('') : '<option value="">No tienes propuestas aún</option>';
+    $('#up').innerHTML = mine.length ? mine.map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('') : '<option value="">No tienes propuestas aprobadas aún</option>';
     fillUpd();
   }
   const fmtH = h => (Math.round(h * 10) / 10).toString().replace('.', ',');
 
   function renderGantt(P) {
     const el = $('#gantt');
-    if (!P.length) { el.innerHTML = '<p class="muted">Aún no hay propuestas.</p>'; return; }
+    if (!P.length) { el.innerHTML = '<p class="muted">Todavía ninguna propuesta cumple los 8 checks. Cuando una llegue a 8/8 en el Evaluador, aparece aquí sola.</p>'; return; }
     const now = parseD(today());
     let min = null, max = null;
     P.forEach(p => {
@@ -353,24 +345,15 @@
     submitWith($('#updBtn'), $('#updMsg'), 'update',
       { id: $('#up').value, etapa: $('#ue').value, avance: $('#ua').value, fin: $('#uf').value, proximo: $('#un').value.trim() }, '✓ Propuesta actualizada.');
   });
-  $('#newForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const ok = await submitWith($('#newBtn'), $('#newMsg'), 'nueva',
-      { nombre: $('#nn').value.trim(), tipo: $('#nt').value, fin: $('#nf').value }, '✓ Propuesta agregada a la Gantt.');
-    if (ok) { $('#nn').value = ''; $('#nf').value = ''; }
-  });
 
   // ---------- demo (solo para revisar el diseño: socios.html?demo) ----------
   function demoCall(action) {
     if (action !== 'read') return Promise.resolve({ ok: true });
     const P = [
-      ['P-01', 'Reventa de miel · E1 Dependencia', 'andres', 'Evaluando', 4, '2026-10-24', '', 10, 'Validar demanda con preventas'],
-      ['P-02', 'Reventa de miel · E2 Híbrido', 'andres', 'Evaluando', 4, '2026-10-24', '2026-12-15', 20, 'Cotizar envasado'],
-      ['P-03', 'Reventa de miel · E3 Independencia', 'andres', 'Pausada', 2, '2026-10-24', '', 0, 'Requiere resolución sanitaria'],
-      ['P-05', 'Calidad de miel comprada y colmenas de laboratorio', 'olga', 'Idea', '', '2026-10-25', '2026-12-31', 5, 'Responder formulario'],
-      ['P-06', 'Base de precios de apicultores', 'alvaro', 'Validando demanda', '', '2026-10-25', '2026-11-20', 40, 'Consolidar precios']
+      ['P-02', 'Reventa de miel · E2 Híbrido (EJEMPLO)', 'andres', 'Lista para vender', 8, '2026-10-24', '2026-12-15', 20, 'Primer pedido piloto'],
+      ['P-05', 'Packs de regalo corporativo (EJEMPLO)', 'alvaro', 'Vendiendo', 8, '2026-10-28', '', 40, 'Cerrar 2 empresas']
     ].map(a => ({ 'ID': a[0], 'Propuesta': a[1], 'Responsable': a[2], 'Etapa': a[3], 'Checks OK (de 8)': String(a[4]), 'Inicio': a[5], 'Fin estimado': a[6], 'Avance %': String(a[7]), 'Próximo paso': a[8] }));
-    return Promise.resolve({ ok: true, propuestas: P,
+    return Promise.resolve({ ok: true, propuestas: P, enEvaluacion: [{ 'ID': 'P-01', 'Checks OK (de 8)': '4' }, { 'ID': 'P-03', 'Checks OK (de 8)': '2' }],
       registro: [{ 'Fecha': '2026-10-30', 'Socio': 'alvaro', 'Horas': '1,5', 'Propuesta (ID)': 'P-06', 'Qué hice': 'Llamé a 2 apicultores' }],
       resumen: [{ 'Socio': 'andres', 'Horas totales': '4', 'Horas últimos 7 días': '4' }, { 'Socio': 'olga', 'Horas totales': '2', 'Horas últimos 7 días': '2' },
         { 'Socio': 'yufeng', 'Horas totales': '0', 'Horas últimos 7 días': '0' }, { 'Socio': 'alvaro', 'Horas totales': '1,5', 'Horas últimos 7 días': '1,5' },
