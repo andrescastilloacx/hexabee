@@ -22,7 +22,8 @@ const ETAPAS = ['Idea', 'Evaluando', 'Validando demanda', 'Lista para vender', '
 function setup() {
   const token = Utilities.getUuid().replace(/-/g, '');
   PropertiesService.getScriptProperties().setProperty('HEXABEE_TOKEN', token);
-  Logger.log('TOKEN (cópialo en Netlify como TABLERO_TOKEN): ' + token);
+  Logger.log('Copia SOLO la línea siguiente en Netlify como TABLERO_TOKEN:');
+  Logger.log(token);
 }
 
 function doGet() {
