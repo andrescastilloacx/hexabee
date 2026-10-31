@@ -139,7 +139,7 @@ function doPost(e) {
       enEvaluacion: todas.filter(p => p['Visible'] !== 'SI').map(p => ({ 'ID': p['ID'], 'Propuesta': p['Propuesta'], 'Responsable': p['Responsable'], 'Checks OK (de 8)': p['Checks OK (de 8)'] })),
       registro: rows_(ss.getSheetByName('Registro')).slice(-300),
       resumen: rows_(ss.getSheetByName('Resumen')).filter(r => r['Socio']),
-      contactos: ss.getSheetByName('Contactos') ? rows_(ss.getSheetByName('Contactos')).slice(-150) : [],
+      contactos: contactos_(ss).slice(-150),
       ultimaSync: props.getProperty('ULTIMA_SYNC') || '',
       syncError: syncError
     });
@@ -163,6 +163,23 @@ function doPost(e) {
       sh.appendRow(["'" + Utilities.formatDate(new Date(), 'America/Santiago', 'yyyy-MM-dd HH:mm'), nombre, email,
         "'" + clip(body.telefono, 30), clip(body.interes, 80), String(body.mensaje || '').trim().slice(0, 800),
         clip(body.origen, 60), 'Nuevo', '']);
+    } finally { lock.releaseLock(); }
+    return json_({ ok: true });
+  }
+
+  if (body.action === 'contactoEstado') {
+    // Cualquier socio puede actualizar el seguimiento de un contacto de la web.
+    const ESTADOS = ['Nuevo', 'Contactado', 'En negociación', 'Ganado', 'Perdido', 'Descartado'];
+    const fila = Number(body.fila);
+    const sh = ss.getSheetByName('Contactos');
+    if (!sh || !(fila >= 2 && fila <= sh.getLastRow())) return json_({ ok: false, error: 'not_found' });
+    lock.waitLock(10000);
+    try {
+      const head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+      const col = n => head.indexOf(n) + 1;
+      if (String(sh.getRange(fila, col('Correo')).getValue()) !== String(body.correo || '')) return json_({ ok: false, error: 'not_found' });
+      if (ESTADOS.indexOf(body.estado) >= 0) sh.getRange(fila, col('Estado')).setValue(body.estado);
+      if (body.responsable === '' || SOCIOS.indexOf(body.responsable) >= 0) sh.getRange(fila, col('Responsable')).setValue(body.responsable);
     } finally { lock.releaseLock(); }
     return json_({ ok: true });
   }
@@ -216,6 +233,21 @@ function doPost(e) {
   }
 
   return json_({ ok: false, error: 'action' });
+}
+
+function contactos_(ss) {
+  const sh = ss.getSheetByName('Contactos');
+  if (!sh || sh.getLastRow() < 2) return [];
+  const v = sh.getDataRange().getValues();
+  const head = v[0].map(String);
+  const out = [];
+  for (let i = 1; i < v.length; i++) {
+    if (v[i].join('') === '') continue;
+    const o = { _fila: i + 1 };
+    head.forEach((h, j) => { if (h) o[h] = v[i][j] instanceof Date ? Utilities.formatDate(v[i][j], 'America/Santiago', 'yyyy-MM-dd HH:mm') : String(v[i][j]); });
+    out.push(o);
+  }
+  return out;
 }
 
 function ensureHead_(sh) {

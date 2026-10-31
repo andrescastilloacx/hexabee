@@ -76,6 +76,8 @@
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
   .muted { color: var(--muted); font-size: 0.8rem; }
   .hidden { display: none !important; }
+  td.seg select { width: auto; min-width: 9.5em; padding: 0.35rem 0.4rem; font-size: 0.8rem; margin: 0 0.3rem 0.3rem 0; }
+  td.seg .btn-ghost { margin-top: 0.1rem; }
   .notice { border-left: 3px solid var(--amber); padding: 0.6rem 0.8rem; background: rgba(245,166,35,0.06); font-size: 0.85rem; margin-bottom: 1rem; }
   @media (max-width: 640px) {
     .row2 { grid-template-columns: 1fr; }
@@ -163,7 +165,7 @@
 
     <div data-panel="contacts" class="card hidden">
       <h2>Contactos desde la web</h2>
-      <p class="muted">Cada mensaje del formulario de la página pública llega aquí (y por correo a Andrés). Para marcar seguimiento, edita las columnas Estado y Responsable en la pestaña Contactos del Tablero.</p>
+      <p class="muted">Cada mensaje del formulario de la página pública llega aquí. Asigna un responsable y actualiza el estado a medida que avanzas: así nadie queda sin respuesta.</p>
       <div style="overflow-x:auto;margin-top:0.8rem"><table id="contactsTable"></table></div>
     </div>
 
@@ -326,14 +328,28 @@
       : '<tr><td class="muted">Todavía no hay registros. El primero marca el ritmo.</td></tr>';
   }
 
+  const ESTADOS_C = ['Nuevo', 'Contactado', 'En negociación', 'Ganado', 'Perdido', 'Descartado'];
   function renderContacts(C) {
     const last = C.slice(-60).reverse();
+    const sel = (opts, val, cls, labels) => '<select class="' + cls + '">' + opts.map(o => '<option value="' + esc(o) + '"' + (o === val ? ' selected' : '') + '>' + esc(labels ? (labels[o] || '— sin asignar —') : o) + '</option>').join('') + '</select>';
     $('#contactsTable').innerHTML = last.length
-      ? '<tr><th>Fecha</th><th>Nombre</th><th>Interés</th><th>Contacto</th><th>Mensaje</th><th>Estado</th></tr>' +
-        last.map(c => '<tr><td>' + esc(c['Fecha']) + '</td><td>' + esc(c['Nombre']) + '</td><td>' + esc(c['Interés']) + '</td><td>' +
-          '<a href="mailto:' + esc(c['Correo']) + '">' + esc(c['Correo']) + '</a>' + (c['Teléfono'] ? '<br>' + esc(c['Teléfono']) : '') +
-          '</td><td>' + esc(c['Mensaje']) + '</td><td>' + esc(c['Estado'] || 'Nuevo') + (c['Responsable'] ? ' · ' + esc(NAMES[c['Responsable']] || c['Responsable']) : '') + '</td></tr>').join('')
+      ? '<tr><th>Fecha</th><th>Nombre</th><th>Interés</th><th>Contacto</th><th>Mensaje</th><th>Seguimiento</th></tr>' +
+        last.map(c => '<tr data-fila="' + esc(c._fila) + '" data-correo="' + esc(c['Correo']) + '"><td>' + esc(c['Fecha']) + '</td><td>' + esc(c['Nombre']) + '</td><td>' + esc(c['Interés']) + '</td><td>' +
+          '<a href="mailto:' + esc(c['Correo']) + '">' + esc(c['Correo']) + '</a>' + (c['Teléfono'] ? '<br><a href="https://wa.me/' + esc(String(c['Teléfono']).replace(/[^0-9]/g, '')) + '" target="_blank" rel="noopener">' + esc(c['Teléfono']) + '</a>' : '') +
+          '</td><td>' + esc(c['Mensaje']) + '</td><td class="seg">' +
+          sel(ESTADOS_C, c['Estado'] || 'Nuevo', 'c-estado') +
+          sel(['', 'andres', 'olga', 'yufeng', 'alvaro'], c['Responsable'] || '', 'c-resp', Object.assign({ '': '' }, NAMES)) +
+          '<button class="btn-ghost c-save" type="button">Guardar</button><span class="c-msg muted"></span></td></tr>').join('')
       : '<tr><td class="muted">Aún no llegan contactos desde la web.</td></tr>';
+    document.querySelectorAll('#contactsTable .c-save').forEach(b => b.addEventListener('click', async () => {
+      const tr = b.closest('tr'), m = tr.querySelector('.c-msg');
+      b.disabled = true; m.textContent = ' Guardando…';
+      try {
+        await call('contactoEstado', { fila: Number(tr.dataset.fila), correo: tr.dataset.correo, estado: tr.querySelector('.c-estado').value, responsable: tr.querySelector('.c-resp').value });
+        data = await call('read'); render();
+        document.querySelector('[data-tab="contacts"]').click();
+      } catch (err) { m.textContent = ' ' + err.message; b.disabled = false; }
+    }));
   }
 
   function fillUpd() {
@@ -371,7 +387,7 @@
       ['P-02', 'Reventa de miel · E2 Híbrido (EJEMPLO)', 'andres', 'Lista para vender', 8, '2026-10-24', '2026-12-15', 20, 'Primer pedido piloto'],
       ['P-05', 'Packs de regalo corporativo (EJEMPLO)', 'alvaro', 'Vendiendo', 8, '2026-10-28', '', 40, 'Cerrar 2 empresas']
     ].map(a => ({ 'ID': a[0], 'Propuesta': a[1], 'Responsable': a[2], 'Etapa': a[3], 'Checks OK (de 8)': String(a[4]), 'Inicio': a[5], 'Fin estimado': a[6], 'Avance %': String(a[7]), 'Próximo paso': a[8] }));
-    return Promise.resolve({ ok: true, contactos: [{ 'Fecha': '2026-10-31 16:40', 'Nombre': 'Cliente de ejemplo', 'Correo': 'ejemplo@correo.cl', 'Interés': 'Sachets para mi empresa', 'Mensaje': '3 cajas para diciembre', 'Estado': 'Nuevo' }], propuestas: P, enEvaluacion: [{ 'ID': 'P-01', 'Checks OK (de 8)': '4' }, { 'ID': 'P-03', 'Checks OK (de 8)': '2' }],
+    return Promise.resolve({ ok: true, contactos: [{ 'Fecha': '2026-10-31 16:40', 'Nombre': 'Cliente de ejemplo', 'Correo': 'ejemplo@correo.cl', 'Interés': 'Sachets para mi empresa', 'Mensaje': '3 cajas para diciembre', 'Estado': 'Nuevo', _fila: 2 }], propuestas: P, enEvaluacion: [{ 'ID': 'P-01', 'Checks OK (de 8)': '4' }, { 'ID': 'P-03', 'Checks OK (de 8)': '2' }],
       registro: [{ 'Fecha': '2026-10-30', 'Socio': 'alvaro', 'Horas': '1,5', 'Propuesta (ID)': 'P-06', 'Qué hice': 'Llamé a 2 apicultores' }],
       resumen: [{ 'Socio': 'andres', 'Horas totales': '4', 'Horas últimos 7 días': '4' }, { 'Socio': 'olga', 'Horas totales': '2', 'Horas últimos 7 días': '2' },
         { 'Socio': 'yufeng', 'Horas totales': '0', 'Horas últimos 7 días': '0' }, { 'Socio': 'alvaro', 'Horas totales': '1,5', 'Horas últimos 7 días': '1,5' },

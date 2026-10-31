@@ -15,7 +15,7 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000'
 ];
 const PINS = { andres: 'PIN_ANDRES', olga: 'PIN_OLGA', yufeng: 'PIN_YUFENG', alvaro: 'PIN_ALVARO' };
-const ACTIONS = ['read', 'log', 'update'];
+const ACTIONS = ['read', 'log', 'update', 'contactoEstado'];
 
 function corsHeaders(origin) {
   const o = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
