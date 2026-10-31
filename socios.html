@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Hexabee · Socios</title>
+<style>
+  :root {
+    --amber: #F5A623; --gold: #FFD060; --dark: #0C0600; --dark2: #1A0E00; --dark3: #241500;
+    --text: #F0E6D3; --muted: #9A8060; --line: rgba(245,166,35,0.18);
+    --ok: #6FCF7F; --warn: #F2C94C; --bad: #E06060; --pause: #7A6A55;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--dark); color: var(--text); font-family: Arial, Helvetica, sans-serif; line-height: 1.5; min-height: 100vh; }
+  a { color: var(--amber); }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); }
+  .brand { font-family: Georgia, serif; font-size: 1.2rem; color: var(--gold); letter-spacing: 0.08em; }
+  .brand small { display: block; font-family: Arial, sans-serif; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .who { font-size: 0.8rem; color: var(--muted); text-align: right; }
+  .who button { margin-top: 0.2rem; }
+  main { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+  h1 { font-family: Georgia, serif; font-weight: normal; color: var(--gold); font-size: 1.6rem; margin-bottom: 0.3rem; }
+  h2 { font-family: Georgia, serif; font-weight: normal; color: var(--gold); font-size: 1.15rem; margin: 0 0 0.8rem; }
+  .lead { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.2rem; max-width: 60ch; }
+  .card { background: var(--dark2); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem; margin-bottom: 1rem; }
+  label { display: block; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin: 0.7rem 0 0.25rem; }
+  input, select, textarea { width: 100%; background: var(--dark3); color: var(--text); border: 1px solid rgba(245,166,35,0.28); border-radius: 6px; padding: 0.6rem 0.7rem; font-size: 0.95rem; font-family: inherit; }
+  textarea { resize: vertical; min-height: 4.2em; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--amber); outline-offset: 1px; }
+  button { cursor: pointer; font-family: inherit; }
+  .btn { background: var(--amber); color: var(--dark); border: none; border-radius: 6px; padding: 0.65rem 1.1rem; font-size: 0.9rem; font-weight: bold; }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+  .btn-ghost { background: transparent; color: var(--amber); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.7rem; font-size: 0.78rem; }
+  .msg { font-size: 0.85rem; margin-top: 0.6rem; min-height: 1.2em; }
+  .msg.err { color: var(--bad); } .msg.ok { color: var(--ok); }
+  .login { max-width: 380px; margin: 3rem auto; }
+  .tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tab { background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 20px; padding: 0.4rem 0.9rem; font-size: 0.85rem; }
+  .tab[aria-selected="true"] { background: var(--amber); color: var(--dark); border-color: var(--amber); font-weight: bold; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.7rem; margin-bottom: 1rem; }
+  .kpi { background: var(--dark2); border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 0.9rem; }
+  .kpi b { display: block; font-size: 1.5rem; color: var(--gold); font-family: Georgia, serif; font-weight: normal; }
+  .kpi span { font-size: 0.75rem; color: var(--muted); }
+  /* Gantt */
+  .gantt { overflow-x: auto; }
+  .g-head, .g-row { display: grid; grid-template-columns: minmax(170px, 260px) 1fr; align-items: center; }
+  .g-row { border-top: 1px solid var(--line); min-height: 52px; }
+  .g-label { padding: 0.45rem 0.6rem 0.45rem 0; font-size: 0.82rem; }
+  .g-label .id { color: var(--muted); font-size: 0.7rem; }
+  .g-label .owner { color: var(--amber); font-size: 0.7rem; text-transform: capitalize; }
+  .g-track { position: relative; height: 34px; min-width: 520px; }
+  .g-months { position: relative; height: 22px; min-width: 520px; font-size: 0.68rem; color: var(--muted); }
+  .g-months span { position: absolute; top: 0; transform: translateX(2px); white-space: nowrap; }
+  .g-grid { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+  .g-today { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--gold); opacity: 0.8; }
+  .g-bar { position: absolute; top: 7px; height: 20px; border-radius: 5px; overflow: hidden; background: rgba(245,166,35,0.18); border: 1px solid var(--amber); }
+  .g-bar.open { border-style: dashed; }
+  .g-bar .fill { height: 100%; background: var(--amber); opacity: 0.85; }
+  .g-bar .pct { position: absolute; left: 6px; top: 1px; font-size: 0.7rem; color: var(--dark); font-weight: bold; mix-blend-mode: normal; }
+  .g-bar.pausada { border-color: var(--pause); background: rgba(122,106,85,0.2); }
+  .g-bar.pausada .fill { background: var(--pause); }
+  .chip { display: inline-block; font-size: 0.66rem; padding: 0.05rem 0.45rem; border-radius: 10px; border: 1px solid var(--line); color: var(--text); margin-top: 0.15rem; }
+  .chip.Vendiendo { background: rgba(111,207,127,0.18); border-color: var(--ok); }
+  .chip.Lista { background: rgba(111,207,127,0.1); border-color: var(--ok); }
+  .chip.Validando { background: rgba(242,201,76,0.12); border-color: var(--warn); }
+  .chip.Pausada { color: var(--muted); }
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 0.8rem; }
+  .legend i { display: inline-block; width: 18px; height: 9px; border: 1px solid var(--amber); border-radius: 3px; vertical-align: middle; margin-right: 0.3rem; }
+  .legend i.dash { border-style: dashed; } .legend i.today { width: 2px; border: none; background: var(--gold); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 0.5rem 0.4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: normal; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .bars td .b { height: 8px; background: var(--amber); border-radius: 4px; min-width: 2px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.8rem; }
+  .muted { color: var(--muted); font-size: 0.8rem; }
+  .hidden { display: none !important; }
+  .notice { border-left: 3px solid var(--amber); padding: 0.6rem 0.8rem; background: rgba(245,166,35,0.06); font-size: 0.85rem; margin-bottom: 1rem; }
+  @media (max-width: 640px) {
+    .row2 { grid-template-columns: 1fr; }
+    .g-head, .g-row { grid-template-columns: 140px 1fr; }
+    h1 { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">HEXABEE<small>Portal de socios</small></div>
+  <div class="who hidden" id="who"><span id="whoName"></span><br><button class="btn-ghost" id="logout" type="button">Salir</button></div>
+</header>
+
+<main>
+  <!-- LOGIN -->
+  <section id="loginView" class="login card">
+    <h2>Entrar</h2>
+    <p class="muted">Solo socios. Tu PIN no se guarda en este dispositivo después de cerrar la pestaña.</p>
+    <form id="loginForm" autocomplete="off">
+      <label for="member">Socio</label>
+      <select id="member" required>
+        <option value="">Elige…</option>
+        <option value="andres">Andrés</option>
+        <option value="olga">Olga</option>
+        <option value="yufeng">Yufeng</option>
+        <option value="alvaro">Álvaro</option>
+      </select>
+      <label for="pin">PIN personal</label>
+      <input id="pin" type="password" inputmode="numeric" required>
+      <div style="margin-top:1rem"><button class="btn" id="loginBtn" type="submit">Entrar</button></div>
+      <p class="msg" id="loginMsg" role="status"></p>
+    </form>
+  </section>
+
+  <!-- APP -->
+  <section id="appView" class="hidden">
+    <h1>Hexabee en movimiento</h1>
+    <p class="lead">Lo que proponemos, cómo avanza y cuánto le dedicamos. Hexabee es un modelo vivo: este tablero es su pulso.</p>
+    <div class="kpis" id="kpis"></div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-tab="gantt">Propuestas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="log">Registrar trabajo</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="hours">Horas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="mine">Mis propuestas</button>
+    </div>
+
+    <div data-panel="gantt" class="card">
+      <h2>Carta Gantt de propuestas</h2>
+      <div class="gantt" id="gantt"></div>
+      <div class="legend">
+        <span><i></i>Con fecha de término</span>
+        <span><i class="dash"></i>Sin fecha de término (corre hasta hoy)</span>
+        <span><i class="today"></i>Hoy</span>
+        <span>Relleno = % de avance</span>
+      </div>
+    </div>
+
+    <div data-panel="log" class="card hidden">
+      <h2>Registrar trabajo</h2>
+      <p class="muted">30 segundos. Cada registro suma al avance del equipo.</p>
+      <form id="logForm">
+        <div class="row2">
+          <div><label for="lf">Fecha</label><input id="lf" type="date" required></div>
+          <div><label for="lh">Horas</label><input id="lh" type="number" min="0.25" max="16" step="0.25" required placeholder="1.5"></div>
+        </div>
+        <label for="lp">¿En qué propuesta?</label>
+        <select id="lp"><option value="">General / coordinación</option></select>
+        <label for="lt">¿Qué hiciste?</label>
+        <textarea id="lt" maxlength="300" required placeholder="Ej.: llamé a 2 apicultores de Melipilla y pedí precio por kg"></textarea>
+        <div style="margin-top:1rem"><button class="btn" id="logBtn" type="submit">Registrar</button></div>
+        <p class="msg" id="logMsg" role="status"></p>
+      </form>
+    </div>
+
+    <div data-panel="hours" class="card hidden">
+      <h2>Horas del equipo</h2>
+      <table class="bars" id="hoursTable"></table>
+      <h2 style="margin-top:1.4rem">Últimos registros</h2>
+      <div style="overflow-x:auto"><table id="recent"></table></div>
+    </div>
+
+    <div data-panel="mine" class="card hidden">
+      <h2>Actualizar una propuesta</h2>
+      <p class="muted">Solo puedes editar las tuyas (Andrés puede editar todas).</p>
+      <form id="updForm">
+        <label for="up">Propuesta</label>
+        <select id="up" required></select>
+        <div class="row2">
+          <div><label for="ue">Etapa</label>
+            <select id="ue">
+              <option>Idea</option><option>Evaluando</option><option>Validando demanda</option>
+              <option>Lista para vender</option><option>Vendiendo</option><option>Pausada</option>
+            </select></div>
+          <div><label for="ua">Avance %</label><input id="ua" type="number" min="0" max="100" step="5"></div>
+        </div>
+        <label for="uf">Fin estimado</label><input id="uf" type="date">
+        <label for="un">Próximo paso</label><input id="un" maxlength="200">
+        <div style="margin-top:1rem"><button class="btn" id="updBtn" type="submit">Guardar</button></div>
+        <p class="msg" id="updMsg" role="status"></p>
+      </form>
+      <h2 style="margin-top:1.6rem">Proponer algo nuevo</h2>
+      <form id="newForm">
+        <label for="nn">Nombre de la propuesta</label>
+        <input id="nn" maxlength="140" required placeholder="Ej.: Packs de regalo corporativo para diciembre">
+        <div class="row2">
+          <div><label for="nt">Tipo</label><select id="nt"><option>Venta</option><option>Producto</option><option>Proceso</option></select></div>
+          <div><label for="nf">Fin estimado</label><input id="nf" type="date"></div>
+        </div>
+        <div style="margin-top:1rem"><button class="btn" id="newBtn" type="submit">Agregar propuesta</button></div>
+        <p class="msg" id="newMsg" role="status"></p>
+      </form>
+      <p class="muted" style="margin-top:1rem">Antes de pedir recursos, pásala por el Evaluador de propuestas (Drive → Hexabee → 02_Propuestas).</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  const API = 'https://lucky-gingersnap-f5db20.netlify.app/.netlify/functions/tablero';
+  const NAMES = { andres: 'Andrés', olga: 'Olga', yufeng: 'Yufeng', alvaro: 'Álvaro' };
+  const DEMO = new URLSearchParams(location.search).has('demo');
+  let session = null, data = null;
+
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const today = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 10); };
+  const parseD = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s || '')); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; };
+  const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? 0 : n; };
+
+  function setMsg(el, text, kind) { el.textContent = text; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+
+  const ERR = {
+    pin: 'PIN incorrecto.', no_conectado: 'El tablero aún no está conectado a la planilla (falta configurar Netlify).',
+    token: 'La conexión con la planilla falló (token).', upstream: 'La planilla no respondió. Intenta de nuevo.',
+    forbidden: 'Esa propuesta es de otro socio.', horas: 'Revisa las horas (entre 0,25 y 16).', texto: 'Cuenta en una línea qué hiciste.',
+    fecha: 'Revisa la fecha.', datos: 'Falta el nombre de la propuesta.'
+  };
+
+  async function call(action, extra) {
+    if (DEMO) return demoCall(action, extra);
+    const r = await fetch(API, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ member: session.member, pin: session.pin, action }, extra || {}))
+    });
+    let j = {}; try { j = await r.json(); } catch (e) {}
+    if (!j.ok) throw new Error(ERR[j.error] || 'No se pudo completar (' + (j.error || r.status) + ').');
+    return j;
+  }
+
+  // ---------- login ----------
+  $('#loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = $('#loginBtn'), msg = $('#loginMsg');
+    session = { member: $('#member').value, pin: $('#pin').value };
+    btn.disabled = true; setMsg(msg, 'Validando…');
+    try {
+      data = await call('read');
+      try { sessionStorage.setItem('hb_s', JSON.stringify(session)); } catch (e) {}
+      showApp();
+    } catch (err) { session = null; setMsg(msg, err.message, 'err'); }
+    btn.disabled = false;
+  });
+  $('#logout').addEventListener('click', () => { try { sessionStorage.removeItem('hb_s'); } catch (e) {} location.reload(); });
+
+  function showApp() {
+    $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden');
+    $('#who').classList.remove('hidden'); $('#whoName').textContent = NAMES[session.member] || session.member;
+    $('#lf').value = today();
+    render();
+  }
+
+  // ---------- tabs ----------
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === t ? 'true' : 'false'));
+    document.querySelectorAll('[data-panel]').forEach(p => p.classList.toggle('hidden', p.dataset.panel !== t.dataset.tab));
+  }));
+
+  // ---------- render ----------
+  function render() {
+    const P = data.propuestas || [], R = data.registro || [], S = data.resumen || [];
+    const tot = S.find(r => r['Socio'] === 'TOTAL') || {};
+    const activas = P.filter(p => p['Etapa'] !== 'Pausada').length;
+    const listas = P.filter(p => /Lista|Vendiendo/.test(p['Etapa'])).length;
+    $('#kpis').innerHTML = [
+      [activas, 'propuestas activas'], [listas, 'listas o vendiendo'],
+      [fmtH(num(tot['Horas últimos 7 días'])), 'horas en 7 días'], [fmtH(num(tot['Horas totales'])), 'horas registradas']
+    ].map(k => '<div class="kpi"><b>' + esc(k[0]) + '</b><span>' + esc(k[1]) + '</span></div>').join('');
+
+    renderGantt(P);
+    renderHours(S, R, P);
+
+    const opts = P.map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('');
+    $('#lp').innerHTML = '<option value="">General / coordinación</option>' + opts;
+    const mine = P.filter(p => session.member === 'andres' || p['Responsable'] === session.member);
+    $('#up').innerHTML = mine.length ? mine.map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('') : '<option value="">No tienes propuestas aún</option>';
+    fillUpd();
+  }
+  const fmtH = h => (Math.round(h * 10) / 10).toString().replace('.', ',');
+
+  function renderGantt(P) {
+    const el = $('#gantt');
+    if (!P.length) { el.innerHTML = '<p class="muted">Aún no hay propuestas.</p>'; return; }
+    const now = parseD(today());
+    let min = null, max = null;
+    P.forEach(p => {
+      const s = parseD(p['Inicio']) || now, f = parseD(p['Fin estimado']) || now;
+      if (!min || s < min) min = s; if (!max || f > max) max = f;
+    });
+    min = new Date(min.getTime() - 864e5 * 5);
+    max = new Date(Math.max(max, new Date(now.getTime() + 864e5 * 60)));
+    max = new Date(max.getTime() + 864e5 * 7);
+    const span = max - min, pos = d => ((d - min) / span * 100).toFixed(2) + '%';
+    const MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    let months = '', grid = '';
+    for (let d = new Date(min.getFullYear(), min.getMonth() + 1, 1); d < max; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
+      months += '<span style="left:' + pos(d) + '">' + MES[d.getMonth()] + ' ' + String(d.getFullYear()).slice(2) + '</span>';
+      grid += '<div class="g-grid" style="left:' + pos(d) + '"></div>';
+    }
+    const todayLine = '<div class="g-today" style="left:' + pos(now) + '"></div>';
+    let html = '<div class="g-head"><div></div><div class="g-months">' + months + '</div></div>';
+    P.forEach(p => {
+      const s = parseD(p['Inicio']) || now, fRaw = parseD(p['Fin estimado']);
+      const f = fRaw || (now > s ? now : new Date(s.getTime() + 864e5 * 7));
+      const av = Math.max(0, Math.min(100, num(p['Avance %'])));
+      const et = p['Etapa'] || 'Idea', cls = (et.split(' ')[0]);
+      const title = esc(p['Propuesta'] + ' · ' + et + ' · ' + av + '% · Próximo: ' + (p['Próximo paso'] || '—'));
+      html += '<div class="g-row"><div class="g-label"><span class="id">' + esc(p['ID']) + '</span> <span class="owner">' + esc(NAMES[p['Responsable']] || p['Responsable']) + '</span><br>' +
+        esc(p['Propuesta']) + '<br><span class="chip ' + esc(cls) + '">' + esc(et) + '</span> <span class="muted">' + esc(p['Checks OK (de 8)'] ? p['Checks OK (de 8)'] + '/8 checks' : '') + '</span></div>' +
+        '<div class="g-track">' + grid + todayLine +
+        '<div class="g-bar' + (fRaw ? '' : ' open') + (et === 'Pausada' ? ' pausada' : '') + '" title="' + title + '" style="left:' + pos(s) + ';width:calc(' + pos(f) + ' - ' + pos(s) + ')">' +
+        '<div class="fill" style="width:' + av + '%"></div><span class="pct">' + (av ? av + '%' : '') + '</span></div></div></div>';
+    });
+    el.innerHTML = html;
+  }
+
+  function renderHours(S, R, P) {
+    const rows = S.filter(r => r['Socio'] && r['Socio'] !== 'TOTAL');
+    const maxH = Math.max(1, ...rows.map(r => num(r['Horas totales'])));
+    $('#hoursTable').innerHTML = '<tr><th>Socio</th><th class="num">7 días</th><th class="num">Total</th><th style="width:40%"></th></tr>' +
+      rows.map(r => '<tr><td>' + esc(NAMES[r['Socio']] || r['Socio']) + '</td><td class="num">' + fmtH(num(r['Horas últimos 7 días'])) +
+        '</td><td class="num">' + fmtH(num(r['Horas totales'])) + '</td><td><div class="b" style="width:' + (num(r['Horas totales']) / maxH * 100) + '%"></div></td></tr>').join('');
+    const last = R.slice(-25).reverse();
+    $('#recent').innerHTML = last.length ? '<tr><th>Fecha</th><th>Socio</th><th class="num">Horas</th><th>Propuesta</th><th>Qué hizo</th></tr>' +
+      last.map(r => '<tr><td>' + esc(r['Fecha']) + '</td><td>' + esc(NAMES[r['Socio']] || r['Socio']) + '</td><td class="num">' + fmtH(num(r['Horas'])) +
+        '</td><td>' + esc(r['Propuesta (ID)'] || '—') + '</td><td>' + esc(r['Qué hice']) + '</td></tr>').join('')
+      : '<tr><td class="muted">Todavía no hay registros. El primero marca el ritmo.</td></tr>';
+  }
+
+  function fillUpd() {
+    const p = (data.propuestas || []).find(x => x['ID'] === $('#up').value);
+    if (!p) return;
+    $('#ue').value = p['Etapa'] || 'Idea'; $('#ua').value = num(p['Avance %']);
+    $('#uf').value = /^\d{4}-\d{2}-\d{2}$/.test(p['Fin estimado']) ? p['Fin estimado'] : '';
+    $('#un').value = p['Próximo paso'] || '';
+  }
+  $('#up').addEventListener('change', fillUpd);
+
+  async function submitWith(btn, msg, action, payload, okText) {
+    btn.disabled = true; setMsg(msg, 'Guardando…');
+    try { await call(action, payload); data = await call('read'); render(); setMsg(msg, okText, 'ok'); return true; }
+    catch (err) { setMsg(msg, err.message, 'err'); return false; }
+    finally { btn.disabled = false; }
+  }
+
+  $('#logForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const ok = await submitWith($('#logBtn'), $('#logMsg'), 'log',
+      { fecha: $('#lf').value, horas: num($('#lh').value), propuesta: $('#lp').value, texto: $('#lt').value.trim() }, '✓ Registrado. Gracias por mover a Hexabee.');
+    if (ok) { $('#lh').value = ''; $('#lt').value = ''; }
+  });
+  $('#updForm').addEventListener('submit', e => {
+    e.preventDefault();
+    submitWith($('#updBtn'), $('#updMsg'), 'update',
+      { id: $('#up').value, etapa: $('#ue').value, avance: $('#ua').value, fin: $('#uf').value, proximo: $('#un').value.trim() }, '✓ Propuesta actualizada.');
+  });
+  $('#newForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const ok = await submitWith($('#newBtn'), $('#newMsg'), 'nueva',
+      { nombre: $('#nn').value.trim(), tipo: $('#nt').value, fin: $('#nf').value }, '✓ Propuesta agregada a la Gantt.');
+    if (ok) { $('#nn').value = ''; $('#nf').value = ''; }
+  });
+
+  // ---------- demo (solo para revisar el diseño: socios.html?demo) ----------
+  function demoCall(action) {
+    if (action !== 'read') return Promise.resolve({ ok: true });
+    const P = [
+      ['P-01', 'Reventa de miel · E1 Dependencia', 'andres', 'Evaluando', 4, '2026-10-24', '', 10, 'Validar demanda con preventas'],
+      ['P-02', 'Reventa de miel · E2 Híbrido', 'andres', 'Evaluando', 4, '2026-10-24', '2026-12-15', 20, 'Cotizar envasado'],
+      ['P-03', 'Reventa de miel · E3 Independencia', 'andres', 'Pausada', 2, '2026-10-24', '', 0, 'Requiere resolución sanitaria'],
+      ['P-05', 'Calidad de miel comprada y colmenas de laboratorio', 'olga', 'Idea', '', '2026-10-25', '2026-12-31', 5, 'Responder formulario'],
+      ['P-06', 'Base de precios de apicultores', 'alvaro', 'Validando demanda', '', '2026-10-25', '2026-11-20', 40, 'Consolidar precios']
+    ].map(a => ({ 'ID': a[0], 'Propuesta': a[1], 'Responsable': a[2], 'Etapa': a[3], 'Checks OK (de 8)': String(a[4]), 'Inicio': a[5], 'Fin estimado': a[6], 'Avance %': String(a[7]), 'Próximo paso': a[8] }));
+    return Promise.resolve({ ok: true, propuestas: P,
+      registro: [{ 'Fecha': '2026-10-30', 'Socio': 'alvaro', 'Horas': '1,5', 'Propuesta (ID)': 'P-06', 'Qué hice': 'Llamé a 2 apicultores' }],
+      resumen: [{ 'Socio': 'andres', 'Horas totales': '4', 'Horas últimos 7 días': '4' }, { 'Socio': 'olga', 'Horas totales': '2', 'Horas últimos 7 días': '2' },
+        { 'Socio': 'yufeng', 'Horas totales': '0', 'Horas últimos 7 días': '0' }, { 'Socio': 'alvaro', 'Horas totales': '1,5', 'Horas últimos 7 días': '1,5' },
+        { 'Socio': 'TOTAL', 'Horas totales': '7,5', 'Horas últimos 7 días': '7,5' }] });
+  }
+
+  // restaurar sesión de esta pestaña
+  try {
+    const s = JSON.parse(sessionStorage.getItem('hb_s') || 'null');
+    if (s && s.member && s.pin) { session = s; call('read').then(d => { data = d; showApp(); }).catch(() => { session = null; }); }
+  } catch (e) {}
+  if (DEMO) { session = { member: 'andres', pin: 'demo' }; call('read').then(d => { data = d; showApp(); }); }
+})();
+</script>
+</body>
+</html>
