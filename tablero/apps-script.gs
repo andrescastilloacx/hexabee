@@ -121,11 +121,16 @@ function doPost(e) {
 }
 
 function rows_(sh) {
-  const v = sh.getDataRange().getDisplayValues();
-  const head = v.shift();
+  // Fechas siempre como AAAA-MM-DD (la planilla puede convertirlas a fecha local).
+  const v = sh.getDataRange().getValues();
+  const head = v.shift().map(String);
   return v.filter(r => r.join('') !== '').map(r => {
     const o = {};
-    head.forEach((h, i) => { if (h) o[h] = r[i]; });
+    head.forEach((h, i) => {
+      if (!h) return;
+      const c = r[i];
+      o[h] = c instanceof Date ? Utilities.formatDate(c, 'America/Santiago', 'yyyy-MM-dd') : String(c);
+    });
     return o;
   });
 }
