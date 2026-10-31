@@ -3,1320 +3,258 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HEXABEE — Polinización, Miel en Panal y Derivados Apícolas | IV Región, Chile</title>
-<meta name="description" content="Colmenas modulares impresas en 3D que polinizan tu campo y producen miel en panal dentro de frascos hexagonales de vidrio. Polinización, miel cruda, propóleo y núcleos de abeja italiana desde la IV Región de Coquimbo, Chile.">
-<meta name="keywords" content="miel en panal, polinización Chile, colmena 3D, apicultura Coquimbo, miel cruda, frascos hexagonales, abeja italiana, HEXABEE">
-<meta name="author" content="HEXABEE SpA">
+<title>HEXABEE — Miel chilena elegida y verificada</title>
+<meta name="description" content="Hexabee selecciona miel de apicultores chilenos y la verifica antes de ponerle su nombre. Miel Original 250 g, Miel con Polen y sachets para empresas.">
+<meta name="keywords" content="miel chilena, miel con polen, sachets de miel, miel para empresas, apicultores Chile, HEXABEE">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://andrescastilloacx.github.io/hexabee/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="HEXABEE — Polinización y Miel en Panal · IV Región, Chile">
-<meta property="og:description" content="Colmenas modulares 3D. Las abejas construyen el panal dentro de frascos hexagonales de vidrio. Sin extracción, sin filtrado, sin calor.">
+<meta property="og:title" content="HEXABEE — Miel chilena elegida y verificada">
+<meta property="og:description" content="Seleccionamos miel de apicultores chilenos y la verificamos antes de ponerle nuestro nombre.">
 <meta property="og:url" content="https://andrescastilloacx.github.io/hexabee/">
-<meta property="og:locale" content="es_CL">
-<meta name="twitter:card" content="summary">
 <style>
   :root {
-    --amber:   #F5A623;
-    --gold:    #FFD060;
-    --dark:    #0C0600;
-    --dark2:   #150A00;
-    --dark3:   #1E1000;
-    --text:    #F0E6D3;
-    --muted:   #9A8060;
-    --white:   #FFFFFF;
+    --amber: #F5A623; --gold: #FFD060; --dark: #0C0600; --dark2: #1A0E00; --dark3: #241500;
+    --text: #F0E6D3; --muted: #A88E6C; --line: rgba(245,166,35,0.18); --white: #FFFFFF;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Georgia', serif;
-    overflow-x: hidden;
-  }
+  body { background: var(--dark); color: var(--text); font-family: Arial, Helvetica, sans-serif; line-height: 1.6; }
+  a { color: var(--amber); }
+  .serif { font-family: Georgia, 'Times New Roman', serif; }
 
-  /* ── HEX PATTERN SVG BACKGROUND ── */
-  .hex-bg {
-    position: fixed; inset: 0; z-index: 0; opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 0 L56 16 L56 50 L28 66 L0 50 L0 16Z' fill='none' stroke='%23F5A623' stroke-width='1'/%3E%3C/svg%3E");
-    background-size: 56px 100px;
-    pointer-events: none;
-  }
-
-  section { position: relative; z-index: 1; }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.2rem 2.5rem;
-    background: rgba(12,6,0,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(245,166,35,0.15);
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 0.6rem;
-    font-size: 1.4rem; font-weight: bold; color: var(--amber);
-    letter-spacing: 0.1em; text-decoration: none;
-  }
-  .nav-logo svg { width: 32px; height: 32px; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none; font-size: 0.9rem;
-    letter-spacing: 0.05em; transition: color 0.2s;
-    font-family: 'Arial', sans-serif;
-  }
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 20; background: rgba(12,6,0,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: 1120px; margin: 0 auto; padding: 0.8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .logo { font-family: Georgia, serif; color: var(--gold); letter-spacing: 0.12em; text-decoration: none; font-size: 1.15rem; }
+  .nav-links { display: flex; gap: 1.2rem; list-style: none; font-size: 0.85rem; }
+  .nav-links a { color: var(--muted); text-decoration: none; }
   .nav-links a:hover { color: var(--amber); }
-  .nav-cta {
-    background: var(--amber); color: var(--dark);
-    padding: 0.55rem 1.4rem; border-radius: 3px;
-    font-weight: bold; font-size: 0.85rem;
-    text-decoration: none; letter-spacing: 0.05em;
-    transition: background 0.2s;
-    font-family: 'Arial', sans-serif;
-  }
-  .nav-cta:hover { background: var(--gold); }
+  .nav-cta { background: var(--amber); color: var(--dark); text-decoration: none; padding: 0.45rem 0.9rem; border-radius: 6px; font-weight: bold; font-size: 0.82rem; white-space: nowrap; }
+  @media (max-width: 760px) { .nav-links { display: none; } }
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 6rem 2rem 4rem;
-    background: radial-gradient(ellipse at 50% 40%, rgba(245,166,35,0.08) 0%, transparent 70%);
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3);
-    color: var(--amber); padding: 0.35rem 1rem; border-radius: 20px;
-    font-size: 0.8rem; letter-spacing: 0.15em; margin-bottom: 2rem;
-    font-family: 'Arial', sans-serif;
-    animation: fadeUp 0.6s ease both;
-  }
-  .hero-hex {
-    display: inline-block; margin-bottom: 2.5rem;
-    animation: fadeUp 0.7s ease 0.1s both;
-  }
-  .hero-title {
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1.05;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 60%, #C07820 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.7s ease 0.2s both;
-  }
-  .hero-sub {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    color: var(--muted); max-width: 560px; line-height: 1.7;
-    margin: 0 auto 3rem;
-    animation: fadeUp 0.7s ease 0.3s both;
-    font-family: 'Arial', sans-serif;
-  }
-  .hero-btns {
-    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-    animation: fadeUp 0.7s ease 0.4s both;
-  }
-  .btn-primary {
-    background: var(--amber); color: var(--dark);
-    padding: 1rem 2.2rem; border-radius: 4px;
-    font-weight: bold; font-size: 1rem;
-    text-decoration: none; letter-spacing: 0.05em;
-    transition: all 0.2s; font-family: 'Arial', sans-serif;
-    box-shadow: 0 0 30px rgba(245,166,35,0.3);
-  }
-  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
-  .btn-secondary {
-    border: 1px solid rgba(245,166,35,0.4); color: var(--amber);
-    padding: 1rem 2.2rem; border-radius: 4px;
-    font-size: 1rem; text-decoration: none;
-    transition: all 0.2s; font-family: 'Arial', sans-serif;
-  }
-  .btn-secondary:hover { background: rgba(245,166,35,0.08); transform: translateY(-2px); }
-  .hero-scroll {
-    margin-top: 4rem; color: var(--muted); font-size: 0.8rem;
-    letter-spacing: 0.15em; font-family: 'Arial', sans-serif;
-    animation: bounce 2s infinite 1s;
-  }
+  /* LAYOUT */
+  section { padding: 4.5rem 1rem; border-bottom: 1px solid var(--line); }
+  .inner { max-width: 1120px; margin: 0 auto; }
+  .tag { display: inline-block; color: var(--amber); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  h1, h2, h3 { font-family: Georgia, serif; font-weight: normal; color: var(--white); }
+  h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.2; margin-bottom: 0.8rem; }
+  .lead { color: var(--muted); max-width: 62ch; font-size: 1rem; }
 
-  /* ── STATS BAR ── */
-  #stats {
-    padding: 2.5rem 2rem;
-    background: linear-gradient(90deg, rgba(245,166,35,0.06), rgba(245,166,35,0.12), rgba(245,166,35,0.06));
-    border-top: 1px solid rgba(245,166,35,0.15);
-    border-bottom: 1px solid rgba(245,166,35,0.15);
-  }
-  .stats-grid {
-    max-width: 900px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem; text-align: center;
-  }
-  .stat-num {
-    font-size: 2rem; color: var(--amber); font-weight: bold;
-    display: block; margin-bottom: 0.3rem;
-  }
-  .stat-label {
-    font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em;
-    font-family: 'Arial', sans-serif; text-transform: uppercase;
-  }
+  /* HERO */
+  #hero { padding: 5.5rem 1rem 4.5rem; background: radial-gradient(ellipse at 70% 20%, rgba(245,166,35,0.13), transparent 60%); }
+  #hero h1 { font-size: clamp(2.1rem, 5.5vw, 3.6rem); line-height: 1.1; max-width: 16ch; margin-bottom: 1.1rem; }
+  #hero h1 em { color: var(--gold); font-style: normal; }
+  #hero .lead { font-size: 1.08rem; margin-bottom: 1.8rem; }
+  .btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; padding: 0.8rem 1.3rem; border-radius: 7px; font-weight: bold; font-size: 0.92rem; border: 1px solid var(--amber); }
+  .btn.solid { background: var(--amber); color: var(--dark); }
+  .btn.ghost { color: var(--amber); background: transparent; }
+  .phase { display: inline-block; font-size: 0.75rem; color: var(--gold); border: 1px solid var(--line); border-radius: 20px; padding: 0.25rem 0.8rem; margin-bottom: 1.3rem; }
 
-  /* ── SECTIONS SHARED ── */
-  .section-inner {
-    max-width: 1100px; margin: 0 auto; padding: 6rem 2rem;
-  }
-  .section-tag {
-    display: inline-block; color: var(--amber);
-    font-size: 0.75rem; letter-spacing: 0.2em;
-    text-transform: uppercase; margin-bottom: 1rem;
-    font-family: 'Arial', sans-serif;
-  }
-  .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    color: var(--white); margin-bottom: 1.2rem; line-height: 1.2;
-  }
-  .section-body {
-    font-size: 1.05rem; color: var(--muted); line-height: 1.8;
-    max-width: 640px; font-family: 'Arial', sans-serif;
-  }
+  /* CARDS */
+  .grid { display: grid; gap: 1rem; margin-top: 2rem; }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .card { background: var(--dark2); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; display: flex; flex-direction: column; }
+  .card h3 { font-size: 1.25rem; margin-bottom: 0.3rem; }
+  .card .fmt { color: var(--amber); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .card p { color: var(--muted); font-size: 0.92rem; }
+  .price { margin: 1rem 0 0.2rem; font-family: Georgia, serif; font-size: 1.8rem; color: var(--gold); }
+  .price small { font-family: Arial, sans-serif; font-size: 0.75rem; color: var(--muted); }
+  .card .btn { margin-top: auto; text-align: center; }
+  .card .spacer { flex: 1; min-height: 1rem; }
+  .note { margin-top: 1.2rem; font-size: 0.8rem; color: var(--muted); }
 
-  /* ── PRODUCTO ── */
-  #producto { background: var(--dark2); }
-  .product-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 5rem; align-items: center;
-  }
-  @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; gap: 3rem; } }
-  .product-visual {
-    display: flex; justify-content: center; align-items: center;
-  }
-  .hex-jar {
-    position: relative; width: 260px; height: 300px;
-  }
-  .hex-shape {
-    width: 220px; height: 254px;
-    background: linear-gradient(160deg, rgba(255,208,96,0.15) 0%, rgba(245,166,35,0.25) 50%, rgba(180,100,0,0.2) 100%);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(245,166,35,0.4);
-    position: relative; overflow: hidden;
-    box-shadow: 0 0 60px rgba(245,166,35,0.15), inset 0 0 40px rgba(245,166,35,0.05);
-    animation: glow 3s ease-in-out infinite alternate;
-  }
-  .hex-inner {
-    font-size: 5rem; user-select: none;
-    filter: drop-shadow(0 0 20px rgba(245,166,35,0.5));
-  }
-  .hex-label {
-    text-align: center; margin-top: 1.5rem;
-    color: var(--amber); font-size: 0.85rem; letter-spacing: 0.15em;
-    font-family: 'Arial', sans-serif;
-  }
-  .product-features { display: flex; flex-direction: column; gap: 1.5rem; }
-  .feature-item {
-    display: flex; gap: 1rem; align-items: flex-start;
-    padding: 1.2rem; border-radius: 8px;
-    background: rgba(245,166,35,0.04);
-    border: 1px solid rgba(245,166,35,0.1);
-    transition: all 0.3s;
-  }
-  .feature-item:hover {
-    background: rgba(245,166,35,0.08);
-    border-color: rgba(245,166,35,0.25);
-    transform: translateX(4px);
-  }
-  .feature-icon { font-size: 1.5rem; flex-shrink: 0; }
-  .feature-title { color: var(--white); font-size: 1rem; margin-bottom: 0.3rem; }
-  .feature-desc { color: var(--muted); font-size: 0.9rem; font-family: 'Arial', sans-serif; line-height: 1.5; }
+  .step { position: relative; padding-top: 2.6rem; }
+  .step .n { position: absolute; top: 1.2rem; left: 1.4rem; font-family: Georgia, serif; color: var(--amber); font-size: 1.1rem; }
+  .step h3 { font-size: 1.1rem; margin-top: 0.4rem; }
 
-  /* ── CÓMO FUNCIONA ── */
-  #como { background: var(--dark3); }
-  .steps {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem; margin-top: 3.5rem;
-  }
-  .step {
-    text-align: center; padding: 2rem 1.5rem;
-    border-top: 2px solid rgba(245,166,35,0.3);
-    position: relative;
-  }
-  .step-num {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 48px; height: 48px; border-radius: 50%;
-    background: rgba(245,166,35,0.15); border: 1px solid var(--amber);
-    color: var(--amber); font-size: 1.2rem; font-weight: bold;
-    margin-bottom: 1.2rem;
-  }
-  .step-title { color: var(--white); font-size: 1.05rem; margin-bottom: 0.6rem; }
-  .step-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
+  .split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+  @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+  ul.checks { list-style: none; margin-top: 1rem; }
+  ul.checks li { padding: 0.45rem 0 0.45rem 1.6rem; position: relative; color: var(--text); font-size: 0.95rem; border-bottom: 1px solid var(--line); }
+  ul.checks li::before { content: '⬡'; position: absolute; left: 0; color: var(--amber); }
+  ul.checks li span { color: var(--muted); font-size: 0.82rem; display: block; }
 
-  /* ── POR QUÉ HEXABEE ── */
-  #porque { background: var(--dark2); }
-  .why-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .why-card {
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(245,166,35,0.05), rgba(245,166,35,0.02));
-    border: 1px solid rgba(245,166,35,0.12); border-radius: 8px;
-    transition: all 0.3s;
-  }
-  .why-card:hover {
-    border-color: rgba(245,166,35,0.35);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(245,166,35,0.1);
-  }
-  .why-icon { font-size: 2rem; margin-bottom: 1rem; }
-  .why-title { color: var(--white); font-size: 1.1rem; margin-bottom: 0.6rem; }
-  .why-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
+  .team .card h3 { font-size: 1.15rem; }
+  .team .role { color: var(--amber); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
 
-  /* ── PLANES ── */
-  #planes { background: var(--dark2); }
-  .plans-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: 1.5rem; margin-top: 3rem; align-items: stretch;
-  }
-  .plan-card {
-    display: flex; flex-direction: column;
-    padding: 2.5rem 2rem 2rem;
-    background: linear-gradient(160deg, rgba(245,166,35,0.06), rgba(245,166,35,0.02));
-    border: 1px solid rgba(245,166,35,0.18); border-radius: 14px;
-    position: relative; transition: all 0.3s;
-  }
-  .plan-card:hover { transform: translateY(-6px); border-color: rgba(245,166,35,0.45); box-shadow: 0 16px 50px rgba(245,166,35,0.12); }
-  .plan-card.featured {
-    border: 2px solid var(--amber);
-    background: linear-gradient(160deg, rgba(245,166,35,0.12), rgba(245,166,35,0.03));
-    box-shadow: 0 0 60px rgba(245,166,35,0.15);
-  }
-  .plan-flag {
-    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-    background: var(--amber); color: var(--dark);
-    font-size: 0.7rem; font-weight: bold; letter-spacing: 0.12em;
-    padding: 0.35rem 1.1rem; border-radius: 20px; white-space: nowrap;
-    font-family: 'Arial', sans-serif;
-  }
-  .plan-name { color: var(--white); font-size: 1.15rem; margin-bottom: 0.4rem; }
-  .plan-tagline { color: var(--muted); font-size: 0.82rem; font-family: 'Arial', sans-serif; margin-bottom: 1.4rem; min-height: 2.4em; }
-  .plan-price { font-size: 2.6rem; color: var(--amber); font-weight: bold; line-height: 1; }
-  .plan-price small { font-size: 1rem; color: var(--muted); font-weight: normal; }
-  .plan-period { color: var(--muted); font-size: 0.78rem; font-family: 'Arial', sans-serif; margin: 0.4rem 0 1.6rem; letter-spacing: 0.05em; }
-  .plan-list { list-style: none; margin-bottom: 1.6rem; flex-grow: 1; }
-  .plan-list li {
-    color: var(--text); font-size: 0.87rem; font-family: 'Arial', sans-serif;
-    padding: 0.45rem 0 0.45rem 1.6rem; position: relative; line-height: 1.5;
-    border-bottom: 1px dashed rgba(245,166,35,0.1);
-  }
-  .plan-list li::before { content: '⬡'; position: absolute; left: 0; color: var(--amber); font-size: 0.8rem; }
-  .plan-hook {
-    background: rgba(245,166,35,0.08); border-left: 3px solid var(--amber);
-    padding: 0.9rem 1rem; border-radius: 0 8px 8px 0;
-    font-size: 0.85rem; color: var(--gold); font-style: italic;
-    line-height: 1.55; margin-bottom: 1.6rem;
-  }
-  .plan-cta {
-    display: block; text-align: center;
-    background: var(--amber); color: var(--dark);
-    padding: 0.95rem; border-radius: 8px;
-    font-weight: bold; font-size: 0.95rem; text-decoration: none;
-    letter-spacing: 0.04em; font-family: 'Arial', sans-serif; transition: all 0.2s;
-  }
-  .plan-cta:hover { background: var(--gold); transform: translateY(-2px); }
-  .plan-cta.ghost { background: transparent; border: 1px solid rgba(245,166,35,0.5); color: var(--amber); }
-  .plan-cta.ghost:hover { background: rgba(245,166,35,0.1); }
-  .roi-strip {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem; margin-top: 3rem; text-align: center;
-  }
-  .roi-item { padding: 1.4rem; border: 1px solid rgba(245,166,35,0.12); border-radius: 10px; }
-  .roi-num { font-size: 1.7rem; color: var(--amber); font-weight: bold; display: block; margin-bottom: 0.3rem; }
-  .roi-label { font-size: 0.78rem; color: var(--muted); font-family: 'Arial', sans-serif; letter-spacing: 0.06em; line-height: 1.5; }
+  /* CONTACT */
+  form.contact { display: grid; gap: 0.7rem; margin-top: 1.5rem; max-width: 560px; }
+  form.contact input, form.contact select, form.contact textarea { width: 100%; background: var(--dark3); color: var(--text); border: 1px solid rgba(245,166,35,0.28); border-radius: 7px; padding: 0.75rem 0.8rem; font-size: 0.95rem; font-family: inherit; }
+  form.contact textarea { min-height: 6em; resize: vertical; }
+  form.contact button { justify-self: start; background: var(--amber); color: var(--dark); border: none; border-radius: 7px; padding: 0.8rem 1.4rem; font-weight: bold; font-size: 0.92rem; cursor: pointer; }
+  form.contact button:disabled { opacity: 0.55; cursor: wait; }
+  #form-msg { margin-top: 0.8rem; color: var(--amber); min-height: 1.2em; }
+  input:focus, select:focus, textarea:focus, a:focus-visible, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
 
-  /* ── AÑO EN LA COLMENA ── */
-  #anual { background: var(--dark); }
-  .year-track {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0; margin-top: 3.5rem; position: relative;
-  }
-  .year-phase {
-    padding: 2rem 1.5rem 1.5rem; text-align: center; position: relative;
-    border-top: 2px solid rgba(245,166,35,0.25);
-  }
-  .year-phase::before {
-    content: ''; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--amber); box-shadow: 0 0 16px rgba(245,166,35,0.8);
-  }
-  .yp-weeks { color: var(--amber); font-size: 0.7rem; letter-spacing: 0.2em; font-family: 'Arial', sans-serif; margin-bottom: 0.8rem; }
-  .yp-icon { font-size: 2.2rem; margin-bottom: 0.7rem; animation: float 4s ease-in-out infinite; }
-  .yp-title { color: var(--white); font-size: 1rem; margin-bottom: 0.5rem; }
-  .yp-desc { color: var(--muted); font-size: 0.83rem; line-height: 1.6; font-family: 'Arial', sans-serif; }
-  .yp-stat { display: inline-block; margin-top: 0.8rem; color: var(--gold); font-size: 0.8rem; font-weight: bold; font-family: 'Arial', sans-serif; background: rgba(245,166,35,0.1); padding: 0.25rem 0.8rem; border-radius: 14px; }
-
-  /* ── PRE-VENTA ── */
-  #preventa {
-    background: linear-gradient(135deg, var(--dark) 0%, rgba(245,166,35,0.06) 50%, var(--dark) 100%);
-  }
-  .preventa-box {
-    max-width: 720px; margin: 0 auto; text-align: center;
-    padding: 4rem 3rem;
-    border: 1px solid rgba(245,166,35,0.3); border-radius: 12px;
-    background: rgba(245,166,35,0.04);
-    box-shadow: 0 0 80px rgba(245,166,35,0.08);
-  }
-  .price-tag {
-    font-size: 4rem; color: var(--amber); font-weight: bold;
-    line-height: 1; margin: 1.5rem 0 0.5rem;
-  }
-  .price-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; font-family: 'Arial', sans-serif; }
-  .preventa-features {
-    display: flex; gap: 1.5rem; justify-content: center;
-    flex-wrap: wrap; margin-bottom: 2.5rem;
-  }
-  .pf-item {
-    display: flex; align-items: center; gap: 0.4rem;
-    color: var(--text); font-size: 0.9rem; font-family: 'Arial', sans-serif;
-  }
-  .pf-check { color: var(--amber); font-size: 1rem; }
-  .preventa-cta-area { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-  .limited-badge {
-    display: inline-block; background: rgba(245,166,35,0.15);
-    border: 1px solid rgba(245,166,35,0.4); color: var(--amber);
-    padding: 0.3rem 0.8rem; border-radius: 20px;
-    font-size: 0.75rem; letter-spacing: 0.12em;
-    margin-bottom: 0.8rem; font-family: 'Arial', sans-serif;
-  }
-
-  /* ── EQUIPO ── */
-  #equipo { background: var(--dark3); }
-  .team-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .team-card {
-    text-align: center; padding: 2rem 1.5rem;
-    border: 1px solid rgba(245,166,35,0.1); border-radius: 8px;
-    transition: all 0.3s;
-  }
-  .team-card:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-3px); }
-  .team-avatar {
-    width: 72px; height: 83px; margin: 0 auto 1.2rem;
-    background: rgba(245,166,35,0.12);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; border: 1px solid rgba(245,166,35,0.25);
-  }
-  .team-name { color: var(--white); font-size: 1rem; margin-bottom: 0.3rem; }
-  .team-role { color: var(--amber); font-size: 0.8rem; letter-spacing: 0.1em; margin-bottom: 0.6rem; font-family: 'Arial', sans-serif; }
-  .team-bio { color: var(--muted); font-size: 0.85rem; line-height: 1.5; font-family: 'Arial', sans-serif; }
-
-  /* ── TRACKER EQUIPO ── */
-  .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
-  .dash-card { border: 1px solid rgba(245,166,35,0.15); border-radius: 8px; padding: 1rem 1.2rem; text-align: left; font-family: Arial, sans-serif; background: rgba(245,166,35,0.03); }
-  .dash-name { color: var(--white); font-size: 0.85rem; margin-bottom: 0.2rem; }
-  .dash-pct { color: var(--amber); font-size: 1.4rem; font-weight: bold; }
-  .dash-bar { height: 6px; background: rgba(245,166,35,0.12); border-radius: 3px; margin-top: 0.6rem; overflow: hidden; }
-  .dash-bar-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--gold)); border-radius: 3px; width: 0; transition: width 0.8s ease; }
-  .dash-meta { color: var(--muted); font-size: 0.7rem; margin-top: 0.4rem; }
-  .task-chip { display: inline-block; font-size: 0.6rem; letter-spacing: 0.05em; padding: 0.1rem 0.45rem; border-radius: 10px; margin-right: 0.4rem; vertical-align: middle; white-space: nowrap; font-family: Arial, sans-serif; }
-  .chip-pendiente { background: rgba(154,128,96,0.15); color: var(--muted); border: 1px solid rgba(154,128,96,0.35); }
-  .chip-en_progreso { background: rgba(245,166,35,0.15); color: var(--amber); border: 1px solid rgba(245,166,35,0.4); }
-  .chip-bloqueada { background: rgba(220,60,60,0.15); color: #E06060; border: 1px solid rgba(220,60,60,0.4); }
-  .chip-completada { background: rgba(80,180,90,0.15); color: #6FCB7A; border: 1px solid rgba(80,180,90,0.4); }
-  .task-meta { display: block; color: var(--muted); font-size: 0.65rem; margin-top: 0.15rem; }
-  .task-done { text-decoration: line-through; opacity: 0.6; }
-  .hb-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.78); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 1rem; }
-  .hb-modal-overlay.open { display: flex; }
-  .hb-modal { background: var(--dark2); border: 1px solid rgba(245,166,35,0.3); border-radius: 10px; max-width: 480px; width: 100%; padding: 1.8rem; font-family: Arial, sans-serif; max-height: 90vh; overflow-y: auto; }
-  .hb-modal h3 { color: var(--white); margin-bottom: 0.3rem; }
-  .hb-modal .hb-sub { color: var(--muted); font-size: 0.75rem; margin-bottom: 0.8rem; }
-  .hb-modal label { display: block; color: var(--muted); font-size: 0.75rem; margin: 0.8rem 0 0.25rem; }
-  .hb-modal select, .hb-modal input, .hb-modal textarea { width: 100%; background: var(--dark3); color: var(--text); border: 1px solid rgba(245,166,35,0.25); border-radius: 6px; padding: 0.55rem 0.7rem; font-size: 0.85rem; font-family: Arial, sans-serif; }
-  .hb-modal textarea { resize: vertical; min-height: 60px; }
-  .hb-actions { display: flex; gap: 0.8rem; margin-top: 1.4rem; }
-  .hb-btn { flex: 1; padding: 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.85rem; font-family: Arial, sans-serif; }
-  .hb-btn-primary { background: var(--amber); color: var(--dark); font-weight: bold; }
-  .hb-btn-primary:disabled { opacity: 0.5; cursor: wait; }
-  .hb-btn-ghost { background: none; border: 1px solid rgba(245,166,35,0.3); color: var(--muted); }
-  .hb-msg { margin-top: 0.9rem; font-size: 0.8rem; display: none; line-height: 1.5; }
-
-  /* ── ORIGIN ── */
-  #origen { background: var(--dark2); }
-  .origin-inner {
-    max-width: 700px; text-align: center; margin: 0 auto;
-  }
-  .origin-quote {
-    font-size: 1.5rem; color: var(--text); line-height: 1.7;
-    font-style: italic; margin: 2rem 0;
-    padding: 0 2rem;
-    border-left: 3px solid var(--amber);
-    text-align: left;
-  }
-
-  /* ── CONTACTO ── */
-  #contacto { background: var(--dark); }
-  .contact-box {
-    max-width: 580px; margin: 0 auto; text-align: center;
-  }
-  .contact-form { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
-  .contact-form input,
-  .contact-form textarea {
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(245,166,35,0.2);
-    color: var(--text); padding: 0.9rem 1.2rem; border-radius: 6px;
-    font-size: 0.95rem; font-family: 'Arial', sans-serif;
-    outline: none; transition: border-color 0.2s; resize: none;
-  }
-  .contact-form input:focus,
-  .contact-form textarea:focus { border-color: var(--amber); }
-  .contact-form textarea { height: 120px; }
-  .contact-form button {
-    background: var(--amber); color: var(--dark);
-    border: none; padding: 1rem; border-radius: 6px;
-    font-size: 1rem; font-weight: bold; cursor: pointer;
-    letter-spacing: 0.05em; font-family: 'Arial', sans-serif;
-    transition: all 0.2s;
-  }
-  .contact-form button:hover { background: var(--gold); transform: translateY(-2px); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 2.5rem 2rem;
-    border-top: 1px solid rgba(245,166,35,0.1);
-    text-align: center; color: var(--muted);
-    font-size: 0.85rem; font-family: 'Arial', sans-serif;
-  }
-  footer strong { color: var(--amber); }
-
-  /* ── EXPANDIBLES (equipo y oferta) ── */
-  .expand-toggle {
-    display: inline-block; margin-top: 1rem; cursor: pointer;
-    color: var(--amber); font-size: 0.8rem; letter-spacing: 0.08em;
-    font-family: 'Arial', sans-serif; border: 1px solid rgba(245,166,35,0.35);
-    padding: 0.4rem 1rem; border-radius: 16px; transition: all 0.2s;
-    background: transparent; user-select: none;
-  }
-  .expand-toggle:hover { background: rgba(245,166,35,0.1); }
-  .expand-panel {
-    max-height: 0; overflow: hidden; transition: max-height 0.45s ease;
-    text-align: left;
-  }
-  .expand-panel.open { max-height: 600px; }
-  .task-list { list-style: none; margin-top: 1rem; }
-  .task-list li {
-    color: var(--muted); font-size: 0.82rem; font-family: 'Arial', sans-serif;
-    padding: 0.45rem 0 0.45rem 1.4rem; position: relative; line-height: 1.5;
-    border-bottom: 1px dashed rgba(245,166,35,0.12);
-  }
-  .task-list li::before { content: '→'; position: absolute; left: 0; color: var(--amber); }
-  .role-desc {
-    margin-top: 0.9rem; color: var(--text); font-size: 0.83rem;
-    font-family: 'Arial', sans-serif; line-height: 1.6;
-    background: rgba(245,166,35,0.06); border-left: 3px solid var(--amber);
-    padding: 0.8rem; border-radius: 0 6px 6px 0;
-  }
-  .form-select {
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(245,166,35,0.2);
-    color: var(--text); padding: 0.9rem 1.2rem; border-radius: 6px;
-    font-size: 0.95rem; font-family: 'Arial', sans-serif; outline: none;
-  }
-  .form-select:focus { border-color: var(--amber); }
-  .form-select option { background: var(--dark2); color: var(--text); }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(8px); }
-  }
-  @keyframes glow {
-    from { box-shadow: 0 0 30px rgba(245,166,35,0.1), inset 0 0 20px rgba(245,166,35,0.03); }
-    to   { box-shadow: 0 0 70px rgba(245,166,35,0.25), inset 0 0 40px rgba(245,166,35,0.08); }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
-  }
-
-  /* ── REVEAL ON SCROLL ── */
-  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+  footer { padding: 2.2rem 1rem 3rem; color: var(--muted); font-size: 0.82rem; }
+  footer .inner { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  footer em { color: var(--gold); font-style: normal; font-family: Georgia, serif; }
 </style>
 </head>
 <body>
 
-<div class="hex-bg"></div>
-
-<!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">
-    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="16,2 30,9 30,23 16,30 2,23 2,9" fill="none" stroke="#F5A623" stroke-width="1.5"/>
-      <polygon points="16,8 24,12.5 24,21.5 16,26 8,21.5 8,12.5" fill="rgba(245,166,35,0.2)" stroke="#F5A623" stroke-width="1"/>
-      <text x="16" y="22" text-anchor="middle" fill="#F5A623" font-size="10" font-weight="bold">H</text>
-    </svg>
-    HEXABEE
-  </a>
-  <ul class="nav-links">
-    <li><a href="#oferta">Oferta</a></li>
-    <li><a href="#planes">Planes</a></li>
-    <li><a href="#producto">Producto</a></li>
-    <li><a href="#como">Cómo funciona</a></li>
-    <li><a href="#equipo">Equipo</a></li>
-    <li><a href="#unete">Únete</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-  <a href="#preventa" class="nav-cta">PRE-VENTA →</a>
+  <div class="nav-inner">
+    <a class="logo" href="#hero">HEXABEE</a>
+    <ul class="nav-links">
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#como">Cómo trabajamos</a></li>
+      <li><a href="#calidad">Calidad</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="nav-cta" href="#contacto">Quiero miel</a>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <div class="hero-badge">🐝 IV Región, Chile · Temporada 2026</div>
-  <div class="hero-hex" style="animation:float 4s ease-in-out infinite">
-    <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="60,4 116,34 116,106 60,136 4,106 4,34" fill="rgba(245,166,35,0.08)" stroke="#F5A623" stroke-width="1.5"/>
-      <polygon points="60,20 96,40 96,100 60,120 24,100 24,40" fill="rgba(245,166,35,0.12)" stroke="#FFD060" stroke-width="1"/>
-      <text x="60" y="82" text-anchor="middle" fill="#F5A623" font-size="42">🍯</text>
-    </svg>
-  </div>
-  <h1 class="hero-title">HEXABEE</h1>
-  <p class="hero-sub">Colmenas modulares 3D que polinizan tu campo y producen miel en panal dentro de frascos hexagonales de vidrio.<br>Desde la IV Región de Coquimbo.</p>
-  <div class="hero-btns">
-    <a href="#oferta" class="btn-primary">Polinización para tu campo</a>
-    <a href="#preventa" class="btn-secondary">Reserva tu frasco de miel</a>
-    <a href="360.html" target="_blank" class="btn-secondary">⬡ Prototipo 3D en 360°</a>
-  </div>
-  <div class="hero-scroll">▼&nbsp;&nbsp;Descubre más</div>
-</section>
-
-<!-- STATS -->
-<section id="stats">
-  <div class="stats-grid">
-    <div>
-      <span class="stat-num">5km²</span>
-      <span class="stat-label">Radio de polinización por colmena</span>
-    </div>
-    <div>
-      <span class="stat-num">200ml</span>
-      <span class="stat-label">Miel en panal por frasco</span>
-    </div>
-    <div>
-      <span class="stat-num">100%</span>
-      <span class="stat-label">Artesanal · IV Región</span>
-    </div>
-    <div>
-      <span class="stat-num">0</span>
-      <span class="stat-label">Aditivos ni procesos industriales</span>
-    </div>
-    <div>
-      <span class="stat-num">Nov 26</span>
-      <span class="stat-label">Primera cosecha disponible</span>
+  <div class="inner">
+    <span class="phase">Primera fase · 2026</span>
+    <h1>Miel chilena, <em>elegida y verificada.</em></h1>
+    <p class="lead">Hexabee selecciona miel de apicultores chilenos y la verifica antes de ponerle su nombre. Sin promesas mágicas: buena miel, de origen conocido, en el formato que necesitas.</p>
+    <div class="btns">
+      <a class="btn solid" href="#productos">Ver productos</a>
+      <a class="btn ghost" href="https://wa.me/56957032768?text=Hola%2C+quiero+saber+m%C3%A1s+de+la+miel+Hexabee" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
     </div>
   </div>
 </section>
 
-<!-- OFERTA -->
-<section id="oferta" style="background:var(--dark3)">
-  <div class="section-inner">
-    <div class="reveal">
-      <span class="section-tag">Nuestra Oferta</span>
-      <h2 class="section-title">Un sistema apícola, cuatro líneas de negocio</h2>
-      <p class="section-body">HEXABEE no vende solo miel. Nuestra colmena modular es primero una herramienta de polinización para tu campo — la miel y sus derivados vienen después, como consecuencia natural.</p>
+<section id="productos">
+  <div class="inner">
+    <span class="tag">Productos</span>
+    <h2>Tres formas de llevar Hexabee</h2>
+    <p class="lead">Estamos abriendo nuestra primera línea. Los precios son referenciales mientras validamos el lanzamiento con nuestros primeros clientes.</p>
+    <div class="grid g3">
+      <article class="card">
+        <h3>Miel Original</h3>
+        <div class="fmt">Frasco 250 g</div>
+        <p>Nuestro producto de entrada. Versátil en desayunos, infusiones y recetas, y una buena opción para regalar.</p>
+        <div class="spacer"></div>
+        <div class="price">$4.500 <small>CLP · referencial</small></div>
+        <a class="btn solid" href="https://wa.me/56957032768?text=Hola%2C+me+interesa+la+Miel+Original+250+g" target="_blank" rel="noopener">Me interesa</a>
+      </article>
+      <article class="card">
+        <h3>Miel con Polen</h3>
+        <div class="fmt">Frasco 266 g · 250 g miel + 16 g polen</div>
+        <p>Para quienes buscan algo más especializado. El polen apícola aporta proteínas y otros nutrientes en proporciones variables según su origen.</p>
+        <div class="spacer"></div>
+        <div class="price">$4.700 <small>CLP · referencial</small></div>
+        <a class="btn solid" href="https://wa.me/56957032768?text=Hola%2C+me+interesa+la+Miel+con+Polen" target="_blank" rel="noopener">Me interesa</a>
+      </article>
+      <article class="card">
+        <h3>Honey Sachets</h3>
+        <div class="fmt">Sachets de 10 g · caja de 100</div>
+        <p>Formato individual para empresas, cafeterías, hoteles, eventos y equipos de trabajo. Cotización por volumen y reposición.</p>
+        <div class="spacer"></div>
+        <div class="price">$20.000 <small>CLP la caja · referencial</small></div>
+        <a class="btn solid" href="https://wa.me/56957032768?text=Hola%2C+quiero+cotizar+sachets+de+miel+para+mi+empresa" target="_blank" rel="noopener">Cotizar para empresa</a>
+      </article>
     </div>
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="why-icon">🌸</div>
-        <div class="why-title">1 · Polinización para tu campo</div>
-        <div class="why-desc">Instalamos colmenas HEXABEE en tu terreno agrícola. Cada colmena poliniza un radio de hasta 5km², aumentando el rendimiento de frutales y cultivos. Nuestro primer servicio y el de mayor impacto.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🍯</div>
-        <div class="why-title">2 · Miel en panal</div>
-        <div class="why-desc">Frascos hexagonales de vidrio 200ml, sellados por las propias abejas. Sin extracción, sin filtrado, sin calor. El producto apícola de más alto valor del mercado.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🧪</div>
-        <div class="why-title">3 · Derivados apícolas</div>
-        <div class="why-desc">Propóleo, polen y jalea real — productos de alto valor que emergen de la misma producción. Disponibles a medida que las colmenas maduran.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🐝</div>
-        <div class="why-title">4 · Núcleos de abeja italiana</div>
-        <div class="why-desc">Venta de núcleos de Apis mellifera ligustica para apicultores que quieren partir o expandir su producción con una raza dócil y de alta producción.</div>
-      </div>
-    </div>
+    <p class="note">La miel no debe darse a menores de 12 meses. El polen puede causar alergias en personas sensibles.</p>
   </div>
 </section>
 
-<!-- PRODUCTO -->
-<section id="producto">
-  <div class="section-inner">
-    <div class="product-grid">
-      <div class="product-visual reveal">
-        <div class="hex-jar">
-          <div class="hex-shape">
-            <div class="hex-inner">🍯</div>
-          </div>
-          <div class="hex-label">FRASCO HEXAGONAL 200ml<br>Miel en Panal · Vidrio Premium</div>
-        </div>
-      </div>
-      <div class="reveal">
-        <span class="section-tag">El Producto</span>
-        <h2 class="section-title">Panal vivo dentro de un frasco de vidrio</h2>
-        <p class="section-body">Las abejas construyen el panal directamente dentro del frasco hexagonal. Tú recibes exactamente lo que la colmena produjo — miel sin filtrar, sin calentar, con el panal intacto.</p>
-        <div class="product-features" style="margin-top:2rem">
-          <div class="feature-item">
-            <div class="feature-icon">⬡</div>
-            <div>
-              <div class="feature-title">Frasco hexagonal de vidrio</div>
-              <div class="feature-desc">Diseño exclusivo que refleja la geometría perfecta de la naturaleza. Una pieza que inspira antes de abrirse.</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🐝</div>
-            <div>
-              <div class="feature-title">Abeja italiana (Apis mellifera)</div>
-              <div class="feature-desc">Raza seleccionada por su temperamento dócil y alta producción de miel. Perfectamente adaptada al clima de Coquimbo.</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🌿</div>
-            <div>
-              <div class="feature-title">Terreno propio en Pan de Azúcar</div>
-              <div class="feature-desc">Barreras de viento, árboles frutales, sombra natural. Un ecosistema preparado para las abejas, no al revés.</div>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🖨️</div>
-            <div>
-              <div class="feature-title">Colmena modular 3D</div>
-              <div class="feature-desc">Sistema de colmena diseñado e impreso en 3D en PETG. Modular, escalable y replicable.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CÓMO FUNCIONA -->
 <section id="como">
-  <div class="section-inner">
-    <div class="reveal" style="max-width:560px">
-      <span class="section-tag">El Proceso</span>
-      <h2 class="section-title">Del diseño al frasco en 4 pasos</h2>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-num">1</div>
-        <div class="step-title">Colmena modular impresa</div>
-        <div class="step-desc">Diseñamos e imprimimos cada componente de la colmena en PETG resistente. Sistema modular que permite escalar sin límites.</div>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">2</div>
-        <div class="step-title">Las abejas hacen su trabajo</div>
-        <div class="step-desc">Los frascos van integrados en la colmena. Las abejas construyen el panal dentro del vidrio, lo llenan con miel y lo sellan.</div>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">3</div>
-        <div class="step-title">Cosecha limpia y directa</div>
-        <div class="step-desc">Retiramos el frasco ya operculado. Sin extractor. Sin filtros. Sin calor. La miel nunca toca el aire hasta que tú la abres.</div>
-      </div>
-      <div class="step reveal">
-        <div class="step-num">4</div>
-        <div class="step-title">De Coquimbo a tu mesa</div>
-        <div class="step-desc">Tapamos el frasco y lo enviamos a tu domicilio. Lo que ves en el vidrio es exactamente lo que crearon las abejas.</div>
-      </div>
+  <div class="inner">
+    <span class="tag">Cómo trabajamos</span>
+    <h2>De la colmena del apicultor a tu mesa</h2>
+    <p class="lead">Este es el estándar que aplicamos desde el primer lote.</p>
+    <div class="grid g4">
+      <div class="card step"><span class="n">01</span><h3>Elegimos apicultores</h3><p>Compramos a apicultores chilenos que conocemos y visitamos. Cada uno tiene su ficha de proveedor.</p></div>
+      <div class="card step"><span class="n">02</span><h3>Verificamos cada lote</h3><p>Medimos y guardamos una contramuestra de cada lote antes de aceptarlo. Si no cumple, no lleva nuestro nombre.</p></div>
+      <div class="card step"><span class="n">03</span><h3>Lo dejamos listo</h3><p>Frasco de 250 g, miel con polen o sachets individuales: el formato que se adapta a cómo la usas.</p></div>
+      <div class="card step"><span class="n">04</span><h3>Llega a ti</h3><p>Venta directa y pedidos para empresas. Escríbenos y coordinamos la entrega.</p></div>
     </div>
   </div>
 </section>
 
-<!-- POR QUÉ HEXABEE -->
-<section id="porque">
-  <div class="section-inner">
-    <div class="reveal">
-      <span class="section-tag">La Diferencia</span>
-      <h2 class="section-title">Por qué HEXABEE</h2>
+<section id="calidad">
+  <div class="inner split">
+    <div>
+      <span class="tag">Calidad</span>
+      <h2>Nuestras colmenas son un laboratorio</h2>
+      <p class="lead">Hexabee tiene dos colmenas propias. No las usamos para producir volumen: las usamos para aprender. Ahí medimos, probamos y validamos todo lo que después le pedimos a nuestros proveedores.</p>
+      <ul class="checks">
+        <li>Ficha y visita a cada proveedor<span>Sabemos de dónde viene cada lote.</span></li>
+        <li>Medición en terreno y contramuestra<span>Cada lote queda registrado y respaldado.</span></li>
+        <li>Análisis de laboratorio<span>En implementación durante esta primera fase.</span></li>
+      </ul>
     </div>
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="why-icon">🔬</div>
-        <div class="why-title">Sin proceso industrial</div>
-        <div class="why-desc">La miel industrial se centrifuga, filtra y calienta. La nuestra nunca pasa por ese proceso. La abeja la cierra, nosotros la empacamos.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">📍</div>
-        <div class="why-title">Trazabilidad total</div>
-        <div class="why-desc">Sabes exactamente en qué terreno, con qué flora y en qué colmena se produjo cada frasco. Hiperlocal y verificable.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">⬡</div>
-        <div class="why-title">Diseño que comunica</div>
-        <div class="why-desc">El frasco hexagonal no es solo embalaje — es parte del producto. La geometría del panal visible desde el exterior.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">♻️</div>
-        <div class="why-title">Sistema replicable</div>
-        <div class="why-desc">Cada colmena que diseñamos puede ser replicada por impresión 3D. Escalamos la producción sin construir infraestructura nueva.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🌱</div>
-        <div class="why-title">Ecosistema preparado</div>
-        <div class="why-desc">Árboles frutales, cortavientos, sombra y cercado en Pan de Azúcar. El terreno se preparó antes que las abejas llegaran.</div>
-      </div>
-      <div class="why-card reveal">
-        <div class="why-icon">🏆</div>
-        <div class="why-title">Producto premium real</div>
-        <div class="why-desc">No es marketing. La miel en panal en frasco hexagonal de vidrio es el producto de más alto valor en el mercado apícola mundial.</div>
-      </div>
+    <div class="card">
+      <span class="tag">Mirando adelante</span>
+      <h3>Panal modular impreso en 3D</h3>
+      <p style="margin-top:0.6rem">Seguimos desarrollando nuestro propio panal modular. Hoy está en etapa de prototipo y será una línea premium futura.</p>
+      <a class="btn ghost" href="360.html" style="margin-top:1.2rem">Ver el prototipo en 3D</a>
     </div>
   </div>
 </section>
 
-<!-- PLANES -->
-<section id="planes">
-  <div class="section-inner">
-    <div class="reveal">
-      <span class="section-tag">Planes y Precios</span>
-      <h2 class="section-title">Tu colmena. Tu campo polinizado. Tu miel.</h2>
-      <p class="section-body">Tres formas de entrar. Todas incluyen abejas italianas trabajando para ti, y nosotros detrás de cada pieza.</p>
-    </div>
-
-    <div class="plans-grid">
-
-      <!-- KIT -->
-      <div class="plan-card featured reveal">
-        <div class="plan-flag">⭐ EL MÁS ELEGIDO</div>
-        <div class="plan-name">Kit HEXABEE</div>
-        <div class="plan-tagline">Sé dueño de tu colmena desde el día uno</div>
-        <div class="plan-price">$390.000</div>
-        <div class="plan-period">CLP · PAGO ÚNICO</div>
-        <ul class="plan-list">
-          <li>Colmena modular completa impresa en 3D — PETG food-safe, <strong>25+ años de vida útil</strong></li>
-          <li>Núcleo de abeja italiana con reina joven fecundada</li>
-          <li>Set de frascos hexagonales de vidrio listos para la primera cosecha</li>
-          <li>Instalación en tu terreno + capacitación de cosecha</li>
-          <li>Poliniza hasta 5km² a tu alrededor desde la primera semana</li>
-        </ul>
-        <div class="plan-hook">Cada cosecha llena 5 frascos con valor de mercado de $75.000. En ~4 temporadas tu kit se pagó solo — y la colmena dura décadas. Después de eso, cada frasco es ganancia tuya.</div>
-        <a class="plan-cta" href="https://wa.me/56957032768?text=Hola%21+Quiero+el+Kit+HEXABEE+de+%24390.000" target="_blank">Quiero mi colmena →</a>
-      </div>
-
-      <!-- MANTENCIÓN -->
-      <div class="plan-card reveal">
-        <div class="plan-name">Plan Mantención Total</div>
-        <div class="plan-tagline">Nosotros cuidamos las abejas. Tú cosechas.</div>
-        <div class="plan-price">$180.000<small>/año</small></div>
-        <div class="plan-period">CLP · EQUIVALE A ~$15.000/MES</div>
-        <ul class="plan-list">
-          <li>Visitas técnicas periódicas: salud de la reina, control de plagas, estado del panal</li>
-          <li><strong>Reparación y reemplazo de piezas incluido</strong> — cualquier componente dañado se reimprime en 3D y se cambia</li>
-          <li>Acompañamiento en cada cosecha</li>
-          <li>Soporte directo por WhatsApp</li>
-        </ul>
-        <div class="plan-hook">Menos de $500 al día. Y como tu colmena es impresa en 3D, nunca más compras un cajón nuevo: la pieza dañada se reimprime y listo. Ese es el poder de una colmena modular.</div>
-        <a class="plan-cta ghost" href="https://wa.me/56957032768?text=Hola%21+Me+interesa+el+Plan+Mantenci%C3%B3n+Total+de+%24180.000%2Fa%C3%B1o" target="_blank">Agregar mantención →</a>
-      </div>
-
-      <!-- FULL -->
-      <div class="plan-card reveal">
-        <div class="plan-name">HEXABEE Full</div>
-        <div class="plan-tagline">Cero inversión. Solo beneficios.</div>
-        <div class="plan-price">$35.000<small>/mes</small></div>
-        <div class="plan-period">CLP · CONTRATO 12 MESES · SIN PAGO INICIAL</div>
-        <ul class="plan-list">
-          <li>Instalamos una colmena HEXABEE en tu campo — <strong>la colmena es nuestra, el beneficio es tuyo</strong></li>
-          <li>Polinización activa de tus cultivos y frutales en 5km²</li>
-          <li>Mantención, reparaciones y manejo apícola 100% a cargo de HEXABEE</li>
-          <li>Recibes frascos de miel en panal de cada cosecha</li>
-        </ul>
-        <div class="plan-hook">~$1.150 al día — menos que un café — por un campo polinizado, fruta de mejor calibre y miel premium en tu mesa. Sin comprar nada, sin saber de abejas, sin riesgo.</div>
-        <a class="plan-cta ghost" href="https://wa.me/56957032768?text=Hola%21+Quiero+HEXABEE+Full+por+%2435.000%2Fmes" target="_blank">Empezar sin invertir →</a>
-      </div>
-    </div>
-
-    <div class="roi-strip reveal">
-      <div class="roi-item">
-        <span class="roi-num">$75.000</span>
-        <span class="roi-label">valor de mercado de cada cosecha (5 frascos × $15.000)</span>
-      </div>
-      <div class="roi-item">
-        <span class="roi-num">~4</span>
-        <span class="roi-label">temporadas para que el kit se pague solo con su propia miel</span>
-      </div>
-      <div class="roi-item">
-        <span class="roi-num">25 años</span>
-        <span class="roi-label">de vida útil del sistema PETG — la madera se pudre, HEXABEE no</span>
-      </div>
-      <div class="roi-item">
-        <span class="roi-num">5 km²</span>
-        <span class="roi-label">de polinización activa alrededor de tu colmena, cada día</span>
-      </div>
+<section id="equipo" class="team">
+  <div class="inner">
+    <span class="tag">Equipo</span>
+    <h2>Cuatro socios, un modelo vivo</h2>
+    <p class="lead">Hexabee aprende, se ajusta y crece con cada dato real. Cada socio aporta desde lo que mejor sabe hacer.</p>
+    <div class="grid g4">
+      <div class="card"><h3>Andrés Castillo</h3><div class="role">Estrategia y finanzas</div><p>Diseña el modelo de negocio, evalúa cada propuesta y cuida los números.</p></div>
+      <div class="card"><h3>Olga Abarca</h3><div class="role">Calidad y colmenas</div><p>Lidera las colmenas laboratorio y define qué miel cumple el estándar Hexabee.</p></div>
+      <div class="card"><h3>Álvaro Román</h3><div class="role">Compras y marketing</div><p>Conecta con apicultores, negocia el abastecimiento y cuenta la historia de la marca.</p></div>
+      <div class="card"><h3>Yufeng Ley</h3><div class="role">Producto y operaciones</div><p>Desarrolla el panal 3D y ordena los procesos de lotes y despacho.</p></div>
     </div>
   </div>
 </section>
 
-<!-- UN AÑO EN LA COLMENA -->
-<section id="anual">
-  <div class="section-inner">
-    <div class="reveal" style="text-align:center;max-width:640px;margin:0 auto">
-      <span class="section-tag">Simulación Anual</span>
-      <h2 class="section-title">Un año dentro de tu colmena</h2>
-      <p class="section-body" style="margin:0 auto">Esto es lo que pasa dentro de una HEXABEE en 20 semanas — y puedes verlo en 3D, girando la colmena con tus propios dedos.</p>
-    </div>
-
-    <div class="year-track">
-      <div class="year-phase reveal">
-        <div class="yp-weeks">SEMANAS 1–4</div>
-        <div class="yp-icon">👑</div>
-        <div class="yp-title">La reina funda el imperio</div>
-        <div class="yp-desc">La reina italiana pone hasta 1.500 huevos al día en la Caja de Crías. En 21 días, cada huevo es una obrera lista para trabajar.</div>
-        <div class="yp-stat">1.500 huevos/día</div>
-      </div>
-      <div class="year-phase reveal">
-        <div class="yp-weeks">SEMANAS 5–12</div>
-        <div class="yp-icon">🌸</div>
-        <div class="yp-title">Tu campo florece</div>
-        <div class="yp-desc">Miles de obreras salen a forrajear y polinizan cultivos, frutales y flora nativa en 5km². Más flores, más fruta, mejor calibre.</div>
-        <div class="yp-stat">5 km² polinizados</div>
-      </div>
-      <div class="year-phase reveal">
-        <div class="yp-weeks">SEMANAS 13–20</div>
-        <div class="yp-icon">🍯</div>
-        <div class="yp-title">La miel crece ante tus ojos</div>
-        <div class="yp-desc">Las obreras construyen panal hexagonal dentro de los frascos de vidrio, los llenan de miel cruda y los sellan con cera natural.</div>
-        <div class="yp-stat">~1 kg miel en panal</div>
-      </div>
-      <div class="year-phase reveal">
-        <div class="yp-weeks">COSECHA</div>
-        <div class="yp-icon">✨</div>
-        <div class="yp-title">Retiras el tesoro</div>
-        <div class="yp-desc">5 frascos sellados por las propias abejas. Sin extractor, sin filtros, sin calor. Y la colmena ya está trabajando en la próxima ronda.</div>
-        <div class="yp-stat">5 × 200ml · $75.000</div>
-      </div>
-    </div>
-
-    <div class="reveal" style="text-align:center;margin-top:3rem">
-      <a href="360.html" target="_blank" class="btn-primary" style="display:inline-block">▶ Ver la simulación anual en 3D</a>
-      <p style="color:var(--muted);font-size:0.8rem;font-family:Arial,sans-serif;margin-top:1rem">Gira la colmena en 360°, acércate a cada caja y mira el año completo en 23 segundos. Funciona en tu celular, sin descargar nada.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PRE-VENTA -->
-<section id="preventa">
-  <div class="section-inner">
-    <div class="preventa-box reveal">
-      <span class="section-tag">Pre-venta Exclusiva</span>
-      <h2 class="section-title" style="color:var(--white)">Reserva tu frasco hoy</h2>
-      <p style="color:var(--muted);font-family:Arial,sans-serif;font-size:0.95rem;line-height:1.6;margin-top:0.8rem">
-        Primeros 20 frascos disponibles para reserva. Precio de lanzamiento exclusivo para los primeros clientes que confían en HEXABEE.
-      </p>
-      <div class="limited-badge" style="margin-top:1.5rem">⚡ CUPOS LIMITADOS — Primera cosecha</div>
-      <div class="price-tag">$15.000</div>
-      <div class="price-sub">CLP por frasco · 200ml miel en panal · Vidrio hexagonal premium</div>
-      <div class="preventa-features">
-        <div class="pf-item"><span class="pf-check">✓</span> Envío incluido</div>
-        <div class="pf-item"><span class="pf-check">✓</span> Entrega noviembre 2026</div>
-        <div class="pf-item"><span class="pf-check">✓</span> 100% artesanal IV Región</div>
-        <div class="pf-item"><span class="pf-check">✓</span> Garantía de calidad</div>
-      </div>
-      <div class="preventa-cta-area">
-        <a href="#contacto" class="btn-primary">Quiero reservar mi frasco →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EQUIPO -->
-<section id="equipo">
-  <div class="section-inner">
-    <div class="reveal">
-      <span class="section-tag">El Equipo</span>
-      <h2 class="section-title">Las personas detrás de HEXABEE</h2>
-      <p class="section-body">Cuatro socios con visión compartida: combinar tecnología, diseño y apicultura para crear el producto apícola más diferenciado de Chile.</p>
-    </div>
-    <div class="reveal" id="hb-dashboard" style="display:none">
-      <div class="dash-grid" id="hb-dash-grid"></div>
-    </div>
-
-    <div class="team-grid">
-
-      <div class="team-card reveal">
-        <div class="team-avatar">🧠</div>
-        <div class="team-name">Andrés Castillo</div>
-        <div class="team-role">COO & VISIONARY</div>
-        <div class="team-bio">Liderazgo estratégico + ejecución operativa. Arquitecto del modelo HEXABEE.</div>
-        <span class="expand-toggle" onclick="togglePanel('panel-andres', this)">Ver rol y tareas ▾</span>
-        <div class="expand-panel" id="panel-andres">
-          <div class="role-desc">Responsable de viabilidad del producto, control financiero del negocio, coordinación del equipo y roadmap hacia franquicia. Command center de HEXABEE.</div>
-          <ul class="task-list" data-member="andres">
-            <li>Finalizar modelo 3D con estándares mínimos para bienestar de abejas</li>
-            <li>Asegurar transporte e instalación de panales en parcela</li>
-            <li>Implementar Linear como control central del equipo</li>
-            <li>Crear flujo de caja + estado de resultados</li>
-            <li>Definir presupuesto preliminar (B2C/B2B)</li>
-            <li>Definir roadmap: Fase 2 hacia franquicia</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="team-card reveal">
-        <div class="team-avatar">🐝</div>
-        <div class="team-name">Olga Abarca</div>
-        <div class="team-role">CHIEF APICULTURE OFFICER</div>
-        <div class="team-bio">Experta en apicultura y comportamiento de abejas. Representante legal de la SpA.</div>
-        <span class="expand-toggle" onclick="togglePanel('panel-olga', this)">Ver rol y tareas ▾</span>
-        <div class="expand-panel" id="panel-olga">
-          <div class="role-desc">Lidera la validación en terreno del prototipo de panal hexagonal. Responsable de asegurar que el panal funciona óptimamente para las abejas.</div>
-          <ul class="task-list" data-member="olga">
-            <li>Adaptar parcela en Pan de Azúcar para 10 panales</li>
-            <li>Identificar e implementar árboles/arbustos de apoyo</li>
-            <li>Desarrollar protocolo de observación semanal</li>
-            <li>Validar comportamiento de abejas en panal hexagonal</li>
-            <li>Contacto mensual con apicultores locales para feedback</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="team-card reveal">
-        <div class="team-avatar">🖨️</div>
-        <div class="team-name">Yufeng Ley</div>
-        <div class="team-role">HARDWARE & MANUFACTURING</div>
-        <div class="team-bio">Responsable de calidad, materiales y escalabilidad productiva. Operador Creality K1 Max.</div>
-        <span class="expand-toggle" onclick="togglePanel('panel-yufeng', this)">Ver rol y tareas ▾</span>
-        <div class="expand-panel" id="panel-yufeng">
-          <div class="role-desc">Experto en optimización de proceso, selección de materiales y viabilidad de manufactura del sistema modular impreso en 3D.</div>
-          <ul class="task-list" data-member="yufeng">
-            <li>Establecer estándares de calidad PETG (tolerancias, acabado)</li>
-            <li>Identificar y evaluar proveedores PETG de calidad</li>
-            <li>Optimizar el modelo 3D (menos desperdicio, mejores encajes)</li>
-            <li>Documentar proceso de impresión (settings, tiempos, costos)</li>
-            <li>Proyectar capacidad escalable (500 → 5000 panales/año)</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="team-card reveal">
-        <div class="team-avatar">⚖️</div>
-        <div class="team-name">Álvaro Román</div>
-        <div class="team-role">CFO & COMPLIANCE OFFICER</div>
-        <div class="team-bio">Estructura legal, contabilidad y elegibilidad para financiamiento estatal.</div>
-        <span class="expand-toggle" onclick="togglePanel('panel-alvaro', this)">Ver rol y tareas ▾</span>
-        <div class="expand-panel" id="panel-alvaro">
-          <div class="role-desc">Asegura que HEXABEE sea una empresa viable, ordenada y elegible para subsidios. Responsable de contabilidad y análisis financiero para decisiones.</div>
-          <ul class="task-list" data-member="alvaro">
-            <li>Constituir SpA HEXABEE (estructura legal mínima)</li>
-            <li>Registrar apiario en SAG</li>
-            <li>Registrar marca HEXABEE en INAPI</li>
-            <li>Mapear subsidios/financiamiento estatal disponible</li>
-            <li>Contabilidad + proyecciones de ingresos</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="reveal" style="text-align:center;margin-top:2.5rem">
-      <button class="hb-btn hb-btn-primary" style="flex:none;padding:0.85rem 1.8rem" onclick="hbOpenModal()">📋 Reportar avance</button>
-      <p style="color:var(--muted);font-size:0.75rem;font-family:Arial,sans-serif;margin-top:0.7rem">
-        Solo socios · requiere PIN personal · cada reporte queda registrado con fecha, autor y trazabilidad completa.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ORIGEN -->
-<section id="origen">
-  <div class="section-inner">
-    <div class="origin-inner reveal">
-      <span class="section-tag">Nuestra Historia</span>
-      <h2 class="section-title">Nacidos en la IV Región</h2>
-      <blockquote class="origin-quote">
-        "La abeja no nos pertenece. Solo creamos el espacio perfecto para que haga lo que sabe hacer mejor. El producto lo diseña ella."
-      </blockquote>
-      <p class="section-body" style="margin:0 auto;text-align:center">
-        HEXABEE nació de una pregunta simple: ¿qué pasaría si diseñamos la colmena alrededor del producto final en lugar de al revés? La respuesta fue un sistema modular impreso en 3D donde el frasco de vidrio es parte de la colmena — las abejas lo llenan, lo sellan, y tú lo recibes intacto.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ÚNETE / COLABORADORES -->
-<section id="unete" style="background:var(--dark2)">
-  <div class="section-inner">
-    <div class="contact-box reveal">
-      <span class="section-tag">Únete a HEXABEE</span>
-      <h2 class="section-title">Trabaja o asóciate con nosotros</h2>
-      <p class="section-body" style="margin:0 auto;text-align:center">
-        Buscamos personas y socios para trabajos específicos: apicultura, impresión 3D, logística, ventas, terreno. Déjanos tus datos y te contactamos cuando surja algo en tu área.
-      </p>
-      <form class="contact-form" onsubmit="submitForm(event, 'colaborador')">
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
-        <input type="email" name="email" placeholder="Tu correo" required>
-        <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)">
-        <select class="form-select" name="area" required>
-          <option value="" disabled selected>¿En qué área puedes aportar?</option>
-          <option>Apicultura / manejo de colmenas</option>
-          <option>Impresión 3D / fabricación</option>
-          <option>Ventas / comercial</option>
-          <option>Logística / transporte</option>
-          <option>Terreno / agrícola</option>
-          <option>Inversión / sociedad</option>
-          <option>Otra</option>
-        </select>
-        <textarea name="mensaje" placeholder="Cuéntanos tu experiencia o qué te gustaría hacer"></textarea>
-        <input type="hidden" name="tipo" value="colaborador">
-        <button type="submit">Postular →</button>
-      </form>
-      <p id="form-msg-colaborador" style="display:none;margin-top:1rem;color:var(--amber);font-family:Arial,sans-serif"></p>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACTO / CAPTACIÓN CLIENTES -->
 <section id="contacto">
-  <div class="section-inner">
-    <div class="contact-box reveal">
-      <span class="section-tag">Contacto</span>
-      <h2 class="section-title">Hablemos</h2>
-      <p class="section-body" style="margin:0 auto;text-align:center">
-        Servicios de polinización, reservas de miel, derivados apícolas o núcleos de abeja italiana.
-      </p>
-      <p style="margin-top:1.5rem">
-        <a href="https://wa.me/56957032768?text=Hola%2C+me+interesa+HEXABEE" target="_blank" class="btn-primary" style="display:inline-block">💬 Escríbenos por WhatsApp</a>
-      </p>
-      <form class="contact-form" onsubmit="submitForm(event, 'cliente')">
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
-        <input type="email" name="email" placeholder="Tu correo" required>
-        <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)">
-        <select class="form-select" name="interes" required>
-          <option value="" disabled selected>¿Qué te interesa?</option>
-          <option>Reservar frasco de miel en panal ($15.000)</option>
-          <option>Kit HEXABEE ($390.000)</option>
-          <option>Plan Mantención Total ($180.000/año)</option>
-          <option>HEXABEE Full ($35.000/mes)</option>
-          <option>Polinización para mi campo</option>
-          <option>Derivados apícolas / núcleos</option>
-          <option>Otro</option>
-        </select>
-        <textarea name="mensaje" placeholder="¿Qué te gustaría saber o reservar?"></textarea>
-        <input type="hidden" name="tipo" value="cliente">
-        <button type="submit">Enviar mensaje →</button>
-      </form>
-      <p id="form-msg-cliente" style="display:none;margin-top:1rem;color:var(--amber);font-family:Arial,sans-serif"></p>
-    </div>
+  <div class="inner">
+    <span class="tag">Contacto</span>
+    <h2>Hablemos</h2>
+    <p class="lead">¿Quieres miel, cotizar para tu empresa, ser proveedor o trabajar con nosotros? Déjanos tus datos o escríbenos directo.</p>
+    <p style="margin-top:1.2rem"><a class="btn solid" href="https://wa.me/56957032768?text=Hola%2C+me+interesa+Hexabee" target="_blank" rel="noopener">WhatsApp</a></p>
+    <form class="contact" id="contact-form">
+      <input type="text" name="nombre" placeholder="Tu nombre" required autocomplete="name">
+      <input type="email" name="email" placeholder="Tu correo" required autocomplete="email">
+      <input type="tel" name="telefono" placeholder="Tu teléfono (opcional)" autocomplete="tel">
+      <select name="interes" required>
+        <option value="" disabled selected>¿Qué te interesa?</option>
+        <option>Miel Original 250 g</option>
+        <option>Miel con Polen 266 g</option>
+        <option>Sachets para mi empresa</option>
+        <option>Soy apicultor y quiero ser proveedor</option>
+        <option>Trabajar o asociarme con Hexabee</option>
+        <option>Otro</option>
+      </select>
+      <textarea name="mensaje" placeholder="Cuéntanos qué necesitas (cantidad, comuna, fecha…)"></textarea>
+      <button type="submit">Enviar</button>
+      <p id="form-msg" role="status"></p>
+    </form>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <p><strong>HEXABEE SpA</strong> · IV Región, Chile · 2026</p>
-  <p style="margin-top:0.5rem">Polinización · Miel en panal · Propóleo, polen y jalea real · Núcleos de abeja italiana</p>
+  <div class="inner">
+    <span>© 2026 Hexabee · Chile · <em>Las palabras abren el camino; las acciones crean la realidad.</em></span>
+    <a href="socios.html">Portal de socios</a>
+  </div>
 </footer>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  reveals.forEach(r => observer.observe(r));
-
-  // Desplegables (equipo)
-  function togglePanel(id, toggle) {
-    const panel = document.getElementById(id);
-    const open = panel.classList.toggle('open');
-    toggle.textContent = open ? 'Ocultar ▴' : 'Ver rol y tareas ▾';
-  }
-
-  // Formularios reales → Formspree (llega por correo y queda registrado)
-  async function submitForm(e, tipo) {
+  document.getElementById('contact-form').addEventListener('submit', async function (e) {
     e.preventDefault();
-    const form = e.target;
-    const btn = form.querySelector('button');
-    const msg = document.getElementById('form-msg-' + tipo);
-    btn.disabled = true; btn.textContent = 'Enviando…';
+    const form = e.target, btn = form.querySelector('button'), msg = document.getElementById('form-msg');
+    btn.disabled = true; btn.textContent = 'Enviando…'; msg.textContent = '';
     try {
       const data = Object.fromEntries(new FormData(form).entries());
-      data._subject = 'HEXABEE · Nuevo ' + tipo + ': ' + (data.nombre || '');
+      data._subject = 'HEXABEE · Contacto web: ' + (data.interes || '') + ' · ' + (data.nombre || '');
       const res = await fetch('https://formspree.io/f/mojonake', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(data)
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data)
       });
-      msg.style.display = 'block';
-      if (res.ok) {
-        msg.textContent = '✓ Recibido. Te contactaremos pronto.';
-        form.reset();
-      } else {
-        msg.textContent = '✕ No se pudo enviar. Escríbenos por WhatsApp.';
-      }
-    } catch (err) {
-      msg.style.display = 'block';
-      msg.textContent = '✕ Sin conexión. Escríbenos por WhatsApp.';
-    }
-    btn.disabled = false;
-    btn.textContent = tipo === 'cliente' ? 'Enviar mensaje →' : 'Postular →';
-  }
-
-  // Nav highlight on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current
-        ? 'var(--amber)' : 'var(--muted)';
-    });
+      if (res.ok) { msg.textContent = '✓ Recibido. Te contactaremos pronto.'; form.reset(); }
+      else { msg.textContent = '✕ No se pudo enviar. Escríbenos por WhatsApp.'; }
+    } catch (err) { msg.textContent = '✕ Sin conexión. Escríbenos por WhatsApp.'; }
+    btn.disabled = false; btn.textContent = 'Enviar';
   });
-</script>
-
-<!-- ── TRACKER EQUIPO: modal de reporte ── -->
-<div class="hb-modal-overlay" id="hb-overlay" onclick="if(event.target===this)hbCloseModal()">
-  <div class="hb-modal">
-    <h3>📋 Reportar avance</h3>
-    <div class="hb-sub">Tu reporte se guarda en el repositorio con trazabilidad completa.</div>
-    <form id="hb-form" onsubmit="hbSubmit(event)">
-      <label for="hb-member">Quién eres</label>
-      <select id="hb-member" required onchange="hbFillTasks()"><option value="">Selecciona…</option></select>
-      <label for="hb-task">Tu tarea</label>
-      <select id="hb-task" required><option value="">Selecciona tu nombre primero…</option></select>
-      <label for="hb-status">Nuevo estado</label>
-      <select id="hb-status" required>
-        <option value="pendiente">Pendiente</option>
-        <option value="en_progreso">En progreso</option>
-        <option value="completada">Completada</option>
-        <option value="bloqueada">Bloqueada</option>
-      </select>
-      <label for="hb-blocker">¿Hay blocker? (opcional)</label>
-      <input id="hb-blocker" placeholder="Qué te está bloqueando…">
-      <label for="hb-note">Comentario (opcional)</label>
-      <textarea id="hb-note" placeholder="Agrega detalles si es necesario…"></textarea>
-      <label for="hb-pin">Tu PIN</label>
-      <input id="hb-pin" type="password" inputmode="numeric" autocomplete="off" required placeholder="PIN personal">
-      <div class="hb-actions">
-        <button type="button" class="hb-btn hb-btn-ghost" onclick="hbCloseModal()">Cancelar</button>
-        <button type="submit" class="hb-btn hb-btn-primary" id="hb-submit">Guardar y sincronizar</button>
-      </div>
-      <div class="hb-msg" id="hb-msg"></div>
-    </form>
-  </div>
-</div>
-
-<script>
-(function () {
-  // ⚙️ CONFIG: si tu sitio de Netlify cambia de nombre, actualiza apiUrl.
-  const HB_CONFIG = {
-    dataUrl: 'data/tasks.json',
-    apiUrl: 'https://lucky-gingersnap-f5db20.netlify.app/.netlify/functions/update-task'
-  };
-  const WEIGHTS = { completada: 1, en_progreso: 0.5, bloqueada: 0, pendiente: 0 };
-  const LABELS = { pendiente: 'Pendiente', en_progreso: 'En progreso', bloqueada: 'Bloqueada', completada: 'Completada' };
-  let hbData = null;
-
-  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-  function val(id) { return document.getElementById(id).value.trim(); }
-  function pct(tasks) { if (!tasks.length) return 0; return Math.round(100 * tasks.reduce((a, t) => a + (WEIGHTS[t.status] || 0), 0) / tasks.length); }
-
-  async function hbLoad() {
-    try {
-      const r = await fetch(HB_CONFIG.dataUrl + '?t=' + Date.now(), { cache: 'no-store' });
-      if (!r.ok) return; // sin datos → la página muestra las listas estáticas
-      hbData = await r.json();
-      hbRender();
-    } catch (e) { /* fallback silencioso a contenido estático */ }
-  }
-
-  function dashCard(name, p, tasks) {
-    const done = tasks.filter(t => t.status === 'completada').length;
-    const blocked = tasks.filter(t => t.status === 'bloqueada').length;
-    return '<div class="dash-card"><div class="dash-name">' + name + '</div><div class="dash-pct">' + p +
-      '%</div><div class="dash-bar"><div class="dash-bar-fill" data-w="' + p + '"></div></div><div class="dash-meta">' +
-      done + '/' + tasks.length + ' completadas' + (blocked ? ' · ⛔ ' + blocked + ' con blocker' : '') + '</div></div>';
-  }
-
-  function hbRender() {
-    const members = hbData.members, tasks = hbData.tasks;
-    document.querySelectorAll('ul.task-list[data-member]').forEach(ul => {
-      const mine = tasks.filter(t => t.member === ul.dataset.member);
-      if (!mine.length) return;
-      ul.innerHTML = mine.map(t => {
-        let meta = '';
-        if (t.status === 'bloqueada' && t.blocker) meta += '<span class="task-meta">⛔ ' + esc(t.blocker) + '</span>';
-        if (t.note) meta += '<span class="task-meta">💬 ' + esc(t.note) + '</span>';
-        if (t.updated_at) {
-          const who = t.updated_by && members[t.updated_by] ? members[t.updated_by].name.split(' ')[0] : (t.updated_by || '');
-          meta += '<span class="task-meta">Últ. act: ' + t.updated_at.slice(0, 10) + (who ? ' · ' + who : '') + '</span>';
-        }
-        return '<li><span class="task-chip chip-' + t.status + '">' + LABELS[t.status] + '</span><span class="' +
-          (t.status === 'completada' ? 'task-done' : '') + '">' + esc(t.title) + '</span>' + meta + '</li>';
-      }).join('');
-    });
-    const grid = document.getElementById('hb-dash-grid');
-    let out = dashCard('🐝 Equipo HEXABEE', pct(tasks), tasks);
-    Object.keys(members).forEach(k => {
-      const mine = tasks.filter(t => t.member === k);
-      out += dashCard(members[k].emoji + ' ' + members[k].name.split(' ')[0], pct(mine), mine);
-    });
-    grid.innerHTML = out;
-    document.getElementById('hb-dashboard').style.display = 'block';
-    requestAnimationFrame(() => grid.querySelectorAll('.dash-bar-fill').forEach(f => { f.style.width = f.dataset.w + '%'; }));
-    const ms = document.getElementById('hb-member');
-    if (ms.options.length <= 1) Object.keys(members).forEach(k => {
-      const o = document.createElement('option'); o.value = k; o.textContent = members[k].name; ms.appendChild(o);
-    });
-  }
-
-  window.hbOpenModal = function () {
-    document.getElementById('hb-overlay').classList.add('open');
-    if (!hbData) hbLoad();
-  };
-  window.hbCloseModal = function () {
-    document.getElementById('hb-overlay').classList.remove('open');
-    document.getElementById('hb-msg').style.display = 'none';
-  };
-  window.hbFillTasks = function () {
-    const m = val('hb-member'), ts = document.getElementById('hb-task');
-    ts.innerHTML = '';
-    if (!hbData || !m) { ts.innerHTML = '<option value="">Selecciona tu nombre primero…</option>'; return; }
-    hbData.tasks.filter(t => t.member === m).forEach(t => {
-      const o = document.createElement('option'); o.value = t.id; o.textContent = t.title; ts.appendChild(o);
-    });
-  };
-  window.hbSubmit = async function (e) {
-    e.preventDefault();
-    const btn = document.getElementById('hb-submit'), msg = document.getElementById('hb-msg');
-    btn.disabled = true; btn.textContent = 'Sincronizando…'; msg.style.display = 'none';
-    try {
-      const payload = { member: val('hb-member'), taskId: val('hb-task'), status: val('hb-status'), blocker: val('hb-blocker'), note: val('hb-note'), pin: val('hb-pin') };
-      const r = await fetch(HB_CONFIG.apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      const out = await r.json().catch(() => ({}));
-      msg.style.display = 'block';
-      if (r.ok) {
-        msg.style.color = '#6FCB7A';
-        msg.textContent = '✓ Guardado y registrado. El cambio será visible públicamente en 1–3 minutos (redeploy automático).';
-        const t = hbData && hbData.tasks.find(t => t.id === payload.taskId);
-        if (t) { t.status = payload.status; t.blocker = payload.blocker || null; t.note = payload.note || ''; t.updated_by = payload.member; t.updated_at = new Date().toISOString(); hbRender(); }
-        document.getElementById('hb-pin').value = '';
-      } else if (r.status === 401) {
-        msg.style.color = '#E06060'; msg.textContent = '✕ PIN incorrecto.';
-      } else {
-        msg.style.color = '#E06060'; msg.textContent = '✕ Error: ' + (out.error || r.status);
-      }
-    } catch (err) {
-      msg.style.display = 'block'; msg.style.color = '#E06060';
-      msg.textContent = '✕ Sin conexión con el servidor de reportes.';
-    }
-    btn.disabled = false; btn.textContent = 'Guardar y sincronizar';
-  };
-
-  hbLoad();
-})();
 </script>
 </body>
 </html>
