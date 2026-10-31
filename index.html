@@ -226,6 +226,7 @@
         <option>Otro</option>
       </select>
       <textarea name="mensaje" placeholder="Cuéntanos qué necesitas (cantidad, comuna, fecha…)"></textarea>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button type="submit">Enviar</button>
       <p id="form-msg" role="status"></p>
     </form>
@@ -244,15 +245,18 @@
     e.preventDefault();
     const form = e.target, btn = form.querySelector('button'), msg = document.getElementById('form-msg');
     btn.disabled = true; btn.textContent = 'Enviando…'; msg.textContent = '';
-    try {
-      const data = Object.fromEntries(new FormData(form).entries());
-      data._subject = 'HEXABEE · Contacto web: ' + (data.interes || '') + ' · ' + (data.nombre || '');
-      const res = await fetch('https://formspree.io/f/mojonake', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data)
-      });
-      if (res.ok) { msg.textContent = '✓ Recibido. Te contactaremos pronto.'; form.reset(); }
-      else { msg.textContent = '✕ No se pudo enviar. Escríbenos por WhatsApp.'; }
-    } catch (err) { msg.textContent = '✕ Sin conexión. Escríbenos por WhatsApp.'; }
+    const data = Object.fromEntries(new FormData(form).entries());
+    data._subject = 'HEXABEE · Contacto web: ' + (data.interes || '') + ' · ' + (data.nombre || '');
+    const post = (url, body) => fetch(url, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(body)
+    }).then(r => r.ok).catch(() => false);
+    // 1) Tablero de socios (lo ven los 4 en el portal)  2) Correo a Andrés vía Formspree
+    const [enTablero, enCorreo] = await Promise.all([
+      post('https://lucky-gingersnap-f5db20.netlify.app/.netlify/functions/contacto', data),
+      post('https://formspree.io/f/mojonake', data)
+    ]);
+    if (enTablero || enCorreo) { msg.textContent = '✓ Recibido. Te contactaremos pronto.'; form.reset(); }
+    else { msg.textContent = '✕ No se pudo enviar. Escríbenos por WhatsApp.'; }
     btn.disabled = false; btn.textContent = 'Enviar';
   });
 </script>

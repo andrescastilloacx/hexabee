@@ -139,12 +139,33 @@ function doPost(e) {
       enEvaluacion: todas.filter(p => p['Visible'] !== 'SI').map(p => ({ 'ID': p['ID'], 'Propuesta': p['Propuesta'], 'Responsable': p['Responsable'], 'Checks OK (de 8)': p['Checks OK (de 8)'] })),
       registro: rows_(ss.getSheetByName('Registro')).slice(-300),
       resumen: rows_(ss.getSheetByName('Resumen')).filter(r => r['Socio']),
+      contactos: ss.getSheetByName('Contactos') ? rows_(ss.getSheetByName('Contactos')).slice(-150) : [],
       ultimaSync: props.getProperty('ULTIMA_SYNC') || '',
       syncError: syncError
     });
   }
 
   const lock = LockService.getScriptLock();
+
+  if (body.action === 'contacto') {
+    // Mensaje del formulario público de la web (llega vía Netlify, que valida y limpia los campos).
+    const clip = (v, n) => String(v || '').replace(/[\r\n]+/g, ' ').trim().slice(0, n);
+    const nombre = clip(body.nombre, 80), email = clip(body.email, 120);
+    if (!nombre || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json_({ ok: false, error: 'datos' });
+    lock.waitLock(10000);
+    try {
+      let sh = ss.getSheetByName('Contactos');
+      if (!sh) sh = ss.insertSheet('Contactos');
+      if (sh.getLastRow() === 0) {
+        sh.appendRow(['Fecha', 'Nombre', 'Correo', 'Teléfono', 'Interés', 'Mensaje', 'Origen', 'Estado', 'Responsable']);
+        sh.setFrozenRows(1);
+      }
+      sh.appendRow(["'" + Utilities.formatDate(new Date(), 'America/Santiago', 'yyyy-MM-dd HH:mm'), nombre, email,
+        "'" + clip(body.telefono, 30), clip(body.interes, 80), String(body.mensaje || '').trim().slice(0, 800),
+        clip(body.origen, 60), 'Nuevo', '']);
+    } finally { lock.releaseLock(); }
+    return json_({ ok: true });
+  }
 
   if (body.action === 'log') {
     const socio = String(body.socio || '');

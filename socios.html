@@ -122,6 +122,7 @@
       <button class="tab" role="tab" aria-selected="false" data-tab="log">Registrar trabajo</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="hours">Horas</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="mine">Mis propuestas</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="contacts">Contactos web</button>
     </div>
 
     <div data-panel="gantt" class="card">
@@ -158,6 +159,12 @@
       <table class="bars" id="hoursTable"></table>
       <h2 style="margin-top:1.4rem">Últimos registros</h2>
       <div style="overflow-x:auto"><table id="recent"></table></div>
+    </div>
+
+    <div data-panel="contacts" class="card hidden">
+      <h2>Contactos desde la web</h2>
+      <p class="muted">Cada mensaje del formulario de la página pública llega aquí (y por correo a Andrés). Para marcar seguimiento, edita las columnas Estado y Responsable en la pestaña Contactos del Tablero.</p>
+      <div style="overflow-x:auto;margin-top:0.8rem"><table id="contactsTable"></table></div>
     </div>
 
     <div data-panel="mine" class="card hidden">
@@ -252,7 +259,7 @@
     const listas = P.filter(p => p['Etapa'] === 'Vendiendo').length;
     $('#kpis').innerHTML = [
       [activas, 'aprobadas activas'], [listas, 'vendiendo'],
-      [fmtH(num(tot['Horas últimos 7 días'])), 'horas en 7 días'], [fmtH(num(tot['Horas totales'])), 'horas registradas']
+      [fmtH(num(tot['Horas últimos 7 días'])), 'horas en 7 días'], [(data.contactos || []).filter(c => (c['Estado'] || 'Nuevo') === 'Nuevo').length, 'contactos web nuevos']
     ].map(k => '<div class="kpi"><b>' + esc(k[0]) + '</b><span>' + esc(k[1]) + '</span></div>').join('');
 
     renderGantt(P);
@@ -260,6 +267,7 @@
       ? E.length + ' propuesta(s) en evaluación en el Evaluador; aparecerán aquí al cumplir 8/8: ' + E.map(e => e['ID'] + ' (' + (e['Checks OK (de 8)'] || 0) + '/8)').join(' · ')
       : '';
     renderHours(S, R, P);
+    renderContacts(data.contactos || []);
 
     const opts = P.concat(E).map(p => '<option value="' + esc(p['ID']) + '">' + esc(p['ID'] + ' · ' + p['Propuesta']) + '</option>').join('');
     $('#lp').innerHTML = '<option value="">General / coordinación</option>' + opts;
@@ -318,6 +326,16 @@
       : '<tr><td class="muted">Todavía no hay registros. El primero marca el ritmo.</td></tr>';
   }
 
+  function renderContacts(C) {
+    const last = C.slice(-60).reverse();
+    $('#contactsTable').innerHTML = last.length
+      ? '<tr><th>Fecha</th><th>Nombre</th><th>Interés</th><th>Contacto</th><th>Mensaje</th><th>Estado</th></tr>' +
+        last.map(c => '<tr><td>' + esc(c['Fecha']) + '</td><td>' + esc(c['Nombre']) + '</td><td>' + esc(c['Interés']) + '</td><td>' +
+          '<a href="mailto:' + esc(c['Correo']) + '">' + esc(c['Correo']) + '</a>' + (c['Teléfono'] ? '<br>' + esc(c['Teléfono']) : '') +
+          '</td><td>' + esc(c['Mensaje']) + '</td><td>' + esc(c['Estado'] || 'Nuevo') + (c['Responsable'] ? ' · ' + esc(NAMES[c['Responsable']] || c['Responsable']) : '') + '</td></tr>').join('')
+      : '<tr><td class="muted">Aún no llegan contactos desde la web.</td></tr>';
+  }
+
   function fillUpd() {
     const p = (data.propuestas || []).find(x => x['ID'] === $('#up').value);
     if (!p) return;
@@ -353,7 +371,7 @@
       ['P-02', 'Reventa de miel · E2 Híbrido (EJEMPLO)', 'andres', 'Lista para vender', 8, '2026-10-24', '2026-12-15', 20, 'Primer pedido piloto'],
       ['P-05', 'Packs de regalo corporativo (EJEMPLO)', 'alvaro', 'Vendiendo', 8, '2026-10-28', '', 40, 'Cerrar 2 empresas']
     ].map(a => ({ 'ID': a[0], 'Propuesta': a[1], 'Responsable': a[2], 'Etapa': a[3], 'Checks OK (de 8)': String(a[4]), 'Inicio': a[5], 'Fin estimado': a[6], 'Avance %': String(a[7]), 'Próximo paso': a[8] }));
-    return Promise.resolve({ ok: true, propuestas: P, enEvaluacion: [{ 'ID': 'P-01', 'Checks OK (de 8)': '4' }, { 'ID': 'P-03', 'Checks OK (de 8)': '2' }],
+    return Promise.resolve({ ok: true, contactos: [{ 'Fecha': '2026-10-31 16:40', 'Nombre': 'Cliente de ejemplo', 'Correo': 'ejemplo@correo.cl', 'Interés': 'Sachets para mi empresa', 'Mensaje': '3 cajas para diciembre', 'Estado': 'Nuevo' }], propuestas: P, enEvaluacion: [{ 'ID': 'P-01', 'Checks OK (de 8)': '4' }, { 'ID': 'P-03', 'Checks OK (de 8)': '2' }],
       registro: [{ 'Fecha': '2026-10-30', 'Socio': 'alvaro', 'Horas': '1,5', 'Propuesta (ID)': 'P-06', 'Qué hice': 'Llamé a 2 apicultores' }],
       resumen: [{ 'Socio': 'andres', 'Horas totales': '4', 'Horas últimos 7 días': '4' }, { 'Socio': 'olga', 'Horas totales': '2', 'Horas últimos 7 días': '2' },
         { 'Socio': 'yufeng', 'Horas totales': '0', 'Horas últimos 7 días': '0' }, { 'Socio': 'alvaro', 'Horas totales': '1,5', 'Horas últimos 7 días': '1,5' },
